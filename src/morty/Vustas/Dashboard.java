@@ -40,6 +40,8 @@ public class Dashboard extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu9 = new javax.swing.JMenu();
+        jMenuItem16 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
@@ -47,9 +49,11 @@ public class Dashboard extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
-        jMenuItem12 = new javax.swing.JMenuItem();
+        jMenu10 = new javax.swing.JMenu();
+        jMenuItem17 = new javax.swing.JMenuItem();
+        jMenuItem18 = new javax.swing.JMenuItem();
+        jMenuItem19 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
@@ -110,6 +114,18 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
+        jMenu9.setText("Servicios");
+
+        jMenuItem16.setText("Servicios");
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem16ActionPerformed(evt);
+            }
+        });
+        jMenu9.add(jMenuItem16);
+
+        jMenuBar1.add(jMenu9);
+
         jMenu7.setText("Equipos");
 
         jMenuItem14.setText("Equipos");
@@ -152,16 +168,23 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem3);
 
-        jMenuItem10.setText("Bloqueos / Desbloqueos");
-        jMenu5.add(jMenuItem10);
-
         jMenuItem11.setText("Prueba de Ping");
         jMenu5.add(jMenuItem11);
 
-        jMenuItem12.setText("Antenas Clientes");
-        jMenu5.add(jMenuItem12);
-
         jMenuBar1.add(jMenu5);
+
+        jMenu10.setText("WhatsAPP");
+
+        jMenuItem17.setText("Mensaje por corte de dia");
+        jMenu10.add(jMenuItem17);
+
+        jMenuItem18.setText("Mensajes masivos");
+        jMenu10.add(jMenuItem18);
+
+        jMenuItem19.setText("Mensaje Personal");
+        jMenu10.add(jMenuItem19);
+
+        jMenuBar1.add(jMenu10);
 
         jMenu6.setText("Software Escobedo");
 
@@ -274,6 +297,13 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
+    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
+        crearPlataformas plataformas = new crearPlataformas();
+        escritorioInterno.add(plataformas);
+        plataformas.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem16ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -312,6 +342,7 @@ public class Dashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane escritorioInterno;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -319,14 +350,17 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

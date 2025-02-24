@@ -331,4 +331,33 @@ public void insertarClienteDosEquipos(String nombre, String telefono, String cor
 			}
 		}
 	}
+
+    public void insertarPlataformas(String nombre, String descripcion, String precio) {
+    	Conexion conexion = new Conexion();
+    	Connection cn = conexion.getConnection();
+    	
+    	if(cn != null) {
+    		PreparedStatement cursor;
+    		String sql = "INSERT INTO serviciosplataforma (nombre, descripcion, precio) VALUES (?,?,?)";
+    		
+    		
+    		try {
+				cursor = cn.prepareStatement(sql);
+				cursor.setString(1, nombre);
+				cursor.setString(2, descripcion);
+				cursor.setString(3, precio);
+				
+				int rows = cursor.executeUpdate();
+				
+				if(rows > 0) {
+					JOptionPane.showMessageDialog(null, "Se registro de manera exitosa el servicio", "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
+				}
+				
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Tenemos problemas con la base de datos: " + e, "Modulo Insertar", JOptionPane.ERROR_MESSAGE);
+				// TODO: handle exception
+			}
+    	}
+    }
+
 }

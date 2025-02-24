@@ -131,4 +131,4 @@ ADD FOREIGN KEY (id_antena_ap) REFERENCES antenasap(idantenasAp) ON DELETE SET N
 
 ALTER TABLE clientes
 ADD COLUMN id_servicio_plataforma INT,
-ADD FOREIGN KEY (id_servicio_plataforma) REFERENCES serviciosplataforma(idantenasAp) ON DELETE SET NULL;
+ADD FOREIGN KEY (id_servicio_plataforma) REFERENCES serviciosplataforma(idPlataformas) ON DELETE SET NULL;
