@@ -259,6 +259,7 @@ public class Dashboard extends javax.swing.JFrame {
         escritorioInterno.add(cliente);
         cliente.show();
         // TODO add your handling code here:
+
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
