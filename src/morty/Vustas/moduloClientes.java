@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
-
+import Recibos.pagoWindows;
 public class moduloClientes extends javax.swing.JInternalFrame {
 
 
@@ -96,6 +96,11 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         });
 
         btnPagar.setText("Pagar");
+        btnPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPagarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -246,6 +251,11 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPagarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

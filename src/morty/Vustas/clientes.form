@@ -521,8 +521,8 @@
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="entryMarcaEquipo1" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="entryMacEquipo1" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="entryMarcaEquipoUno" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="entryMacEquipoUno" alignment="1" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -543,14 +543,14 @@
                               <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="comboTipoEquipo1" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel30" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="entryMarcaEquipo1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="entryMarcaEquipoUno" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel31" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="entryModeloEquipo1" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel32" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="entryMacEquipo1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="entryMacEquipoUno" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -597,7 +597,7 @@
                     <Property name="text" type="java.lang.String" value="Marca"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="entryMarcaEquipo1">
+                <Component class="javax.swing.JTextField" name="entryMarcaEquipoUno">
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel31">
                   <Properties>
@@ -611,7 +611,7 @@
                     <Property name="text" type="java.lang.String" value="MAC"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="entryMacEquipo1">
+                <Component class="javax.swing.JTextField" name="entryMacEquipoUno">
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel33">
                   <Properties>
@@ -693,8 +693,8 @@
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="entryMarcaEquipoExtra1" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="entryMacEquipoExtra1" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="entryMarcaEquipoDos" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="entryMacEquipoDos" alignment="1" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -715,14 +715,14 @@
                               <Component id="jLabel36" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="comboTipoEquipoExtra1" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel37" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="entryMarcaEquipoExtra1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="entryMarcaEquipoDos" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel38" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="entryModeloEquipoExtra1" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel39" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="entryMacEquipoExtra1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="entryMacEquipoDos" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -769,7 +769,7 @@
                     <Property name="text" type="java.lang.String" value="Marca"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="entryMarcaEquipoExtra1">
+                <Component class="javax.swing.JTextField" name="entryMarcaEquipoDos">
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel38">
                   <Properties>
@@ -783,7 +783,7 @@
                     <Property name="text" type="java.lang.String" value="MAC"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="entryMacEquipoExtra1">
+                <Component class="javax.swing.JTextField" name="entryMacEquipoDos">
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel40">
                   <Properties>

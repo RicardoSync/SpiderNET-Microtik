@@ -36,15 +36,14 @@ public class Dashboard extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem14 = new javax.swing.JMenuItem();
-        jMenu8 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -86,7 +85,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem4);
 
-        jMenuItem5.setText("Clientes");
+        jMenuItem5.setText("Lista de Clientes");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);
@@ -94,12 +93,13 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem5);
 
-        jMenuItem6.setText("DHCP Leases");
-        jMenu1.add(jMenuItem6);
-
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Pagos");
+
+        jMenuItem6.setText("Pagos registrados");
+        jMenu2.add(jMenuItem6);
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Paquetes");
@@ -138,9 +138,6 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu7);
 
-        jMenu8.setText("Fallas");
-        jMenuBar1.add(jMenu8);
-
         jMenu4.setText("Antenas AP");
 
         jMenuItem1.setText("Antenas AP'S");
@@ -173,7 +170,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu5);
 
-        jMenu10.setText("WhatsAPP");
+        jMenu10.setText("Whatsapp");
 
         jMenuItem17.setText("Mensaje por corte de dia");
         jMenu10.add(jMenuItem17);
@@ -350,7 +347,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
-    private javax.swing.JMenu jMenu8;
     private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;

@@ -70,11 +70,11 @@ public class clientes extends javax.swing.JInternalFrame {
         jLabel20 = new javax.swing.JLabel();
         comboTipoEquipo1 = new javax.swing.JComboBox<>();
         jLabel30 = new javax.swing.JLabel();
-        entryMarcaEquipo1 = new javax.swing.JTextField();
+        entryMarcaEquipoUno = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
         entryModeloEquipo1 = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
-        entryMacEquipo1 = new javax.swing.JTextField();
+        entryMacEquipoUno = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
         entrySerialEquipo1 = new javax.swing.JTextField();
         jLabel34 = new javax.swing.JLabel();
@@ -85,11 +85,11 @@ public class clientes extends javax.swing.JInternalFrame {
         jLabel36 = new javax.swing.JLabel();
         comboTipoEquipoExtra1 = new javax.swing.JComboBox<>();
         jLabel37 = new javax.swing.JLabel();
-        entryMarcaEquipoExtra1 = new javax.swing.JTextField();
+        entryMarcaEquipoDos = new javax.swing.JTextField();
         jLabel38 = new javax.swing.JLabel();
         entryModeloEquipoExtra1 = new javax.swing.JTextField();
         jLabel39 = new javax.swing.JLabel();
-        entryMacEquipoExtra1 = new javax.swing.JTextField();
+        entryMacEquipoDos = new javax.swing.JTextField();
         jLabel40 = new javax.swing.JLabel();
         entrySerialEquipoExtra1 = new javax.swing.JTextField();
         jLabel41 = new javax.swing.JLabel();
@@ -360,8 +360,8 @@ public class clientes extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel30)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(entryMarcaEquipo1)
-                            .addComponent(entryMacEquipo1))))
+                            .addComponent(entryMarcaEquipoUno)
+                            .addComponent(entryMacEquipoUno))))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -376,13 +376,13 @@ public class clientes extends javax.swing.JInternalFrame {
                     .addComponent(jLabel20)
                     .addComponent(comboTipoEquipo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel30)
-                    .addComponent(entryMarcaEquipo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(entryMarcaEquipoUno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel31)
                     .addComponent(entryModeloEquipo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel32)
-                    .addComponent(entryMacEquipo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(entryMacEquipoUno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel33)
@@ -448,8 +448,8 @@ public class clientes extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel37)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(entryMarcaEquipoExtra1)
-                            .addComponent(entryMacEquipoExtra1))))
+                            .addComponent(entryMarcaEquipoDos)
+                            .addComponent(entryMacEquipoDos))))
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
@@ -464,13 +464,13 @@ public class clientes extends javax.swing.JInternalFrame {
                     .addComponent(jLabel36)
                     .addComponent(comboTipoEquipoExtra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel37)
-                    .addComponent(entryMarcaEquipoExtra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(entryMarcaEquipoDos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel38)
                     .addComponent(entryModeloEquipoExtra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel39)
-                    .addComponent(entryMacEquipoExtra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(entryMacEquipoDos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel40)
@@ -577,10 +577,10 @@ public class clientes extends javax.swing.JInternalFrame {
     private javax.swing.JTextField entryDireccion;
     private javax.swing.JTextField entryID;
     private javax.swing.JTextField entryIpCliente;
-    private javax.swing.JTextField entryMacEquipo1;
-    private javax.swing.JTextField entryMacEquipoExtra1;
-    private javax.swing.JTextField entryMarcaEquipo1;
-    private javax.swing.JTextField entryMarcaEquipoExtra1;
+    private javax.swing.JTextField entryMacEquipoDos;
+    private javax.swing.JTextField entryMacEquipoUno;
+    private javax.swing.JTextField entryMarcaEquipoDos;
+    private javax.swing.JTextField entryMarcaEquipoUno;
     private javax.swing.JTextField entryModeloEquipo1;
     private javax.swing.JTextField entryModeloEquipoExtra1;
     private javax.swing.JTextField entryNombre;
@@ -671,17 +671,17 @@ public class clientes extends javax.swing.JInternalFrame {
          if(primerEquipo.length() > 0 && segundoEquipo.length() > 0) {
             // Si tenemos ambos equipos
             String tipo = (String) comboTipoEquipo1.getSelectedItem();
-            String marca = entryMarcaEquipo1.getText();
+            String marca = entryMarcaEquipoUno.getText();
             String modelo = entryModeloEquipo1.getText();
-            String mac = entryMacEquipo1.getText();
+            String mac = entryMacEquipoUno.getText();
             String serial = entrySerialEquipo1.getText();
             String estado = (String) comboEstado1.getSelectedItem();
 
             // Segundo equipo
             String tipoExtra = (String) comboTipoEquipoExtra1.getSelectedItem();
-            String marcaExtra = entryMarcaEquipoExtra1.getText();
+            String marcaExtra = entryMarcaEquipoDos.getText();
             String modeloExtra = entryModeloEquipoExtra1.getText();
-            String macExtra = entryMarcaEquipoExtra1.getText();
+            String macExtra = entryMarcaEquipoDos.getText();
             String serialExtra = entrySerialEquipoExtra1.getText();
             String estadoExtra = (String) comboEstadoExtra1.getSelectedItem();   
             String serviciosTV = (String) comboTV.getSelectedItem();
@@ -695,9 +695,9 @@ public class clientes extends javax.swing.JInternalFrame {
          else if (primerEquipo.length() > 0) {
             // Si solo tenemos el primer equipo
             String tipoUno = (String) comboTipoEquipo1.getSelectedItem();
-            String marcaUno = entryMarcaEquipo1.getText();
+            String marcaUno = entryMarcaEquipoUno.getText();
             String modeloUno = entryModeloEquipo1.getText();
-            String macUno = entryMacEquipoExtra1.getText();
+            String macUno = entryMacEquipoDos.getText();
             String serialUno = entrySerialEquipo1.getText();
             String estadoUno = (String) comboEstado1.getSelectedItem();
             String serviciosTV = (String) comboTV.getSelectedItem();

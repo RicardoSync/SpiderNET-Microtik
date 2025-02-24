@@ -120,6 +120,13 @@ public class DeleteDatos {
 
                 int rows = cursor.executeUpdate();
                 if (rows > 0) {
+                    PreparedStatement crs = null;
+                    
+                    String scriptEquipos = "DELETE FROM equipos WHERE id_cliente = ?";
+                    
+                    crs = cn.prepareStatement(scriptEquipos);
+                    crs.setInt(1, id);
+                    crs.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Se eliminó el elemento de manera correcta", "Módulo Eliminar", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "No logramos eliminar ningún elemento", "Módulo Eliminar", JOptionPane.ERROR_MESSAGE);
