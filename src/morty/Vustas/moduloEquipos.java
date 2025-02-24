@@ -32,7 +32,7 @@ public class moduloEquipos extends javax.swing.JInternalFrame {
                 modelo = (DefaultTableModel)jTable1.getModel();
                 String sql = """
                             SELECT e.id, e.nombre, e.tipo, e.marca, e.modelo, e.mac, e.serial, e.estado, c.nombre AS nombre_cliente
-                             FROM equipos e JOIN clientes c ON e.id_cliente = c.id;
+                             FROM equipos e LEFT JOIN clientes c ON e.id_cliente = c.id;
                              """;
                 cursor = cn.prepareStatement(sql);
                 

@@ -57,6 +57,7 @@ public class editarCliente extends javax.swing.JInternalFrame {
         btnEditarEquipo = new javax.swing.JButton();
         btnEliminarEquipo = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -297,6 +298,18 @@ public class editarCliente extends javax.swing.JInternalFrame {
         });
 
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+
+        btnRefresh.setText("Rerescar");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -306,16 +319,18 @@ public class editarCliente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(btnAgregar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditarEquipo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRefresh)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEliminarEquipo)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addGap(88, 88, 88))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -325,7 +340,8 @@ public class editarCliente extends javax.swing.JInternalFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditarEquipo)
                     .addComponent(btnEliminarEquipo)
-                    .addComponent(btnAgregar)))
+                    .addComponent(btnAgregar)
+                    .addComponent(btnRefresh)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -432,6 +448,20 @@ public class editarCliente extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarEquipoActionPerformed
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        int id = Integer.parseInt(entryID.getText());
+        crearEquipo equipo = new crearEquipo(id);
+        Dashboard.escritorioInterno.add(equipo);
+        equipo.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        int id = Integer.parseInt(entryID.getText());
+        equiposInstalados(id);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
    public void listarNombrePaquetes(String paqueteActual){
         Consultas consultasNombres = new Consultas();
 
@@ -503,6 +533,7 @@ public class editarCliente extends javax.swing.JInternalFrame {
                 cursor.setInt(1, id_cliente);
                 rs = cursor.executeQuery();
                 modelo = (DefaultTableModel)tablaEquipos.getModel();
+                modelo.setRowCount(0);
                 Object[] equipos = new Object[8];
                 
                 while(rs.next()){
@@ -527,6 +558,7 @@ public class editarCliente extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnEditarEquipo;
     private javax.swing.JButton btnEliminarEquipo;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JComboBox<String> comboAntenasAP;
     private javax.swing.JComboBox<String> comboEntretenimiento;
     private javax.swing.JComboBox<String> comboPaquetes;

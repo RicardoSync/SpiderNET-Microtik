@@ -300,4 +300,35 @@ public void insertarClienteDosEquipos(String nombre, String telefono, String cor
     }
     }
 
+
+    public void insertarEquipos(int id_cliente, String nombre, String tipo, String marca, String modelo, String mac, String serial, String estado) {
+		Conexion conexion = new Conexion();
+		Connection cn = conexion.getConnection();
+		
+		if(cn != null) {
+			PreparedStatement cursor;
+			
+			try {
+				String sql = "INSERT INTO equipos (nombre, tipo, marca, modelo, mac, serial, estado, id_cliente) VALUES (?,?,?,?,?,?,?,?)";
+				cursor = cn.prepareStatement(sql);
+				cursor.setString(1, nombre);
+				cursor.setString(2, tipo);
+				cursor.setString(3, marca);
+				cursor.setString(4, modelo);
+				cursor.setString(5, mac);
+				cursor.setString(6, serial);
+				cursor.setString(7, estado);
+                                cursor.setInt(8, id_cliente);
+				
+				int rows = cursor.executeUpdate();
+				
+				if(rows >0) {
+					JOptionPane.showMessageDialog(null, "Se agrego de manera correcta el equipo al sistema", "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
+				}
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Tenemos problemas con la base de datos: "+ e, "Modulo Insertar", JOptionPane.ERROR_MESSAGE);
+				// TODO: handle exception
+			}
+		}
+	}
 }

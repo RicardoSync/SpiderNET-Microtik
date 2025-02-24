@@ -5,6 +5,8 @@
 package morty.Vustas;
 
 import java.awt.BorderLayout;
+import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -40,15 +42,12 @@ public class Dashboard extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem14 = new javax.swing.JMenuItem();
-        jMenuItem15 = new javax.swing.JMenuItem();
-        jMenuItem16 = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
-        jMenu9 = new javax.swing.JMenu();
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
@@ -56,6 +55,7 @@ public class Dashboard extends javax.swing.JFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -90,7 +90,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem5);
 
-        jMenuItem6.setText("Agregar clientes por DHCP Leases");
+        jMenuItem6.setText("DHCP Leases");
         jMenu1.add(jMenuItem6);
 
         jMenuBar1.add(jMenu1);
@@ -100,7 +100,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenu3.setText("Paquetes");
 
-        jMenuItem2.setText("Agregar Paquetes");
+        jMenuItem2.setText("Paquetes");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -112,19 +112,13 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenu7.setText("Equipos");
 
-        jMenuItem14.setText("Equipos Guardados");
+        jMenuItem14.setText("Equipos");
         jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem14ActionPerformed(evt);
             }
         });
         jMenu7.add(jMenuItem14);
-
-        jMenuItem15.setText("Crear Equipo");
-        jMenu7.add(jMenuItem15);
-
-        jMenuItem16.setText("Asignar a cliente");
-        jMenu7.add(jMenuItem16);
 
         jMenuBar1.add(jMenu7);
 
@@ -133,7 +127,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenu4.setText("Antenas AP");
 
-        jMenuItem1.setText("Agregar AP");
+        jMenuItem1.setText("Antenas AP'S");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -144,8 +138,13 @@ public class Dashboard extends javax.swing.JFrame {
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("Microtik");
+        jMenu5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu5ActionPerformed(evt);
+            }
+        });
 
-        jMenuItem3.setText("Agregar Microtik");
+        jMenuItem3.setText("Microtik's");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -156,17 +155,13 @@ public class Dashboard extends javax.swing.JFrame {
         jMenuItem10.setText("Bloqueos / Desbloqueos");
         jMenu5.add(jMenuItem10);
 
+        jMenuItem11.setText("Prueba de Ping");
+        jMenu5.add(jMenuItem11);
+
+        jMenuItem12.setText("Antenas Clientes");
+        jMenu5.add(jMenuItem12);
+
         jMenuBar1.add(jMenu5);
-
-        jMenu9.setText("Herramientas");
-
-        jMenuItem11.setText("Pruebas PING");
-        jMenu9.add(jMenuItem11);
-
-        jMenuItem12.setText("Ping AUTOMATICO");
-        jMenu9.add(jMenuItem12);
-
-        jMenuBar1.add(jMenu9);
 
         jMenu6.setText("Software Escobedo");
 
@@ -179,6 +174,14 @@ public class Dashboard extends javax.swing.JFrame {
         jMenuItem13.setText("Usuarios");
         jMenu6.add(jMenuItem13);
         jMenu6.add(jSeparator1);
+
+        jMenuItem15.setText("Cerrar todo!");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem15);
 
         jMenuItem8.setText("Salir");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
@@ -254,6 +257,23 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
+    private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu5ActionPerformed
+
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        JInternalFrame[] internalFrames = escritorioInterno.getAllFrames();
+        
+        for(JInternalFrame frame : internalFrames){
+            try {
+                frame.setClosed(true);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Tenemos problemas al cerrar las ventanas: " + e, "SpiderNET", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -299,7 +319,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
@@ -308,7 +327,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
-    private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
