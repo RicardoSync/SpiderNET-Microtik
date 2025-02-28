@@ -77,6 +77,7 @@ public class creacionCliente extends javax.swing.JInternalFrame {
         jLabel26 = new javax.swing.JLabel();
         comboEntretenimiento = new javax.swing.JComboBox<>();
 
+        setBackground(new java.awt.Color(0, 0, 0));
         setClosable(true);
         setIconifiable(true);
         setTitle("Crear Cliente");

@@ -98,6 +98,11 @@ public class Dashboard extends javax.swing.JFrame {
         jMenu2.setText("Pagos");
 
         jMenuItem6.setText("Pagos registrados");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem6);
 
         jMenuBar1.add(jMenu2);
@@ -301,6 +306,13 @@ public class Dashboard extends javax.swing.JFrame {
         plataformas.show();
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem16ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        moduloPagos pagos = new moduloPagos();
+        escritorioInterno.add(pagos);
+        pagos.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments

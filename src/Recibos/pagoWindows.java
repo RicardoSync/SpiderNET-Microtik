@@ -18,10 +18,10 @@ import microtik.unlockClient;
 
 public class pagoWindows extends javax.swing.JInternalFrame {
 
-    public pagoWindows(int id, String nombre, String paquete,String servicios, String direccionIp) {
+    public pagoWindows(int id, String nombre, String paquete, String servicios, String direccionIp) {
         initComponents();
         insertarElementos(id, nombre, paquete, servicios, direccionIp);
-        
+
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -302,26 +302,25 @@ public class pagoWindows extends javax.swing.JInternalFrame {
         dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
-    
-    public void listarMicrotiks(){
+
+    public void listarMicrotiks() {
         Consultas consultas = new Consultas();
         ArrayList<String> microtiks = consultas.nombresMicrotiks();
-        for(String plataformas: microtiks){
+        for (String plataformas : microtiks) {
             comboMicrotik.addItem(plataformas);
         }
     }
-    
-    public void insertarElementos(int id, String nombre, String paquete, String servicios, String direccionIp){
+
+    public void insertarElementos(int id, String nombre, String paquete, String servicios, String direccionIp) {
         listarMicrotiks();
         Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
-        if(cn != null){
+        if (cn != null) {
 
             entryID.setText(String.valueOf(id));
             entryNombre.setText(nombre);
             entryPaquete.setText(paquete);
             entryDireccionIP.setText(direccionIp);
-            
 
             PreparedStatement cursor;
             ResultSet resultado;
@@ -329,14 +328,14 @@ public class pagoWindows extends javax.swing.JInternalFrame {
                 String precio = null;
                 String sql = "SELECT precio FROM paquetes WHERE nombre = ?";
                 cursor = cn.prepareStatement(sql);
-                cursor.setString(1, paquete); 
-                
+                cursor.setString(1, paquete);
+
                 resultado = cursor.executeQuery();
-                
-                if(resultado.next()){
+
+                if (resultado.next()) {
                     precio = resultado.getString(1);
                     entryMonto.setText(precio);
-                }else{
+                } else {
                     entryPaquete.setText("Sin paquete internet");
                     entryMonto.setText("0.0");
                 }
@@ -347,11 +346,11 @@ public class pagoWindows extends javax.swing.JInternalFrame {
         }
     }
 
-    public void precioServicio(String nombreServicio){
+    public void precioServicio(String nombreServicio) {
         Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
         entryServicios.setText(nombreServicio);
-        if(cn != null){
+        if (cn != null) {
             String sql = "SELECT precio FROM serviciosplataforma WHERE nombre = ?";
             PreparedStatement cursorDos;
             ResultSet resultadoDos;
@@ -359,13 +358,13 @@ public class pagoWindows extends javax.swing.JInternalFrame {
             try {
                 cursorDos = cn.prepareStatement(sql);
                 cursorDos.setString(1, nombreServicio);
-                
+
                 resultadoDos = cursorDos.executeQuery();
-                
-                if (resultadoDos.next()){
+
+                if (resultadoDos.next()) {
                     precioDos = resultadoDos.getString(1);
                     entryPrecioServicios.setText(precioDos);
-                }else{
+                } else {
                     precioDos = "0.0";
                     entryServicios.setText("Sin servicios");
                     entryPrecioServicios.setText(precioDos);
@@ -375,8 +374,8 @@ public class pagoWindows extends javax.swing.JInternalFrame {
             }
         }
     }
-    
-    public void obtenerInformacion() throws MikrotikApiException{
+
+    public void obtenerInformacion() throws MikrotikApiException {
         //obtener los datos de la empresa - listo
         //obtener los datos de la ventana = listo
         //llamar al metodo de los recibos = listo
@@ -384,12 +383,12 @@ public class pagoWindows extends javax.swing.JInternalFrame {
         //enviar whatsapp
         Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
-        
-        if(cn != null){
+
+        if (cn != null) {
             PreparedStatement cursor;
             ResultSet resultado;
             String sql = "SELECT nombreWisp, cp, telefono, rfc, direccion FROM datosEmpresa";
-            
+
             try {
                 cursor = cn.prepareStatement(sql);
                 resultado = cursor.executeQuery();
@@ -398,8 +397,8 @@ public class pagoWindows extends javax.swing.JInternalFrame {
                 String telefono = null;
                 String rfc = null;
                 String direccion = null;
-                                
-                while(resultado.next()){
+
+                while (resultado.next()) {
                     nombreWisp = resultado.getString(1);
                     cp = resultado.getString(2);
                     telefono = resultado.getString(3);
@@ -419,12 +418,12 @@ public class pagoWindows extends javax.swing.JInternalFrame {
                 String mesTexto = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, new Locale("es", "ES"));
 
                 // Formatear la fecha correctamente
-                String mesAnio = mesTexto + "." + annio; 
+                String mesAnio = mesTexto + "." + annio;
                 String fecha = dia + "/" + mes + "/" + annio;
                 String concepto = entryConcepto.getText();
                 String nombre = entryNombre.getText();
                 String plan = entryPaquete.getText();
-                
+
                 double mensualidad = Double.parseDouble(entryMonto.getText());
                 double paquete = Double.parseDouble(entryMonto.getText());
                 double streming = Double.parseDouble(entryPrecioServicios.getText());
@@ -434,27 +433,37 @@ public class pagoWindows extends javax.swing.JInternalFrame {
                 String servicios = entryServicios.getText();
                 generarRecibo recibo = new generarRecibo();
                 String direccionIp = entryDireccionIP.getText();
-                String nombreMicrotik = (String)comboMicrotik.getSelectedItem();
+                String nombreMicrotik = (String) comboMicrotik.getSelectedItem();
                 int id_cliente = Integer.parseInt(entryID.getText());
-                String metodo_pago = (String)comboMetodo.getSelectedItem();
+                String metodo_pago = (String) comboMetodo.getSelectedItem();
                 String cantidad = entryCantidad.getText();
                 String monto = entryMonto.getText();
-                int cambio  = 0;
-                
-                InsertarDatos insertarDatos = new InsertarDatos();
-                insertarDatos.insertarPago(id_cliente, nombre, monto, metodo_pago, efectivo, cambio);
-                
-                recibo.generarRecibo(nombreWisp, cp, telefono, rfc, direccion, concepto, mesAnio, nombre, cp, plan, mensualidad, fecha, hora, paquete, streming, tv, efectivo, cajero);
-                InsertarDatos datos = new InsertarDatos();
-                
+                String stremdeck = entryPrecioServicios.getText();
+                int cambio = 0;
+                //si la mensualidad es mayor a 0 proceder como lo hacemos
+                //si la mensualidad es 0 y los servicios son mayor a 0 entonces iniciar el segundo
+                if (mensualidad > 0.0) {
+                    InsertarDatos insertarDatos = new InsertarDatos();
+                    insertarDatos.insertarPago(id_cliente, nombre, monto, metodo_pago, efectivo, cambio);
+
+                    recibo.generarRecibo(nombreWisp, cp, telefono, rfc, direccion, concepto, mesAnio, nombre, cp, plan, mensualidad, fecha, hora, paquete, streming, tv, efectivo, cajero);
+                    InsertarDatos datos = new InsertarDatos();
+                } else {
+                    InsertarDatos insertarDatos = new InsertarDatos();
+                    insertarDatos.insertarPago(id_cliente, nombre, stremdeck, metodo_pago, efectivo, cambio);
+
+                    recibo.generarRecibo(nombreWisp, cp, telefono, rfc, direccion, concepto, mesAnio, nombre, cp, plan, mensualidad, fecha, hora, paquete, streming, tv, efectivo, cajero);
+                    InsertarDatos datos = new InsertarDatos();
+                }
+
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "No podemos obtener los datos de la empresa", "SpiderNET", JOptionPane.ERROR_MESSAGE);
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "No logramos establecer una conexion", "SpiderNET", JOptionPane.ERROR);
         }
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboMetodo;
