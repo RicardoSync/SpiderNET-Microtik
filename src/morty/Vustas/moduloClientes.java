@@ -253,6 +253,21 @@ public class moduloClientes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
+        int filaSeleccionada;
+        filaSeleccionada = jTable1.getSelectedRow();
+        if (filaSeleccionada >= 0){
+            int id = (int)jTable1.getValueAt(filaSeleccionada, 0);
+            String nombre = (String)jTable1.getValueAt(filaSeleccionada, 1);
+            String paquete = (String)jTable1.getValueAt(filaSeleccionada, 6);
+            String direccionIp = (String)jTable1.getValueAt(filaSeleccionada, 8);
+            String servicios = (String)jTable1.getValueAt(filaSeleccionada, 12);
+
+            pagoWindows windows = new pagoWindows(id, nombre, paquete, servicios, direccionIp);
+            Dashboard.escritorioInterno.add(windows);
+            windows.show();
+        }else{
+            JOptionPane.showMessageDialog(null, "Para registrar un pago, seleccione el cliente", "SpiderNET", JOptionPane.WARNING_MESSAGE);
+        }
         
         // TODO add your handling code here:
     }//GEN-LAST:event_btnPagarActionPerformed

@@ -175,6 +175,8 @@ public class creacionCliente extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Dia de Corte");
 
+        entryDiaCorte.setText("30");
+
         jLabel10.setText("Ejemplo 10, 15, 20, 30 etc");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);

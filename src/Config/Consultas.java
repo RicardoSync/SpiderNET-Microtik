@@ -118,5 +118,31 @@ public class Consultas {
         }
         return clientes;
     }
-
+    
+    
+    public ArrayList<String> nombresMicrotiks(){
+        ArrayList<String> microtiks = new ArrayList<>();
+        Conexion conexion = new Conexion();
+        Connection cn = conexion.getConnection();
+        
+        if(cn != null){
+            PreparedStatement cursor;
+            ResultSet rs = null;
+            
+            try {
+                String sql = "SELECT nombre FROM credenciales_microtik";
+                cursor = cn.prepareStatement(sql);
+                rs = cursor.executeQuery();
+                
+                while(rs.next()){
+                    String nombreMicrotik = rs.getString("nombre");
+                    System.out.println(nombreMicrotik);
+                    microtiks.add(nombreMicrotik);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Tenemos un error en base de datos: " + e, "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+       return microtiks;
+    }
 }

@@ -125,6 +125,15 @@ CREATE TABLE credenciales_microtik (
     password VARCHAR(100)
 );
 
+CREATE TABLE datosEmpresa(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombreWisp VARCHAR(100),
+    cp VARCHAR(30),
+    telefono VARCHAR(100),
+    rfc VARCHAR(100),
+    direccion VARCHAR(100)
+);
+
 ALTER TABLE clientes
 ADD COLUMN id_antena_ap INT,
 ADD FOREIGN KEY (id_antena_ap) REFERENCES antenasap(idantenasAp) ON DELETE SET NULL;
