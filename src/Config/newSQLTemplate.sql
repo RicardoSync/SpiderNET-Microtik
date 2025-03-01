@@ -134,10 +134,10 @@ CREATE TABLE datosEmpresa(
     direccion VARCHAR(100)
 );
 
-ALTER TABLE clientes
-ADD COLUMN id_antena_ap INT,
-ADD FOREIGN KEY (id_antena_ap) REFERENCES antenasap(idantenasAp) ON DELETE SET NULL;
+--ALTER TABLE clientes
+--ADD COLUMN id_antena_ap INT,
+--ADD FOREIGN KEY (id_antena_ap) REFERENCES antenasap(idantenasAp) ON DELETE SET NULL;
 
-ALTER TABLE clientes
-ADD COLUMN id_servicio_plataforma INT,
-ADD FOREIGN KEY (id_servicio_plataforma) REFERENCES serviciosplataforma(idPlataformas) ON DELETE SET NULL;
+--ALTER TABLE clientes
+--ADD COLUMN id_servicio_plataforma INT,
+--ADD FOREIGN KEY (id_servicio_plataforma) REFERENCES serviciosplataforma(idPlataformas) ON DELETE SET NULL;

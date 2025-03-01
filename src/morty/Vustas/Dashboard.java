@@ -72,7 +72,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
         escritorioInternoLayout.setVerticalGroup(
             escritorioInternoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 724, Short.MAX_VALUE)
+            .addGap(0, 751, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Clientes");
@@ -228,10 +228,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(escritorioInterno)
-                .addContainerGap())
+            .addComponent(escritorioInterno)
         );
 
         pack();

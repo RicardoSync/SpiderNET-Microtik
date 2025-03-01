@@ -46,7 +46,7 @@ public class creacionMicrotik extends javax.swing.JInternalFrame {
         setTitle("Registrar Microtik");
         setToolTipText("Registrar Microtik");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Antena AP"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
 
         jLabel1.setText("Idnetificador");
 

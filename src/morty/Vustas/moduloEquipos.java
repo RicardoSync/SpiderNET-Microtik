@@ -81,7 +81,18 @@ public class moduloEquipos extends javax.swing.JInternalFrame {
     	
     }
 
-    
+    public void obtenerTipo(){
+        String tipo = (String)comboTipo.getSelectedItem();
+        
+        if(tipo == "Router"){
+            System.out.println("Si tenemos un router");
+        }else if(tipo == "Antena"){
+            System.out.println("si tenemos una antena");
+        }else{
+            System.out.println("no conocemos esa opcion");
+        }
+        
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
