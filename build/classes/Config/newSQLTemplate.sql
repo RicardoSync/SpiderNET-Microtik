@@ -56,7 +56,7 @@ CREATE TABLE antenasap(
 );
 
 CREATE TABLE serviciosplataforma(
-    idantenasAp INT AUTO_INCREMENT PRIMARY KEY,
+    idPlataformas INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
     descripcion VARCHAR(100),
     precio VARCHAR(100)
