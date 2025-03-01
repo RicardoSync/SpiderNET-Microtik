@@ -83,15 +83,32 @@ public class moduloEquipos extends javax.swing.JInternalFrame {
 
     public void obtenerTipo(){
         String tipo = (String)comboTipo.getSelectedItem();
+        //Router, Antena, ONU, Otro, Sin cliente
         
         if(tipo == "Router"){
-            System.out.println("Si tenemos un router");
+            System.out.println("tenemos un router");
         }else if(tipo == "Antena"){
-            System.out.println("si tenemos una antena");
+            System.out.println("tenemos una antena");
+        }else if(tipo == "ONU"){
+            System.out.println("Tenemos una onu");
+        }else if(tipo == "Otro"){
+            System.out.println("Otro tipo de equipo");
+        }else if(tipo == "Sin cliente"){
+            System.out.println("Tenemos equipos sin clientes");
         }else{
-            System.out.println("no conocemos esa opcion");
+            System.out.println("No conocemos este tipo");
         }
+    }
+    
+    public void realizarConsultaEquipos(){
+        Conexion conexion = new Conexion();
+        Connection cn = conexion.getConnection();
         
+        if(cn != null){
+            PreparedStatement cursor;
+            ResultSet resultado;
+            String sql = "";
+        }
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -180,6 +197,11 @@ public class moduloEquipos extends javax.swing.JInternalFrame {
         comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Router", "Antena", "ONU", "Otro", "Sin cliente" }));
 
         btnFIltrar.setText("Filtrar");
+        btnFIltrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFIltrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -270,6 +292,11 @@ public class moduloEquipos extends javax.swing.JInternalFrame {
         
     	// TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnFIltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFIltrarActionPerformed
+        obtenerTipo();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFIltrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
