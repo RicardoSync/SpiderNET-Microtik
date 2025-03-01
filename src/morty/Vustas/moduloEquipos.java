@@ -14,32 +14,31 @@ import morty.Vustas.editarEquipo;
 
 public class moduloEquipos extends javax.swing.JInternalFrame {
 
-
     public moduloEquipos() {
         initComponents();
         listarEquipos();
     }
 
-    public void listarEquipos(){
+    public void listarEquipos() {
         Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
         DefaultTableModel modelo;
-        if(cn != null){
+        if (cn != null) {
             PreparedStatement cursor = null;
             ResultSet resultado = null;
-            
+
             try {
-                modelo = (DefaultTableModel)jTable1.getModel();
+                modelo = (DefaultTableModel) jTable1.getModel();
                 String sql = """
                             SELECT e.id, e.nombre, e.tipo, e.marca, e.modelo, e.mac, e.serial, e.estado, c.nombre AS nombre_cliente
                              FROM equipos e LEFT JOIN clientes c ON e.id_cliente = c.id;
                              """;
                 cursor = cn.prepareStatement(sql);
-                
+
                 resultado = cursor.executeQuery();
                 Object[] equipos = new Object[9];
                 modelo.setRowCount(0);
-                while(resultado.next()){
+                while (resultado.next()) {
                     equipos[0] = resultado.getInt("id");
                     equipos[1] = resultado.getString("nombre_cliente");
                     equipos[2] = resultado.getString("nombre");
@@ -52,64 +51,82 @@ public class moduloEquipos extends javax.swing.JInternalFrame {
                     modelo.addRow(equipos);
                 }
                 jTable1.setModel(modelo);
-                
+
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Error al consultar la tabla de los equipos", "SpiderNET", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-    
+
     public void obtenerElementos() {
-    	int filaSeleccionada;
-    	filaSeleccionada = jTable1.getSelectedRow();
-    	if(filaSeleccionada >= 0) {
-    		int id = (int)jTable1.getValueAt(filaSeleccionada, 0);
-                String cliente = (String)jTable1.getValueAt(filaSeleccionada, 1);
-                String nombre = (String)jTable1.getValueAt(filaSeleccionada, 2);
-                String tipo = (String)jTable1.getValueAt(filaSeleccionada, 3);
-                String marca = (String)jTable1.getValueAt(filaSeleccionada, 4);
-                String modelo = (String)jTable1.getValueAt(filaSeleccionada, 5);
-                String mac = (String)jTable1.getValueAt(filaSeleccionada, 6);
-                String serial = (String)jTable1.getValueAt(filaSeleccionada, 7);
-                String estado = (String)jTable1.getValueAt(filaSeleccionada, 8);
-                editarEquipo equipo = new editarEquipo(id, nombre, tipo, marca, modelo, mac, serial, estado, cliente);
-                Dashboard.escritorioInterno.add(equipo);
-                equipo.show();
-        }else {
-    		JOptionPane.showMessageDialog(null, "Antes de poder editar un equipo, debe seleccionarlo", "SpiderNET", JOptionPane.WARNING_MESSAGE);
-    	}
-    	
+        int filaSeleccionada;
+        filaSeleccionada = jTable1.getSelectedRow();
+        if (filaSeleccionada >= 0) {
+            int id = (int) jTable1.getValueAt(filaSeleccionada, 0);
+            String cliente = (String) jTable1.getValueAt(filaSeleccionada, 1);
+            String nombre = (String) jTable1.getValueAt(filaSeleccionada, 2);
+            String tipo = (String) jTable1.getValueAt(filaSeleccionada, 3);
+            String marca = (String) jTable1.getValueAt(filaSeleccionada, 4);
+            String modelo = (String) jTable1.getValueAt(filaSeleccionada, 5);
+            String mac = (String) jTable1.getValueAt(filaSeleccionada, 6);
+            String serial = (String) jTable1.getValueAt(filaSeleccionada, 7);
+            String estado = (String) jTable1.getValueAt(filaSeleccionada, 8);
+            editarEquipo equipo = new editarEquipo(id, nombre, tipo, marca, modelo, mac, serial, estado, cliente);
+            Dashboard.escritorioInterno.add(equipo);
+            equipo.show();
+        } else {
+            JOptionPane.showMessageDialog(null, "Antes de poder editar un equipo, debe seleccionarlo", "SpiderNET", JOptionPane.WARNING_MESSAGE);
+        }
+
     }
 
-    public void obtenerTipo(){
-        String tipo = (String)comboTipo.getSelectedItem();
-        //Router, Antena, ONU, Otro, Sin cliente
-        
-        if(tipo == "Router"){
-            System.out.println("tenemos un router");
-        }else if(tipo == "Antena"){
-            System.out.println("tenemos una antena");
-        }else if(tipo == "ONU"){
-            System.out.println("Tenemos una onu");
-        }else if(tipo == "Otro"){
-            System.out.println("Otro tipo de equipo");
-        }else if(tipo == "Sin cliente"){
-            System.out.println("Tenemos equipos sin clientes");
-        }else{
-            System.out.println("No conocemos este tipo");
+    public void obtenerTipo() {
+        String tipo = (String) comboTipo.getSelectedItem();
+
+        if (tipo == "Router" && tipo == "Antena") {
+            Conexion conexion = new Conexion();
+            Connection cn = conexion.getConnection();
+            DefaultTableModel modelo;
+            
+            if (cn != null) {
+                PreparedStatement cursor = null;
+                ResultSet resultado = null;
+
+                try {
+                    modelo = (DefaultTableModel) jTable1.getModel();
+                    String sql = """
+                            SELECT e.id, e.nombre, e.tipo, e.marca, e.modelo, e.mac, e.serial, e.estado, c.nombre AS nombre_cliente
+                             FROM equipos e LEFT JOIN clientes c ON e.id_cliente = c.id WHERE tipo = ?;
+                             """;
+                    cursor = cn.prepareStatement(sql);
+                    cursor.setString(1, tipo);
+                    
+
+                    resultado = cursor.executeQuery();
+                    Object[] equipos = new Object[9];
+                    modelo.setRowCount(0);
+                    while (resultado.next()) {
+                        equipos[0] = resultado.getInt("id");
+                        equipos[1] = resultado.getString("nombre_cliente");
+                        equipos[2] = resultado.getString("nombre");
+                        equipos[3] = resultado.getString("tipo");
+                        equipos[4] = resultado.getString("marca");
+                        equipos[5] = resultado.getString("modelo");
+                        equipos[6] = resultado.getString("mac");
+                        equipos[7] = resultado.getString("serial");
+                        equipos[8] = resultado.getString("estado");
+                        modelo.addRow(equipos);
+                    }
+                    jTable1.setModel(modelo);
+
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error al consultar la tabla de los equipos", "SpiderNET", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
+
     }
-    
-    public void realizarConsultaEquipos(){
-        Conexion conexion = new Conexion();
-        Connection cn = conexion.getConnection();
-        
-        if(cn != null){
-            PreparedStatement cursor;
-            ResultSet resultado;
-            String sql = "";
-        }
-    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -117,6 +134,7 @@ public class moduloEquipos extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -145,6 +163,8 @@ public class moduloEquipos extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setText("Asingar cliente");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -154,7 +174,9 @@ public class moduloEquipos extends javax.swing.JInternalFrame {
                 .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(235, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(92, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,7 +184,8 @@ public class moduloEquipos extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditar)
-                    .addComponent(btnEliminar))
+                    .addComponent(btnEliminar)
+                    .addComponent(jButton1))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -194,7 +217,7 @@ public class moduloEquipos extends javax.swing.JInternalFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Filtraciones"));
         jPanel3.setToolTipText("");
 
-        comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Router", "Antena", "ONU", "Otro", "Sin cliente" }));
+        comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Router", "Antena", "ONU", "Otro" }));
 
         btnFIltrar.setText("Filtrar");
         btnFIltrar.addActionListener(new java.awt.event.ActionListener() {
@@ -280,17 +303,17 @@ public class moduloEquipos extends javax.swing.JInternalFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int obtenerFila = 0;
         obtenerFila = jTable1.getSelectedRow();
-        
-        if(obtenerFila >= 0) {
-        	int id = (int)jTable1.getValueAt(obtenerFila, 0);
-        	DeleteDatos datos = new DeleteDatos();
-        	datos.eliminarEquipo(id);
-        	listarEquipos();
-        }else {
-        	JOptionPane.showMessageDialog(null, "No podemos eliminar un equipo, primero seleccione uno", "SpiderNET", JOptionPane.WARNING_MESSAGE);
+
+        if (obtenerFila >= 0) {
+            int id = (int) jTable1.getValueAt(obtenerFila, 0);
+            DeleteDatos datos = new DeleteDatos();
+            datos.eliminarEquipo(id);
+            listarEquipos();
+        } else {
+            JOptionPane.showMessageDialog(null, "No podemos eliminar un equipo, primero seleccione uno", "SpiderNET", JOptionPane.WARNING_MESSAGE);
         }
-        
-    	// TODO add your handling code here:
+
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnFIltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFIltrarActionPerformed
@@ -305,6 +328,7 @@ public class moduloEquipos extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnFIltrar;
     private javax.swing.JButton btnRefrescar;
     private javax.swing.JComboBox<String> comboTipo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
