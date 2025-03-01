@@ -279,7 +279,15 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        dispose();
+        int respuesta = JOptionPane.showConfirmDialog(null, "¿Deseas salir?", "confirmacion", JOptionPane.YES_NO_OPTION);
+        
+        if(respuesta == JOptionPane.YES_OPTION){
+            dispose();
+        }else{
+            JOptionPane.showMessageDialog(null, "Operacion cancelada");
+        }
+            
+        
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
