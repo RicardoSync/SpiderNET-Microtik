@@ -10,7 +10,7 @@ public class Conexion {
         try {
             // Cargar el driver de MySQL para versiones 8.0+
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/spidernet", "root", "MinuzaFea265/");
+            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/spidernet", "root", "administrador");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Tenemos un error en el modulo de conexion: " + e, "Modulo Conexion", JOptionPane.ERROR_MESSAGE);
         }

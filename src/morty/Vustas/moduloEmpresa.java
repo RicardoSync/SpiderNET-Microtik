@@ -4,18 +4,99 @@
  */
 package morty.Vustas;
 
+import Config.Conexion;
+import Config.DeleteDatos;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import morty.Vustas.editarEquipo;
 /**
  *
  * @author ricardo
  */
 public class moduloEmpresa extends javax.swing.JInternalFrame {
-
-    /**
-     * Creates new form moduloEmpresa
-     */
+    
+    Conexion conexion = new Conexion();
+    Connection conet;
+    DefaultTableModel modelo;
+    Statement st;
+    ResultSet rs;
+    int idc;
+    
     public moduloEmpresa() {
         initComponents();
+        modelo = (DefaultTableModel) tablaEmpresa.getModel();
+        consultarEmpresas();
     }
+    
+    public void limpiarTabla() {
+        modelo.setRowCount(0);
+    }
+
+    public void consultarEmpresas() {
+        String sql = "SELECT * FROM datosempresa";
+        limpiarTabla();  // Asegúrate de limpiar la tabla antes de cargar nuevos datos
+
+        try {
+            conet = conexion.getConnection();
+            PreparedStatement pst = conet.prepareStatement(sql);
+            rs = pst.executeQuery();  // Usa la variable global rs
+
+            while (rs.next()) {
+                Object empresa[] = {
+                    rs.getInt("id"),
+                    rs.getString("nombreWisp"),
+                    rs.getString("cp"),
+                    rs.getString("telefono"),
+                    rs.getString("rfc"),
+                    rs.getString("direccion")
+                };
+                modelo.addRow(empresa);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar la tabla de empresas: " + e.getMessage(), "SpiderNET", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e);
+        }
+    }
+ 
+    void guardar() {
+        String nombreEmpresa = txtNombreEmpresa.getText();
+        String codigoPostal = txtCP.getText();
+        String telefono = entryTelefono.getText();
+        String rfc = txtRFC.getText();
+        String direccion = txtDireccion.getText();
+
+        if (nombreEmpresa.isEmpty() || codigoPostal.isEmpty() || telefono.isEmpty() || rfc.isEmpty() || direccion.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Hace falta llenar algunos campos.");
+            return;
+        }
+
+        String sql = "INSERT INTO datosempresa(nombreWisp, cp, telefono, rfc, direccion) VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            conet = conexion.getConnection();
+            PreparedStatement pst = conet.prepareStatement(sql);
+            pst.setString(1, nombreEmpresa);
+            pst.setString(2, codigoPostal);
+            pst.setString(3, telefono);
+            pst.setString(4, rfc);
+            pst.setString(5, direccion);
+
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Datos guardados exitosamente.");
+
+            consultarEmpresas();  // Recarga la tabla automáticamente después de guardar
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al guardar los datos: " + e.getMessage(), "SpiderNET", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,26 +109,73 @@ public class moduloEmpresa extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtId = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtCP = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtRFC = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtNombreEmpresa = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        entryTelefono = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtDireccion = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaEmpresa = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        btnGuardar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setTitle("Empresa");
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Crear Empresa"));
+
         jLabel1.setText("ID:");
 
-        jTextField1.setText("jTextField1");
+        txtId.setEditable(false);
+        txtId.setEnabled(false);
+
+        jLabel2.setText("CP:");
+
+        jLabel3.setText("RFC:");
+
+        jLabel4.setText("Nombre:");
+
+        jLabel5.setText("Tefelono:");
+
+        jLabel6.setText("Dirección:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel1)
+                .addGap(19, 19, 19)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(545, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
+                    .addComponent(txtCP)
+                    .addComponent(txtRFC))
+                .addGap(42, 42, 42)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtNombreEmpresa)
+                    .addComponent(entryTelefono)
+                    .addComponent(txtDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -55,8 +183,96 @@ public class moduloEmpresa extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(144, Short.MAX_VALUE))
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtNombreEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(entryTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de la empresa"));
+
+        tablaEmpresa.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre de la empresa", "CP", "Telefono", "RFC", "Dirección"
+            }
+        ));
+        tablaEmpresa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaEmpresaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaEmpresa);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        btnEditar.setText("Editar");
+
+        btnActualizar.setText("Actualizar");
+
+        btnEliminar.setText("Eliminar");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(78, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar)
+                    .addComponent(btnEditar)
+                    .addComponent(btnActualizar)
+                    .addComponent(btnEliminar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -65,24 +281,75 @@ public class moduloEmpresa extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(256, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        guardar();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void tablaEmpresaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEmpresaMouseClicked
+        // TODO add your handling code here:
+        int fila = tablaEmpresa.getSelectedRow();
+        if (fila == -1){
+            JOptionPane.showMessageDialog(null, "No se selecciono fila.");
+        }else{
+            idc = Integer.parseInt((String) tablaEmpresa.getValueAt(fila,0) .toString());
+            String nombreEmpresa = (String) tablaEmpresa.getValueAt(fila, 1);
+            String codigoPostal = (String) tablaEmpresa.getValueAt(fila, 2);
+            String telefono = (String) tablaEmpresa.getValueAt(fila, 3);
+            String rfc = (String) tablaEmpresa.getValueAt(fila, 4);
+            String direccion = (String) tablaEmpresa.getValueAt(fila, 5);
+            
+            txtId.setText(""+idc);
+            txtNombreEmpresa.setText(""+nombreEmpresa);
+            txtCP.setText(""+codigoPostal);
+            entryTelefono.setText(""+telefono);
+            txtRFC.setText(""+rfc);
+            txtDireccion.setText(""+direccion);
+        }
+    }//GEN-LAST:event_tablaEmpresaMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JTextField entryTelefono;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tablaEmpresa;
+    private javax.swing.JTextField txtCP;
+    private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtNombreEmpresa;
+    private javax.swing.JTextField txtRFC;
     // End of variables declaration//GEN-END:variables
 }

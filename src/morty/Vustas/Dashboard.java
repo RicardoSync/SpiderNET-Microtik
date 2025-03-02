@@ -44,6 +44,8 @@ public class Dashboard extends javax.swing.JFrame {
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem14 = new javax.swing.JMenuItem();
+        menuEmpresas = new javax.swing.JMenu();
+        subMenuEmpresas = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -142,6 +144,18 @@ public class Dashboard extends javax.swing.JFrame {
         jMenu7.add(jMenuItem14);
 
         jMenuBar1.add(jMenu7);
+
+        menuEmpresas.setText("Empresas");
+
+        subMenuEmpresas.setText("Empresas");
+        subMenuEmpresas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subMenuEmpresasActionPerformed(evt);
+            }
+        });
+        menuEmpresas.add(subMenuEmpresas);
+
+        jMenuBar1.add(menuEmpresas);
 
         jMenu4.setText("Antenas AP");
 
@@ -279,7 +293,10 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        dispose();
+        int resultado = JOptionPane.showConfirmDialog(null, "¿Deseas Salir?", "Salir", JOptionPane.YES_NO_OPTION);
+            if(resultado == JOptionPane.YES_OPTION){
+                dispose();
+            }
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
@@ -313,6 +330,14 @@ public class Dashboard extends javax.swing.JFrame {
         pagos.show();
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void subMenuEmpresasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenuEmpresasActionPerformed
+        // TODO add your handling code here:
+        moduloEmpresa empresa = new moduloEmpresa();
+        escritorioInterno.add(empresa);
+        empresa.show();
+        
+    }//GEN-LAST:event_subMenuEmpresasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -379,5 +404,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JMenu menuEmpresas;
+    private javax.swing.JMenuItem subMenuEmpresas;
     // End of variables declaration//GEN-END:variables
 }
