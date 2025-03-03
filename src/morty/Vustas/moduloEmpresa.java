@@ -76,10 +76,24 @@ public class moduloEmpresa extends javax.swing.JInternalFrame {
             return;
         }
 
-        String sql = "INSERT INTO datosempresa(nombreWisp, cp, telefono, rfc, direccion) VALUES (?, ?, ?, ?, ?)";
-
         try {
             conet = conexion.getConnection();
+
+            // Verificar si la empresa ya existe
+            String checkSql = "SELECT COUNT(*) FROM datosempresa WHERE nombreWisp = ? OR rfc = ?";
+            PreparedStatement checkPst = conet.prepareStatement(checkSql);
+            checkPst.setString(1, nombreEmpresa);
+            checkPst.setString(2, rfc);
+            ResultSet rs = checkPst.executeQuery();
+            rs.next();
+
+            if (rs.getInt(1) > 0) {
+                JOptionPane.showMessageDialog(null, "La empresa ya está registrada.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Insertar nueva empresa
+            String sql = "INSERT INTO datosempresa(nombreWisp, cp, telefono, rfc, direccion) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement pst = conet.prepareStatement(sql);
             pst.setString(1, nombreEmpresa);
             pst.setString(2, codigoPostal);
@@ -89,13 +103,13 @@ public class moduloEmpresa extends javax.swing.JInternalFrame {
 
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Datos guardados exitosamente.");
-
             consultarEmpresas();  // Recarga la tabla automáticamente después de guardar
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al guardar los datos: " + e.getMessage(), "SpiderNET", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     
     void editar(){
         String nombreEmpresa = txtNombreEmpresa.getText();
