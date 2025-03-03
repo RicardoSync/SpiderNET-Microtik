@@ -96,6 +96,44 @@ public class moduloEmpresa extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Error al guardar los datos: " + e.getMessage(), "SpiderNET", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    public void editar(){
+        String nombreEmpresa = txtNombreEmpresa.getText();
+        String codigoPostal = txtCP.getText();
+        String telefono = entryTelefono.getText();
+        String rfc = txtRFC.getText();
+        String direccion = txtDireccion.getText();
+
+        if (nombreEmpresa.isEmpty() || codigoPostal.isEmpty() || telefono.isEmpty() || rfc.isEmpty() || direccion.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Hace falta llenar algunos campos.");
+            return;
+        }
+
+        String sql = "UPDATE datosempresa SET nombreWisp = ?, cp = ?, telefono = ?, rfc = ?, direccion = ? WHERE id = ?";
+
+        try {
+            conet = conexion.getConnection();
+            PreparedStatement pst = conet.prepareStatement(sql);
+            pst.setString(1, nombreEmpresa);
+            pst.setString(2, codigoPostal);
+            pst.setString(3, telefono);
+            pst.setString(4, rfc);
+            pst.setString(5, direccion);
+            pst.setInt(6, idc);
+
+            int filasAfectadas = pst.executeUpdate();
+            
+            if(filasAfectadas > 0){
+                JOptionPane.showMessageDialog(null, "Datos actualizados exitosamente.");
+                consultarEmpresas();
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el registro para actualizar.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar los datos: " + e.getMessage(), "SpiderNET", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
 
     /**
@@ -243,6 +281,11 @@ public class moduloEmpresa extends javax.swing.JInternalFrame {
         });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setText("Actualizar");
 
@@ -327,6 +370,11 @@ public class moduloEmpresa extends javax.swing.JInternalFrame {
             txtDireccion.setText(""+direccion);
         }
     }//GEN-LAST:event_tablaEmpresaMouseClicked
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+        editar();
+    }//GEN-LAST:event_btnEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
