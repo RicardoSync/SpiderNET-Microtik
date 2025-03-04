@@ -512,7 +512,6 @@ public class editarCliente extends javax.swing.JInternalFrame {
     public void listarPlataformas(String plataformaActual){
         Consultas consultas = new Consultas();
         ArrayList<String> nombrePlataformas = consultas.consultarPlataformas();
-        
         nombrePlataformas.add(0, plataformaActual);
         for(String plataformas: nombrePlataformas){
             comboEntretenimiento.addItem(plataformas);

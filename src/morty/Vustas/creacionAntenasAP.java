@@ -127,7 +127,7 @@ public class creacionAntenasAP extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "Nombre", "Modelo", "Usuario", "Password", "Direcccion IP"
+                "ID", "Nombre", "Modelo", "Usuario", "Password", "IP/VLans"
             }
         ));
         jScrollPane1.setViewportView(tablaAtenasAp);
