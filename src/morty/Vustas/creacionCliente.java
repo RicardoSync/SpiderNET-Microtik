@@ -1,8 +1,11 @@
 package morty.Vustas;
+
+import Config.Conexion;
 import Config.Consultas;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import Config.InsertarDatos;
+import java.sql.*;
 
 public class creacionCliente extends javax.swing.JInternalFrame {
 
@@ -109,7 +112,7 @@ public class creacionCliente extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -170,7 +173,7 @@ public class creacionCliente extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Tecnicos"));
 
-        jLabel5.setText("Antena AP");
+        jLabel5.setText("Conexion");
 
         jLabel8.setText("IP Cliente");
 
@@ -473,38 +476,38 @@ public class creacionCliente extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39))))
+                        .addGap(0, 11, Short.MAX_VALUE))))
         );
 
         pack();
@@ -584,93 +587,119 @@ public class creacionCliente extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     // End of variables declaration//GEN-END:variables
-    
-    public void listarNombrePaquetes(){
+
+    public void listarNombrePaquetes() {
         Consultas consultasNombres = new Consultas();
         ArrayList<String> nombrePaquetes = consultasNombres.consultarPaquetes();
         nombrePaquetes.add(0, "");
-        for(String paquete : nombrePaquetes){
+        for (String paquete : nombrePaquetes) {
             comboPaquetes.addItem(paquete);
         }
     }
-    
-    public void listarNombreAntenas(){
+
+    public void listarNombreAntenas() {
         Consultas consultasAntenasAp = new Consultas();
         ArrayList<String> nombreAntenas = consultasAntenasAp.consultarAntenasAp();
         nombreAntenas.add(0, "");
-        for(String antenas : nombreAntenas){
+        for (String antenas : nombreAntenas) {
             comboAntenasAP.addItem(antenas);
         }
     }
-    public void listarPlataformas(){
+
+    public void listarPlataformas() {
         Consultas consultas = new Consultas();
         ArrayList<String> nombrePlataformas = consultas.consultarPlataformas();
         nombrePlataformas.add(0, "");
-        for(String plataformas: nombrePlataformas){
+        for (String plataformas : nombrePlataformas) {
             comboEntretenimiento.addItem(plataformas);
         }
     }
-    
-    public void guardarCliente(){
-    String nombreCliente = entryNombre.getText();
-    String primerEquipo = entryNombreEquipo1.getText();
-    String segundoEquipo = entryNombreEquipoExtra.getText();
-    creacionCliente cliente = new creacionCliente();
-    
-    if (nombreCliente.length() > 0) {
-        // Obtener datos del cliente
-        String telefono = entryTelefono.getText();
-        String correo = entryCorreo.getText();
-        String direccion = entryDireccion.getText();
-        String paquete = (String) comboPaquetes.getSelectedItem();
-        String ip_cliente = entryIpCliente.getText();
-        String dia_corte = entryDiaCorte.getText();
-        String ap_cliente = (String) comboAntenasAP.getSelectedItem();
 
-         if(primerEquipo.length() > 0 && segundoEquipo.length() > 0) {
-            // Si tenemos ambos equipos
-            String tipo = (String) comboTipoEquipo1.getSelectedItem();
-            String marca = entryMarcaEquipo1.getText();
-            String modelo = entryModeloEquipo1.getText();
-            String mac = entryMacEquipo1.getText();
-            String serial = entrySerialEquipo1.getText();
-            String estado = (String) comboEstado1.getSelectedItem();
-
-            // Segundo equipo
-            String tipoExtra = (String) comboTipoEquipoExtra.getSelectedItem();
-            String marcaExtra = entryMarcaEquipoExtra.getText();
-            String modeloExtra = entryModeloEquipoExtra.getText();
-            String macExtra = entryMacEquipoExtra.getText();
-            String serialExtra = entrySerialEquipoExtra.getText();
-            String estadoExtra = (String) comboEstadoExtra.getSelectedItem();   
-            String serviciosTV = (String) comboTV.getSelectedItem();
-            String serviciosPlataformas = (String) comboEntretenimiento.getSelectedItem();
-            InsertarDatos insertarDatos = new InsertarDatos();
-            insertarDatos.insertarClienteDosEquipos(nombreCliente, telefono, correo, direccion, paquete, ip_cliente, dia_corte, ap_cliente,
-                    serviciosTV, serviciosPlataformas,
-                    primerEquipo, tipo, marca, modelo, mac, serial, estado,
-                    segundoEquipo, tipoExtra, marcaExtra, modeloExtra, macExtra, serialExtra, estadoExtra);
-         }
-         else if (primerEquipo.length() > 0) {
-            // Si solo tenemos el primer equipo
-            String tipoUno = (String) comboTipoEquipo1.getSelectedItem();
-            String marcaUno = entryMarcaEquipo1.getText();
-            String modeloUno = entryModeloEquipo1.getText();
-            String macUno = entryMacEquipo1.getText();
-            String serialUno = entrySerialEquipo1.getText();
-            String estadoUno = (String) comboEstado1.getSelectedItem();
-            String serviciosTV = (String) comboTV.getSelectedItem();
-            String serviciosPlataformas = (String) comboEntretenimiento.getSelectedItem();
+    public void almacenarUnCliente() {
+        String nombre = entryNombre.getText();
+        if (nombre.length() > 0) {
+            String telefono = entryTelefono.getText();
+            String correo = entryCorreo.getText();
+            String direccion = entryDireccion.getText();
+            String paquete = (String) comboPaquetes.getSelectedItem();
+            String ip_cliente = entryIpCliente.getText();
+            String dia_corte = entryDiaCorte.getText();
+            String ap_cliente = (String) comboAntenasAP.getSelectedItem();
+            String serviciosPlataformas = (String)comboEntretenimiento.getSelectedItem();
+            String servicioTV = (String)comboTV.getSelectedItem();
             
-            InsertarDatos insertarDatos = new InsertarDatos();
-            insertarDatos.insertarCliente(nombreCliente, telefono, correo, direccion, paquete, ip_cliente, dia_corte, ap_cliente, serviciosTV, serviciosPlataformas,
-                    primerEquipo, tipoUno, marcaUno, modeloUno, macUno, serialUno, estadoUno);
-         }
-         else{
-            JOptionPane.showMessageDialog(cliente, "No podemos registrar un cliente sin equipos", "SpiderNET", JOptionPane.WARNING_MESSAGE);
-         }
-        }else{
-        JOptionPane.showMessageDialog(cliente, "No podemos registrar un cliente sin nombre", "SpiderNET", JOptionPane.WARNING_MESSAGE);
+            InsertarDatos datos = new InsertarDatos();
+            datos.insertarUnSoloCLienteALV(nombre, telefono, correo, direccion, paquete, ip_cliente, dia_corte, ap_cliente, servicioTV, serviciosPlataformas);
+
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "No podemos registrar un cliente sin nombre");
+        }
+
+    }
+
+    public void guardarCliente() {
+        String nombreCliente = entryNombre.getText();
+        String primerEquipo = entryNombreEquipo1.getText();
+        String segundoEquipo = entryNombreEquipoExtra.getText();
+        creacionCliente cliente = new creacionCliente();
+
+        if (nombreCliente.length() > 0) {
+            // Obtener datos del cliente
+            String telefono = entryTelefono.getText();
+            String correo = entryCorreo.getText();
+            String direccion = entryDireccion.getText();
+            String paquete = (String) comboPaquetes.getSelectedItem();
+            String ip_cliente = entryIpCliente.getText();
+            String dia_corte = entryDiaCorte.getText();
+            String ap_cliente = (String) comboAntenasAP.getSelectedItem();
+
+            if (primerEquipo.length() > 0 && segundoEquipo.length() > 0) {
+                // Si tenemos ambos equipos
+                String tipo = (String) comboTipoEquipo1.getSelectedItem();
+                String marca = entryMarcaEquipo1.getText();
+                String modelo = entryModeloEquipo1.getText();
+                String mac = entryMacEquipo1.getText();
+                String serial = entrySerialEquipo1.getText();
+                String estado = (String) comboEstado1.getSelectedItem();
+
+                // Segundo equipo
+                String tipoExtra = (String) comboTipoEquipoExtra.getSelectedItem();
+                String marcaExtra = entryMarcaEquipoExtra.getText();
+                String modeloExtra = entryModeloEquipoExtra.getText();
+                String macExtra = entryMacEquipoExtra.getText();
+                String serialExtra = entrySerialEquipoExtra.getText();
+                String estadoExtra = (String) comboEstadoExtra.getSelectedItem();
+                String serviciosTV = (String) comboTV.getSelectedItem();
+                String serviciosPlataformas = (String) comboEntretenimiento.getSelectedItem();
+                InsertarDatos insertarDatos = new InsertarDatos();
+                insertarDatos.insertarClienteDosEquipos(nombreCliente, telefono, correo, direccion, paquete, ip_cliente, dia_corte, ap_cliente,
+                        serviciosTV, serviciosPlataformas,
+                        primerEquipo, tipo, marca, modelo, mac, serial, estado,
+                        segundoEquipo, tipoExtra, marcaExtra, modeloExtra, macExtra, serialExtra, estadoExtra);
+            } else if (primerEquipo.length() > 0) {
+                // Si solo tenemos el primer equipo
+                String tipoUno = (String) comboTipoEquipo1.getSelectedItem();
+                String marcaUno = entryMarcaEquipo1.getText();
+                String modeloUno = entryModeloEquipo1.getText();
+                String macUno = entryMacEquipo1.getText();
+                String serialUno = entrySerialEquipo1.getText();
+                String estadoUno = (String) comboEstado1.getSelectedItem();
+                String serviciosTV = (String) comboTV.getSelectedItem();
+                String serviciosPlataformas = (String) comboEntretenimiento.getSelectedItem();
+
+                InsertarDatos insertarDatos = new InsertarDatos();
+                insertarDatos.insertarCliente(nombreCliente, telefono, correo, direccion, paquete, ip_cliente, dia_corte, ap_cliente, serviciosTV, serviciosPlataformas,
+                        primerEquipo, tipoUno, marcaUno, modeloUno, macUno, serialUno, estadoUno);
+
+            } else if (primerEquipo.isBlank() && segundoEquipo.isBlank()) {
+                almacenarUnCliente();
+            } else {
+                JOptionPane.showMessageDialog(cliente, "No podemos registrar un cliente sin paquete", "SpiderNET", JOptionPane.WARNING_MESSAGE);
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(cliente, "No podemos registrar un cliente sin nombre", "SpiderNET", JOptionPane.WARNING_MESSAGE);
         }
     }
 }

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
 package morty.Vustas;
+
 import Config.Conexion;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
@@ -13,7 +14,7 @@ Debemos listar todos los pagos de manera general y mostrarlos en la tabla, adema
 debemos poder buscar los pagos de un cliente usando su nombre o bien, filtrarlo por fechas
 con mes y annio.
 
-*/
+ */
 public class moduloPagos extends javax.swing.JInternalFrame {
 
     public moduloPagos() {
@@ -21,15 +22,14 @@ public class moduloPagos extends javax.swing.JInternalFrame {
         consultarPagos();
     }
 
-
-    public void consultarPagos(){
+    public void consultarPagos() {
         Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
-        
-        if(cn != null){
+
+        if (cn != null) {
             PreparedStatement cursor;
             ResultSet resultado;
-            
+
             try {
                 String sql = """
                              SELECT c.nombre, p.monto, p.fecha_pago, p.metodo_pago
@@ -38,14 +38,14 @@ public class moduloPagos extends javax.swing.JInternalFrame {
                              """;
                 cursor = cn.prepareCall(sql);
                 resultado = cursor.executeQuery();
-                
+
                 DefaultTableModel modelo;
-                
+
                 Object[] pagos = new Object[4];
-                modelo = (DefaultTableModel)jTable1.getModel();
+                modelo = (DefaultTableModel) jTable1.getModel();
                 modelo.setRowCount(0);
-                
-                while(resultado.next()){
+
+                while (resultado.next()) {
                     pagos[0] = resultado.getString("nombre");
                     pagos[1] = resultado.getString("monto");
                     pagos[2] = resultado.getString("fecha_pago");
@@ -58,15 +58,15 @@ public class moduloPagos extends javax.swing.JInternalFrame {
             }
         }
     }
-    
-    public void buscarNombreCliente(){
+
+    public void buscarNombreCliente() {
         String nombreCliente = entryNombre.getText();
-        
-        if(nombreCliente.length() > 0){
+
+        if (nombreCliente.length() > 0) {
             Conexion conexion = new Conexion();
             Connection cn = conexion.getConnection();
-            
-            if(cn!=null){
+
+            if (cn != null) {
                 PreparedStatement cursor;
                 ResultSet resultado;
                 String sql = """
@@ -74,21 +74,20 @@ public class moduloPagos extends javax.swing.JInternalFrame {
                              FROM pagos p
                              LEFT JOIN clientes c ON p.id_cliente = c.id WHERE c.nombre  = ?;
                              """;
-                
-                
+
                 try {
                     DefaultTableModel modelo;
-                    
+
                     cursor = cn.prepareCall(sql);
                     cursor.setString(1, nombreCliente);
                     resultado = cursor.executeQuery();
                     Object[] pagos = new Object[4];
-                    modelo = (DefaultTableModel)jTable1.getModel();
+                    modelo = (DefaultTableModel) jTable1.getModel();
                     modelo.setRowCount(0);
-                    
+
                     //verificar si hay resultado
                     boolean hayResultado = false;
-                    while(resultado.next()){
+                    while (resultado.next()) {
                         hayResultado = true;
                         pagos[0] = resultado.getString("nombre");
                         pagos[1] = resultado.getString("monto");
@@ -96,73 +95,72 @@ public class moduloPagos extends javax.swing.JInternalFrame {
                         pagos[3] = resultado.getString("metodo_pago");
                         modelo.addRow(pagos);
                     }
-                    
+
                     jTable1.setModel(modelo);
-                    
+
                     //Si no hay resultado notificar
-                    if(!hayResultado){
+                    if (!hayResultado) {
                         JOptionPane.showMessageDialog(null, "No se encontraton pagos de este cliente: " + nombreCliente + " verifica su nombre", "SpiderNET", JOptionPane.WARNING_MESSAGE);
                     }
                 } catch (SQLException e) {
                     JOptionPane.showMessageDialog(null, "No podemos encontrar y/o listar este cliente", "SpiderNET", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "No podemos buscar un cliente sin nombre, no seas imbecil!!", "SpiderNET", JOptionPane.WARNING_MESSAGE);
         }
     }
-    
-public void filtradoFecha() {
-    int mes = Integer.parseInt((String) comboMes.getSelectedItem());
-    int annio = Integer.parseInt(entryAnnio.getText());
-    Conexion conexion = new Conexion();
-    Connection cn = conexion.getConnection();
 
-    if (cn != null) {
-        PreparedStatement cursor;
-        ResultSet resultado;
-        String sql = """
+    public void filtradoFecha() {
+        int mes = Integer.parseInt((String) comboMes.getSelectedItem());
+        int annio = Integer.parseInt(entryAnnio.getText());
+        Conexion conexion = new Conexion();
+        Connection cn = conexion.getConnection();
+
+        if (cn != null) {
+            PreparedStatement cursor;
+            ResultSet resultado;
+            String sql = """
                      SELECT c.nombre, p.monto, DATE_FORMAT(p.fecha_pago, '%m-%Y') AS mes_anio, p.metodo_pago
                      FROM pagos p
                      LEFT JOIN clientes c ON p.id_cliente = c.id
                      WHERE YEAR(p.fecha_pago) = ? AND MONTH(p.fecha_pago) = ?;
                      """;
 
-        try {
-            DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-            modelo.setRowCount(0); // Limpiar la tabla antes de insertar nuevos datos
+            try {
+                DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+                modelo.setRowCount(0); // Limpiar la tabla antes de insertar nuevos datos
 
-            cursor = cn.prepareStatement(sql);
-            cursor.setInt(1, annio);
-            cursor.setInt(2, mes);
+                cursor = cn.prepareStatement(sql);
+                cursor.setInt(1, annio);
+                cursor.setInt(2, mes);
 
-            resultado = cursor.executeQuery();
-            boolean hayResultados = false;
-            
-            while (resultado.next()) {
-                hayResultados = true;
-                Object[] cliente = new Object[4];
-                cliente[0] = resultado.getString("nombre");
-                cliente[1] = resultado.getString("monto");
-                cliente[2] = resultado.getString("mes_anio");
-                cliente[3] = resultado.getString("metodo_pago");
-                modelo.addRow(cliente);
+                resultado = cursor.executeQuery();
+                boolean hayResultados = false;
+
+                while (resultado.next()) {
+                    hayResultados = true;
+                    Object[] cliente = new Object[4];
+                    cliente[0] = resultado.getString("nombre");
+                    cliente[1] = resultado.getString("monto");
+                    cliente[2] = resultado.getString("mes_anio");
+                    cliente[3] = resultado.getString("metodo_pago");
+                    modelo.addRow(cliente);
+                }
+
+                jTable1.setModel(modelo);
+
+                // Si no hay resultados, mostrar una notificación
+                if (!hayResultados) {
+                    JOptionPane.showMessageDialog(null, "No hay pagos registrados para " + mes + "-" + annio, "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al filtrar los pagos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-
-            jTable1.setModel(modelo);
-
-            // Si no hay resultados, mostrar una notificación
-            if (!hayResultados) {
-                JOptionPane.showMessageDialog(null, "No hay pagos registrados para " + mes + "-" + annio, "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
-            }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al filtrar los pagos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-}
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

@@ -164,7 +164,7 @@
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="30" minWidth="30" prefWidth="30" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -259,12 +259,11 @@
         <Component class="javax.swing.JComboBox" name="comboTipo">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
+              <StringArray count="4">
                 <StringItem index="0" value="Router"/>
                 <StringItem index="1" value="Antena"/>
                 <StringItem index="2" value="ONU"/>
                 <StringItem index="3" value="Otro"/>
-                <StringItem index="4" value="Sin cliente"/>
               </StringArray>
             </Property>
           </Properties>
@@ -276,6 +275,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Filtrar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFIltrarActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
