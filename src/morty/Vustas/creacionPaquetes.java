@@ -36,7 +36,6 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaPaquetes = new javax.swing.JTable();
-        btnObtener = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -138,6 +137,11 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
                 "ID", "Nombre", "Velocidad", "Precio"
             }
         ));
+        tablaPaquetes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaPaquetesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaPaquetes);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -153,13 +157,6 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        btnObtener.setText("Editar");
-        btnObtener.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnObtenerActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -167,11 +164,9 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnObtener, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -185,8 +180,7 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnActualizar)
-                    .addComponent(btnEliminar)
-                    .addComponent(btnObtener))
+                    .addComponent(btnEliminar))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -227,20 +221,6 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnActualizarActionPerformed
 
-    private void btnObtenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObtenerActionPerformed
-        int filaSeleccionada;
-        try {
-            filaSeleccionada = tablaPaquetes.getSelectedRow();
-            if(filaSeleccionada==-1){
-                JOptionPane.showMessageDialog(null, "Primero selecciona un elemento", "Modulo Paquetes", JOptionPane.ERROR_MESSAGE);
-            }else{
-                obtenerDatosFila();
-            }
-        } catch (Exception e) {
-        }
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnObtenerActionPerformed
-
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int filaSeleccionada;
         try {
@@ -259,12 +239,26 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void tablaPaquetesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPaquetesMouseClicked
+        int filaSeleccionada;
+        
+        filaSeleccionada = tablaPaquetes.getSelectedRow();
+        if(filaSeleccionada >= 0){
+            entryID.setText(String.valueOf(tablaPaquetes.getValueAt(filaSeleccionada, 0)));
+            entryNombre.setText(String.valueOf(tablaPaquetes.getValueAt(filaSeleccionada, 1)));
+            entryVelocidad.setText(String.valueOf(tablaPaquetes.getValueAt(filaSeleccionada, 2)));
+            entryPrecio.setText(String.valueOf(tablaPaquetes.getValueAt(filaSeleccionada, 3)));
+        }else{
+            JOptionPane.showMessageDialog(null, closable);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaPaquetesMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnObtener;
     private javax.swing.JTextField entryID;
     private javax.swing.JTextField entryNombre;
     private javax.swing.JTextField entryPrecio;

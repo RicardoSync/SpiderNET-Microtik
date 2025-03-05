@@ -38,7 +38,6 @@ public class creacionMicrotik extends javax.swing.JInternalFrame {
         btnGuardar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        btnObtener = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -134,6 +133,11 @@ public class creacionMicrotik extends javax.swing.JInternalFrame {
                 "ID", "Nombre", "Direccion IP", "Username", "Password"
             }
         ));
+        tablaMicrotik.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMicrotikMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaMicrotik);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -172,13 +176,6 @@ public class creacionMicrotik extends javax.swing.JInternalFrame {
             }
         });
 
-        btnObtener.setText("Editar");
-        btnObtener.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnObtenerActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -187,14 +184,10 @@ public class creacionMicrotik extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnObtener, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(118, 118, 118))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(123, 123, 123))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,11 +195,9 @@ public class creacionMicrotik extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
-                    .addComponent(btnObtener)
-                    .addComponent(btnActualizar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnEliminar)
-                .addContainerGap(46, Short.MAX_VALUE))
+                    .addComponent(btnActualizar)
+                    .addComponent(btnEliminar))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -253,22 +244,6 @@ public class creacionMicrotik extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_entryNombreActionPerformed
 
-    private void btnObtenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObtenerActionPerformed
-        int filaSeleccionada;
-        try {
-            filaSeleccionada = tablaMicrotik.getSelectedRow();
-            if(filaSeleccionada == -1){
-                JOptionPane.showMessageDialog(null, "No selecciono ningun elemento de la tabla", "Modulo AntenasAP", JOptionPane.ERROR_MESSAGE);
-            }else{
-                obtenerDatosFila();
-            }
-            
-        } catch (Exception e) {
-            System.out.println(e);
-        }        
-// TODO add your handling code here:
-    }//GEN-LAST:event_btnObtenerActionPerformed
-
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         enviarActualizacion();
         // TODO add your handling code here:
@@ -292,12 +267,28 @@ public class creacionMicrotik extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void tablaMicrotikMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMicrotikMouseClicked
+        int filaSeleccionada = tablaMicrotik.getSelectedRow();
+        
+        if(filaSeleccionada >=0){
+            int id = (int)tablaMicrotik.getValueAt(filaSeleccionada, 0);
+            entryNombre.setText(String.valueOf(tablaMicrotik.getValueAt(filaSeleccionada, 1)));
+            entryIp.setText(String.valueOf(tablaMicrotik.getValueAt(filaSeleccionada, 2)));
+            entryUsername.setText(String.valueOf(tablaMicrotik.getValueAt(filaSeleccionada, 3)));
+            entryPassword.setText(String.valueOf(tablaMicrotik.getValueAt(filaSeleccionada, 4)));
+            
+            entryId.setText(String.valueOf(id));
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecciona un elemento primero");
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaMicrotikMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnObtener;
     private javax.swing.JTextField entryId;
     private javax.swing.JTextField entryIp;
     private javax.swing.JTextField entryNombre;

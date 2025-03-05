@@ -1,7 +1,7 @@
 package morty.Vustas;
+
 import Config.Conexion;
 import Config.DeleteDatos;
-import java.awt.Color;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
 import java.sql.Statement;
@@ -9,15 +9,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
 import Recibos.pagoWindows;
-public class moduloClientes extends javax.swing.JInternalFrame {
+import java.sql.*;
 
+public class moduloClientes extends javax.swing.JInternalFrame {
 
     public moduloClientes() {
         initComponents();
         listarClientes();
     }
 
- 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -35,6 +35,10 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         btnSimpleQueue = new javax.swing.JButton();
         btnCambiarVelocidad = new javax.swing.JButton();
         btnDesbloquear = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        entryNombre = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -69,7 +73,7 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones Edicion"));
@@ -166,6 +170,41 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                 .addContainerGap(58, Short.MAX_VALUE))
         );
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Busqueda"));
+
+        jLabel1.setText("Nombre del cliente");
+
+        jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(entryNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(entryNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -179,19 +218,24 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                         .addGap(1, 1, 1)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -207,15 +251,15 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         int filaSeleccionada;
         try {
             filaSeleccionada = jTable1.getSelectedRow();
-            
-            if(filaSeleccionada >0){
+
+            if (filaSeleccionada > 0) {
                 int id = (int) jTable1.getValueAt(filaSeleccionada, 0);
                 listarClientes();
                 DeleteDatos deleteDatos = new DeleteDatos();
                 deleteDatos.eliminarCliente(id);
                 listarClientes();
-            }else{
-                JOptionPane.showMessageDialog(rootPane, "Para eliminar un cliente, primero seleccionelo","SpiderNET", JOptionPane.WARNING_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Para eliminar un cliente, primero seleccionelo", "SpiderNET", JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception e) {
         }
@@ -226,26 +270,25 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         int filaSeleccionada;
         try {
             filaSeleccionada = jTable1.getSelectedRow();
-            
-            if(filaSeleccionada >= 0){
-                int id = (int)jTable1.getValueAt(filaSeleccionada, 0);
+
+            if (filaSeleccionada >= 0) {
+                int id = (int) jTable1.getValueAt(filaSeleccionada, 0);
                 String nombre = (String) jTable1.getValueAt(filaSeleccionada, 1);
                 String telefono = (String) jTable1.getValueAt(filaSeleccionada, 2);
-                String correo = (String)jTable1.getValueAt(filaSeleccionada, 3);
-                String direccion = (String)jTable1.getValueAt(filaSeleccionada, 4);
-                String paquete = (String)jTable1.getValueAt(filaSeleccionada, 6);
-                String ip_cliente = (String)jTable1.getValueAt(filaSeleccionada, 8);
-                String dia_corte = (String)jTable1.getValueAt(filaSeleccionada, 9);
-                String antenaAP = (String)jTable1.getValueAt(filaSeleccionada, 10);
-                String tv = (String)jTable1.getValueAt(filaSeleccionada, 11);
-                String stream = (String)jTable1.getValueAt(filaSeleccionada, 12);
-                
+                String correo = (String) jTable1.getValueAt(filaSeleccionada, 3);
+                String direccion = (String) jTable1.getValueAt(filaSeleccionada, 4);
+                String paquete = (String) jTable1.getValueAt(filaSeleccionada, 6);
+                String ip_cliente = (String) jTable1.getValueAt(filaSeleccionada, 8);
+                String dia_corte = (String) jTable1.getValueAt(filaSeleccionada, 9);
+                String antenaAP = (String) jTable1.getValueAt(filaSeleccionada, 10);
+                String tv = (String) jTable1.getValueAt(filaSeleccionada, 11);
+                String stream = (String) jTable1.getValueAt(filaSeleccionada, 12);
+
                 editarCliente eCliente = new editarCliente(id, nombre, telefono, ip_cliente, dia_corte, paquete, antenaAP,
                         stream, tv, correo, direccion);
                 Dashboard.escritorioInterno.add(eCliente);
                 eCliente.show();
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(rootPane, "Primero selecciona un elemento", "SpiderNET", JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception e) {
@@ -255,22 +298,27 @@ public class moduloClientes extends javax.swing.JInternalFrame {
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
         int filaSeleccionada;
         filaSeleccionada = jTable1.getSelectedRow();
-        if (filaSeleccionada >= 0){
-            int id = (int)jTable1.getValueAt(filaSeleccionada, 0);
-            String nombre = (String)jTable1.getValueAt(filaSeleccionada, 1);
-            String paquete = (String)jTable1.getValueAt(filaSeleccionada, 6);
-            String direccionIp = (String)jTable1.getValueAt(filaSeleccionada, 8);
-            String servicios = (String)jTable1.getValueAt(filaSeleccionada, 12);
+        if (filaSeleccionada >= 0) {
+            int id = (int) jTable1.getValueAt(filaSeleccionada, 0);
+            String nombre = (String) jTable1.getValueAt(filaSeleccionada, 1);
+            String paquete = (String) jTable1.getValueAt(filaSeleccionada, 6);
+            String direccionIp = (String) jTable1.getValueAt(filaSeleccionada, 8);
+            String servicios = (String) jTable1.getValueAt(filaSeleccionada, 12);
 
             pagoWindows windows = new pagoWindows(id, nombre, paquete, servicios, direccionIp);
             Dashboard.escritorioInterno.add(windows);
             windows.show();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Para registrar un pago, seleccione el cliente", "SpiderNET", JOptionPane.WARNING_MESSAGE);
         }
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_btnPagarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        buscarCliente();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -282,21 +330,25 @@ public class moduloClientes extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnPagar;
     private javax.swing.JButton btnRefrescar;
     private javax.swing.JButton btnSimpleQueue;
+    private javax.swing.JTextField entryNombre;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
-    
-    private void listarClientes(){
+
+    private void listarClientes() {
         Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
-        
-        if(cn != null){
+
+        if (cn != null) {
             Statement st = null;
             ResultSet rs = null;
-            
+
             try {
                 String sql = """
                              SELECT 
@@ -322,10 +374,10 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                 Object[] clientes = new Object[13];
                 String estados = "Activo";
                 String bloqueado = "Bloqueado";
-                modelo = (DefaultTableModel)jTable1.getModel();
+                modelo = (DefaultTableModel) jTable1.getModel();
                 modelo.setRowCount(0);
-                
-                while(rs.next()){
+
+                while (rs.next()) {
                     clientes[0] = rs.getInt("id");
                     clientes[1] = rs.getString("nombre");
                     clientes[2] = rs.getString("telefono");
@@ -340,21 +392,102 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                     clientes[11] = rs.getString("serviciosTV");
                     clientes[12] = rs.getString("serviciosPlataformas");
 
-
                     modelo.addRow(clientes);
-                }    
+                }
                 jTable1.setModel(modelo);
 
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "Error al listar los clientes: " + e, "SpiderNET", JOptionPane.ERROR_MESSAGE);
-            }finally{
+            } finally {
                 conexion.closeConnection();
             }
-            
-        }else{
+
+        } else {
             JOptionPane.showMessageDialog(rootPane, "No logramos establecer una conexion", "Modulo Clientes", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    private void buscarCliente() {
+        String nombre = entryNombre.getText();
+
+        if (nombre.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Para buscar, ingrese el nombre del cliente primero.");
+            return;
+        }
+
+        Conexion conexion = new Conexion();
+        Connection cn = conexion.getConnection();
+
+        if (cn != null) {
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+
+            try {
+                String sql = """
+                         SELECT 
+                             c.id,
+                             c.nombre,
+                             c.telefono,
+                             c.email,
+                             c.direccion,
+                             DATE_FORMAT(c.fecha_registro, '%d/%m/%Y') AS fecha_registro,
+                             p.nombre AS paquete,
+                             c.estado,
+                             c.ip_cliente,
+                             c.dia_corte,
+                             c.ap_antena,
+                             c.serviciosTV,
+                             c.serviciosPlataformas
+                         FROM clientes c
+                         LEFT JOIN paquetes p ON c.id_paquete = p.id
+                         WHERE c.nombre LIKE ?;
+                         """;
+
+                ps = cn.prepareStatement(sql);
+                ps.setString(1, "%" + nombre + "%"); // Buscar nombres que contengan la palabra ingresada
+                rs = ps.executeQuery();
+
+                DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+                modelo.setRowCount(0); // Limpiar la tabla antes de agregar los resultados
+
+                while (rs.next()) {
+                    Object[] clientes = new Object[13];
+                    clientes[0] = rs.getInt("id");
+                    clientes[1] = rs.getString("nombre");
+                    clientes[2] = rs.getString("telefono");
+                    clientes[3] = rs.getString("email");
+                    clientes[4] = rs.getString("direccion");
+                    clientes[5] = rs.getString("fecha_registro");
+                    clientes[6] = rs.getString("paquete");
+                    clientes[7] = rs.getString("estado");
+                    clientes[8] = rs.getString("ip_cliente");
+                    clientes[9] = rs.getString("dia_corte");
+                    clientes[10] = rs.getString("ap_antena");
+                    clientes[11] = rs.getString("serviciosTV");
+                    clientes[12] = rs.getString("serviciosPlataformas");
+
+                    modelo.addRow(clientes);
+                }
+                jTable1.setModel(modelo);
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al listar los clientes: " + e, "SpiderNET", JOptionPane.ERROR_MESSAGE);
+            } finally {
+                try {
+                    if (rs != null) {
+                        rs.close();
+                    }
+                    if (ps != null) {
+                        ps.close();
+                    }
+                    conexion.closeConnection();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No logramos establecer una conexión", "Módulo Clientes", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
 }
