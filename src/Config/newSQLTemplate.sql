@@ -133,7 +133,7 @@ CREATE TABLE datosEmpresa(
     rfc VARCHAR(100),
     direccion VARCHAR(100)
 );
-
+INSERT INTO usuarios (nombre, usuario, password, rol) VALUES ("spidernet", "spidernet", "spidernet123", 0);
 --ALTER TABLE clientes
 --ADD COLUMN id_antena_ap INT,
 --ADD FOREIGN KEY (id_antena_ap) REFERENCES antenasap(idantenasAp) ON DELETE SET NULL;

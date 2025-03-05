@@ -1,4 +1,5 @@
 package morty.Vustas;
+
 import Config.Conexion;
 import Config.Consultas;
 import Config.DeleteDatos;
@@ -13,12 +14,12 @@ import Config.UpdateDatos;
 
 public class editarCliente extends javax.swing.JInternalFrame {
 
-    public editarCliente(int id, String nombre, String telefono, String ip_cliente, String dia_corte,String paqueteActual,String apActual,
+    public editarCliente(int id, String nombre, String telefono, String ip_cliente, String dia_corte, String paqueteActual, String apActual,
             String plataformaActual, String tvActual, String correo, String direccion) {
         initComponents();
-        insertarElementos(id, nombre, telefono, ip_cliente, dia_corte,paqueteActual, apActual, plataformaActual, tvActual, correo, direccion);
+        insertarElementos(id, nombre, telefono, ip_cliente, dia_corte, paqueteActual, apActual, plataformaActual, tvActual, correo, direccion);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -400,23 +401,23 @@ public class editarCliente extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         String nombre = entryNombre.getText();
-        
-        if(nombre.length()>0){
+
+        if (nombre.length() > 0) {
             int id = Integer.parseInt(entryID.getText());
             String telefono = entryTelefono.getText();
             String ip_cliente = entryIpCliente.getText();
             String dia_corte = entryDiaCorte.getText();
-            String paqueteActual = (String)comboPaquetes.getSelectedItem();
-            String apActual = (String)comboAntenasAP.getSelectedItem();
-            String tvActual = (String)comboTV.getSelectedItem();
-            String streamActual = (String)comboEntretenimiento.getSelectedItem();
+            String paqueteActual = (String) comboPaquetes.getSelectedItem();
+            String apActual = (String) comboAntenasAP.getSelectedItem();
+            String tvActual = (String) comboTV.getSelectedItem();
+            String streamActual = (String) comboEntretenimiento.getSelectedItem();
             String correo = entryCorreo.getText();
             String direccion = entryDireccion.getText();
-            
+
             UpdateDatos updateDatos = new UpdateDatos();
             updateDatos.actualizarCliente(id, nombre, correo, telefono, paqueteActual, direccion, apActual, ip_cliente, dia_corte,
                     tvActual, streamActual);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "No podemos actualizar un cliente sin nombre", "SpiderNET", JOptionPane.WARNING_MESSAGE);
         }
         // TODO add your handling code here:
@@ -430,15 +431,15 @@ public class editarCliente extends javax.swing.JInternalFrame {
         System.out.println("Modulo de editar equipo");
         int filaSeleccionada = 0;
         filaSeleccionada = tablaEquipos.getSelectedRow();
-        if(filaSeleccionada >= 0){
-            int id = (int)tablaEquipos.getValueAt(filaSeleccionada, 0);
-            String nombre = (String)tablaEquipos.getValueAt(filaSeleccionada, 1);
-            String tipo = (String)tablaEquipos.getValueAt(filaSeleccionada, 2);
-            String marca = (String)tablaEquipos.getValueAt(filaSeleccionada, 3);
-            String modelo = (String)tablaEquipos.getValueAt(filaSeleccionada,4);
-            String mac = (String)tablaEquipos.getValueAt(filaSeleccionada, 5);
-            String serial = (String)tablaEquipos.getValueAt(filaSeleccionada, 6);
-            String estado = (String)tablaEquipos.getValueAt(filaSeleccionada, 7);
+        if (filaSeleccionada >= 0) {
+            int id = (int) tablaEquipos.getValueAt(filaSeleccionada, 0);
+            String nombre = (String) tablaEquipos.getValueAt(filaSeleccionada, 1);
+            String tipo = (String) tablaEquipos.getValueAt(filaSeleccionada, 2);
+            String marca = (String) tablaEquipos.getValueAt(filaSeleccionada, 3);
+            String modelo = (String) tablaEquipos.getValueAt(filaSeleccionada, 4);
+            String mac = (String) tablaEquipos.getValueAt(filaSeleccionada, 5);
+            String serial = (String) tablaEquipos.getValueAt(filaSeleccionada, 6);
+            String estado = (String) tablaEquipos.getValueAt(filaSeleccionada, 7);
             String cliente = entryNombre.getText();
             editarEquipo equipo = new editarEquipo(id, nombre, tipo, marca, modelo, mac, serial, estado, cliente);
             Dashboard.escritorioInterno.add(equipo);
@@ -451,8 +452,8 @@ public class editarCliente extends javax.swing.JInternalFrame {
     private void btnEliminarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEquipoActionPerformed
         int filaSeleccionada;
         filaSeleccionada = tablaEquipos.getSelectedRow();
-        if(filaSeleccionada >= 0){
-            int id = (int)tablaEquipos.getValueAt(filaSeleccionada, 0);
+        if (filaSeleccionada >= 0) {
+            int id = (int) tablaEquipos.getValueAt(filaSeleccionada, 0);
             DeleteDatos deleteDatos = new DeleteDatos();
             deleteDatos.eliminarEquipo(id);
             JOptionPane.showMessageDialog(null, "El equipo fue eliminado", "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
@@ -478,48 +479,54 @@ public class editarCliente extends javax.swing.JInternalFrame {
 
         String nombreCliente = entryNombre.getText();
         int id = Integer.parseInt(entryID.getText());
-        
+
         asignacionRick rick = new asignacionRick(id, nombreCliente);
         Dashboard.escritorioInterno.add(rick);
         rick.show();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-   public void listarNombrePaquetes(String paqueteActual){
+    public void listarNombrePaquetes(String paqueteActual) {
         Consultas consultasNombres = new Consultas();
 
         ArrayList<String> nombrePaquetes = consultasNombres.consultarPaquetes();
-        
+
         //insertarmos en la posiocion 0
         nombrePaquetes.add(0, paqueteActual);
-        
-        for(String paquete : nombrePaquetes){
+
+        for (String paquete : nombrePaquetes) {
             comboPaquetes.addItem(paquete);
         }
+        comboPaquetes.addItem("Sin paquete");
     }
-    
-    public void listarNombreAntenas(String apActual){
+
+    public void listarNombreAntenas(String apActual) {
         Consultas consultasAntenasAp = new Consultas();
         ArrayList<String> nombreAntenas = consultasAntenasAp.consultarAntenasAp();
-        
+
         nombreAntenas.add(0, apActual);
-        
-        for(String antenas : nombreAntenas){
+
+        for (String antenas : nombreAntenas) {
             comboAntenasAP.addItem(antenas);
         }
+        comboAntenasAP.addItem("Sin equipo");
     }
-    
-    public void listarPlataformas(String plataformaActual){
+
+    public void listarPlataformas(String plataformaActual) {
         Consultas consultas = new Consultas();
         ArrayList<String> nombrePlataformas = consultas.consultarPlataformas();
-        nombrePlataformas.add(0, plataformaActual);
-        for(String plataformas: nombrePlataformas){
+
+        nombrePlataformas.add(0, plataformaActual); // Agregar la plataforma actual al inicio
+
+        for (String plataformas : nombrePlataformas) {
             comboEntretenimiento.addItem(plataformas);
         }
+
+        comboEntretenimiento.addItem("Sin servicio extra"); // Agregar al final
     }
-    
+
     public void insertarElementos(int id, String nombre, String telefono, String ip_cliente, String dia_corte, String paqueteActual,
-            String apActual, String plataformaActual, String tvActual, String correo, String direccion){
+            String apActual, String plataformaActual, String tvActual, String correo, String direccion) {
         entryID.setText(String.valueOf(id));
         entryNombre.setText(nombre);
         entryTelefono.setText(telefono);
@@ -528,25 +535,25 @@ public class editarCliente extends javax.swing.JInternalFrame {
         comboTV.addItem(tvActual);
         entryCorreo.setText(correo);
         entryDireccion.setText(direccion);
-        
+
         listarNombrePaquetes(paqueteActual);
         listarNombreAntenas(apActual);
         listarPlataformas(plataformaActual);
         equiposInstalados(id);
-        
+
     }
-    
-    public void equiposInstalados(int id_cliente){
+
+    public void equiposInstalados(int id_cliente) {
         Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
-        
-        if(cn != null){
+
+        if (cn != null) {
             PreparedStatement cursosr = null;
             try {
                 DefaultTableModel modelo;
                 ResultSet rs = null;
                 PreparedStatement cursor;
-                
+
                 String sql = """
                              SELECT id, nombre, tipo, marca, modelo, mac, serial, estado FROM equipos
                              WHERE id_cliente = ?
@@ -554,11 +561,11 @@ public class editarCliente extends javax.swing.JInternalFrame {
                 cursor = cn.prepareStatement(sql);
                 cursor.setInt(1, id_cliente);
                 rs = cursor.executeQuery();
-                modelo = (DefaultTableModel)tablaEquipos.getModel();
+                modelo = (DefaultTableModel) tablaEquipos.getModel();
                 modelo.setRowCount(0);
                 Object[] equipos = new Object[8];
-                
-                while(rs.next()){
+
+                while (rs.next()) {
                     equipos[0] = rs.getInt("id");
                     equipos[1] = rs.getString("nombre");
                     equipos[2] = rs.getString("tipo");
@@ -574,7 +581,7 @@ public class editarCliente extends javax.swing.JInternalFrame {
             }
         }
     }
- 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEditarEquipo;
@@ -613,6 +620,5 @@ public class editarCliente extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaEquipos;
     // End of variables declaration//GEN-END:variables
-    
- 
+
 }

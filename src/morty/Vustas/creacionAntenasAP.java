@@ -39,11 +39,10 @@ public class creacionAntenasAP extends javax.swing.JInternalFrame {
         btnGuardar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        entryObtener = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("Registrar Antenas AP");
+        setTitle("AP'S / PON");
         setToolTipText("Agregar AP");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Antena AP"));
@@ -130,6 +129,11 @@ public class creacionAntenasAP extends javax.swing.JInternalFrame {
                 "ID", "Nombre", "Modelo", "Usuario", "Password", "IP/VLans"
             }
         ));
+        tablaAtenasAp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaAtenasApMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaAtenasAp);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -168,13 +172,6 @@ public class creacionAntenasAP extends javax.swing.JInternalFrame {
             }
         });
 
-        entryObtener.setText("Editar");
-        entryObtener.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryObtenerActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -183,10 +180,8 @@ public class creacionAntenasAP extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(entryObtener, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -197,8 +192,7 @@ public class creacionAntenasAP extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnActualizar)
-                    .addComponent(btnEliminar)
-                    .addComponent(entryObtener))
+                    .addComponent(btnEliminar))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -234,22 +228,6 @@ public class creacionAntenasAP extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void entryObtenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryObtenerActionPerformed
-        int filaSeleccionada;
-        try {
-            filaSeleccionada = tablaAtenasAp.getSelectedRow();
-            if(filaSeleccionada == -1){
-                JOptionPane.showMessageDialog(null, "No selecciono ningun elemento de la tabla", "Modulo AntenasAP", JOptionPane.ERROR_MESSAGE);
-            }else{
-                obtenerDatosFila();
-            }
-            
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryObtenerActionPerformed
-
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         enviarActualizacion();
         // TODO add your handling code here:
@@ -273,6 +251,23 @@ public class creacionAntenasAP extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void tablaAtenasApMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAtenasApMouseClicked
+        int filaSeleccionada;
+        
+        filaSeleccionada = tablaAtenasAp.getSelectedRow();
+        if(filaSeleccionada >=0){
+            entryId.setText(String.valueOf(tablaAtenasAp.getValueAt(filaSeleccionada, 0)));
+            entryNombre.setText(String.valueOf(tablaAtenasAp.getValueAt(filaSeleccionada, 1)));
+            entryModelo.setText(String.valueOf(tablaAtenasAp.getValueAt(filaSeleccionada, 2)));
+            entryUsername.setText(String.valueOf(tablaAtenasAp.getValueAt(filaSeleccionada, 3)));
+            entryPassword.setText(String.valueOf(tablaAtenasAp.getValueAt(filaSeleccionada, 4)));
+            entryIp.setText(String.valueOf(tablaAtenasAp.getValueAt(filaSeleccionada, 5)));
+        }else{
+            JOptionPane.showMessageDialog(entryModelo, closable);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaAtenasApMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
@@ -282,7 +277,6 @@ public class creacionAntenasAP extends javax.swing.JInternalFrame {
     private javax.swing.JTextField entryIp;
     private javax.swing.JTextField entryModelo;
     private javax.swing.JTextField entryNombre;
-    private javax.swing.JButton entryObtener;
     private javax.swing.JTextField entryPassword;
     private javax.swing.JTextField entryUsername;
     private javax.swing.JLabel jLabel1;

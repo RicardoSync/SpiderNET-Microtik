@@ -87,7 +87,6 @@ public class crearPlataformas extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         entryPrecio = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -114,13 +113,6 @@ public class crearPlataformas extends javax.swing.JInternalFrame {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton5.setText("Editar");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
             }
         });
 
@@ -168,13 +160,11 @@ public class crearPlataformas extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnActualizar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(jButton7)))))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,7 +184,6 @@ public class crearPlataformas extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4)
                     .addComponent(entryPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)
-                    .addComponent(jButton5)
                     .addComponent(btnActualizar)
                     .addComponent(jButton7))
                 .addContainerGap(22, Short.MAX_VALUE))
@@ -208,6 +197,11 @@ public class crearPlataformas extends javax.swing.JInternalFrame {
                 "ID", "Nombre", "Descripcion", "Precio"
             }
         ));
+        tablaPlataformas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaPlataformasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaPlataformas);
         if (tablaPlataformas.getColumnModel().getColumnCount() > 0) {
             tablaPlataformas.getColumnModel().getColumn(0).setMinWidth(30);
@@ -269,27 +263,6 @@ public class crearPlataformas extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        int filaSeleccionada;
-        filaSeleccionada = tablaPlataformas.getSelectedRow();
-        
-        if(filaSeleccionada >= 0){
-            String nombre = (String)tablaPlataformas.getValueAt(filaSeleccionada, 1);
-            String descripcion = (String)tablaPlataformas.getValueAt(filaSeleccionada, 2);
-            String precio = (String)tablaPlataformas.getValueAt(filaSeleccionada, 3);
-            int id = (int)tablaPlataformas.getValueAt(filaSeleccionada, 0);
-            
-            entryID.setText(String.valueOf(id));
-            entryNombre.setText(nombre);
-            entryDescripcion.setText(descripcion);
-            entryPrecio.setText(precio);
-            
-        }else{
-            JOptionPane.showMessageDialog(null, "Primero selecicona lo que vas a editar, no seas imbecil!!", "SpiderNET", JOptionPane.WARNING_MESSAGE);
-        }
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         String nombre = entryNombre.getText();
         
@@ -326,6 +299,22 @@ public class crearPlataformas extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void tablaPlataformasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPlataformasMouseClicked
+        int filaSeleccionada;
+        
+        filaSeleccionada = tablaPlataformas.getSelectedRow();
+        
+        if(filaSeleccionada >= 0){
+            entryID.setText(String.valueOf(tablaPlataformas.getValueAt(filaSeleccionada, 0)));
+            entryNombre.setText(String.valueOf(tablaPlataformas.getValueAt(filaSeleccionada, 1)));
+            entryDescripcion.setText(String.valueOf(tablaPlataformas.getValueAt(filaSeleccionada, 2)));
+            entryPrecio.setText(String.valueOf(tablaPlataformas.getValueAt(filaSeleccionada, 3)));
+        }else{
+            JOptionPane.showMessageDialog(null, "Primero selecciona un elemento");
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaPlataformasMouseClicked
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -335,7 +324,6 @@ public class crearPlataformas extends javax.swing.JInternalFrame {
     private javax.swing.JTextField entryNombre;
     private javax.swing.JTextField entryPrecio;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
