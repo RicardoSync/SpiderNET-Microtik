@@ -107,7 +107,7 @@
                     <Column editable="true" title="ID" type="java.lang.Object"/>
                     <Column editable="true" title="Nombre" type="java.lang.Object"/>
                     <Column editable="true" title="Telefono" type="java.lang.Object"/>
-                    <Column editable="true" title="Correo" type="java.lang.Object"/>
+                    <Column editable="true" title="Microtik/OLT" type="java.lang.Object"/>
                     <Column editable="true" title="Direccion" type="java.lang.Object"/>
                     <Column editable="true" title="Instalacion" type="java.lang.Object"/>
                     <Column editable="true" title="Paquete" type="java.lang.Object"/>

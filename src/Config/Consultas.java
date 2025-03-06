@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 
 public class Consultas {
+
     public ArrayList<String> consultarPaquetes(){
         ArrayList<String> paquetes = new ArrayList<>();
         Conexion conexion = new Conexion();
