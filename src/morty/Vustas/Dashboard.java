@@ -60,6 +60,7 @@ public class Dashboard extends javax.swing.JFrame {
         jMenuItem10 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem15 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -192,6 +193,11 @@ public class Dashboard extends javax.swing.JFrame {
         jMenu6.setText("Software Escobedo");
 
         jMenuItem7.setText("Informacion");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu6.add(jMenuItem7);
 
         jMenuItem9.setText("Contactame!");
@@ -221,6 +227,14 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
         jMenu6.add(jMenuItem15);
+
+        jMenuItem12.setText("Cerrar sesion");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem12);
 
         jMenuItem8.setText("Salir");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
@@ -294,14 +308,13 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         int respuesta = JOptionPane.showConfirmDialog(null, "¿Deseas salir?", "confirmacion", JOptionPane.YES_NO_OPTION);
-        
-        if(respuesta == JOptionPane.YES_OPTION){
+
+        if (respuesta == JOptionPane.YES_OPTION) {
             dispose();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Operacion cancelada");
         }
-            
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
@@ -311,8 +324,8 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
         JInternalFrame[] internalFrames = escritorioInterno.getAllFrames();
-        
-        for(JInternalFrame frame : internalFrames){
+
+        for (JInternalFrame frame : internalFrames) {
             try {
                 frame.setClosed(true);
             } catch (Exception e) {
@@ -349,6 +362,20 @@ public class Dashboard extends javax.swing.JFrame {
         u.show();
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem13ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        dispose();
+        Login l = new Login();
+        l.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        informacion fnt = new informacion();
+        Dashboard.escritorioInterno.add(fnt);
+        fnt.show();
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -400,6 +427,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
