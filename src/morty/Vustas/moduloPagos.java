@@ -60,9 +60,9 @@ public class moduloPagos extends javax.swing.JInternalFrame {
     }
 
     public void buscarNombreCliente() {
-        String nombreCliente = entryNombre.getText();
+        String nombreCliente = entryNombre.getText().trim();  // Eliminar espacios extra
 
-        if (nombreCliente.length() > 0) {
+        if (!nombreCliente.isEmpty()) {
             Conexion conexion = new Conexion();
             Connection cn = conexion.getConnection();
 
@@ -70,23 +70,23 @@ public class moduloPagos extends javax.swing.JInternalFrame {
                 PreparedStatement cursor;
                 ResultSet resultado;
                 String sql = """
-                             SELECT c.nombre, p.monto, p.fecha_pago, p.metodo_pago
-                             FROM pagos p
-                             LEFT JOIN clientes c ON p.id_cliente = c.id WHERE c.nombre  = ?;
-                             """;
+                         SELECT c.nombre, p.monto, p.fecha_pago, p.metodo_pago
+                         FROM pagos p
+                         LEFT JOIN clientes c ON p.id_cliente = c.id
+                         WHERE c.nombre LIKE ?;
+                         """;
 
                 try {
-                    DefaultTableModel modelo;
-
-                    cursor = cn.prepareCall(sql);
-                    cursor.setString(1, nombreCliente);
-                    resultado = cursor.executeQuery();
-                    Object[] pagos = new Object[4];
-                    modelo = (DefaultTableModel) jTable1.getModel();
+                    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
                     modelo.setRowCount(0);
 
-                    //verificar si hay resultado
+                    cursor = cn.prepareStatement(sql);
+                    cursor.setString(1, nombreCliente + "%");  // Agregar el "%" en el parámetro
+                    resultado = cursor.executeQuery();
+
+                    Object[] pagos = new Object[4];
                     boolean hayResultado = false;
+
                     while (resultado.next()) {
                         hayResultado = true;
                         pagos[0] = resultado.getString("nombre");
@@ -98,12 +98,16 @@ public class moduloPagos extends javax.swing.JInternalFrame {
 
                     jTable1.setModel(modelo);
 
-                    //Si no hay resultado notificar
                     if (!hayResultado) {
-                        JOptionPane.showMessageDialog(null, "No se encontraton pagos de este cliente: " + nombreCliente + " verifica su nombre", "SpiderNET", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "No se encontraron pagos de este cliente: " + nombreCliente + " verifica su nombre", "SpiderNET", JOptionPane.WARNING_MESSAGE);
                     }
+
+                    resultado.close();
+                    cursor.close();
+                    cn.close();
                 } catch (SQLException e) {
                     JOptionPane.showMessageDialog(null, "No podemos encontrar y/o listar este cliente", "SpiderNET", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace();
                 }
             }
         } else {

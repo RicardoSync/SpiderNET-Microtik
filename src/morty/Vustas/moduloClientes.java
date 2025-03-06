@@ -53,7 +53,7 @@ public class moduloClientes extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "Nombre", "Telefono", "Correo", "Direccion", "Instalacion", "Paquete", "Estado", "IP Cliente", "Corte", "Antena AP", "TV", "Strem"
+                "ID", "Nombre", "Telefono", "Microtik/OLT", "Direccion", "Instalacion", "Paquete", "Estado", "IP Cliente", "Corte", "Antena AP", "TV", "Strem"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -275,7 +275,7 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                 int id = (int) jTable1.getValueAt(filaSeleccionada, 0);
                 String nombre = (String) jTable1.getValueAt(filaSeleccionada, 1);
                 String telefono = (String) jTable1.getValueAt(filaSeleccionada, 2);
-                String correo = (String) jTable1.getValueAt(filaSeleccionada, 3);
+                String microtikActual = (String) jTable1.getValueAt(filaSeleccionada, 3);
                 String direccion = (String) jTable1.getValueAt(filaSeleccionada, 4);
                 String paquete = (String) jTable1.getValueAt(filaSeleccionada, 6);
                 String ip_cliente = (String) jTable1.getValueAt(filaSeleccionada, 8);
@@ -283,9 +283,10 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                 String antenaAP = (String) jTable1.getValueAt(filaSeleccionada, 10);
                 String tv = (String) jTable1.getValueAt(filaSeleccionada, 11);
                 String stream = (String) jTable1.getValueAt(filaSeleccionada, 12);
+                String correo = "";
 
                 editarCliente eCliente = new editarCliente(id, nombre, telefono, ip_cliente, dia_corte, paquete, antenaAP,
-                        stream, tv, correo, direccion);
+                        stream, tv, correo, direccion, microtikActual);
                 Dashboard.escritorioInterno.add(eCliente);
                 eCliente.show();
             } else {
@@ -355,7 +356,7 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                                  c.id,
                                  c.nombre,
                                  c.telefono,
-                                 c.email,
+                                 cm.nombre AS microtik_nombre,  -- Obtener el nombre en lugar del id_microtik
                                  c.direccion,
                                  DATE_FORMAT(c.fecha_registro, '%d/%m/%Y') AS fecha_registro,  -- Formato de la fecha
                                  p.nombre AS paquete,  -- Obtener el nombre del paquete
@@ -366,7 +367,8 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                                  c.serviciosTV,
                                  c.serviciosPlataformas
                              FROM clientes c
-                             LEFT JOIN paquetes p ON c.id_paquete = p.id;
+                             LEFT JOIN paquetes p ON c.id_paquete = p.id
+                             LEFT JOIN credenciales_microtik cm ON c.id_microtik = cm.id;  -- Unir con la tabla credenciales_microtik
                              """;
                 DefaultTableModel modelo;
                 st = cn.createStatement();
@@ -381,7 +383,7 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                     clientes[0] = rs.getInt("id");
                     clientes[1] = rs.getString("nombre");
                     clientes[2] = rs.getString("telefono");
-                    clientes[3] = rs.getString("email");
+                    clientes[3] = rs.getString("microtik_nombre");
                     clientes[4] = rs.getString("direccion");
                     clientes[5] = rs.getString("fecha_registro");
                     clientes[6] = rs.getString("paquete");
