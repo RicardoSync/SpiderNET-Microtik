@@ -496,7 +496,6 @@ public class editarCliente extends javax.swing.JInternalFrame {
         for (String paquete : nombrePaquetes) {
             comboPaquetes.addItem(paquete);
         }
-        comboPaquetes.addItem("Sin paquete");
     }
 
     public void listarNombreAntenas(String apActual) {
@@ -508,7 +507,6 @@ public class editarCliente extends javax.swing.JInternalFrame {
         for (String antenas : nombreAntenas) {
             comboAntenasAP.addItem(antenas);
         }
-        comboAntenasAP.addItem("Sin equipo");
     }
 
     public void listarMicrotik(String microtikActual){
@@ -520,7 +518,6 @@ public class editarCliente extends javax.swing.JInternalFrame {
         for(String microtiks : nombreMicrotik){
             
         }
-        comboAntenasAP.addItem("Sin equipo");
 
     }
 
@@ -534,7 +531,6 @@ public class editarCliente extends javax.swing.JInternalFrame {
             comboEntretenimiento.addItem(plataformas);
         }
 
-        comboEntretenimiento.addItem("Sin servicio extra"); // Agregar al final
     }
 
     public void insertarElementos(int id, String nombre, String telefono, String ip_cliente, String dia_corte, String paqueteActual,
