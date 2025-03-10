@@ -241,6 +241,7 @@ public class creacionCliente extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
 
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flecha-de-circulo-de-disquete-a-la-derecha.png"))); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -655,9 +656,10 @@ public class creacionCliente extends javax.swing.JInternalFrame {
             String ap_cliente = (String) comboAntenasAP.getSelectedItem();
             String serviciosPlataformas = (String)comboEntretenimiento.getSelectedItem();
             String servicioTV = (String)comboTV.getSelectedItem();
+            String nombreMicrotik = (String)comboMicrotik.getSelectedItem();
             
             InsertarDatos datos = new InsertarDatos();
-            datos.insertarUnSoloCLienteALV(nombre, telefono, correo, direccion, paquete, ip_cliente, dia_corte, ap_cliente, servicioTV, serviciosPlataformas);
+            datos.insertarUnSoloCLienteALV(nombre, telefono, correo, direccion, paquete, ip_cliente, dia_corte, ap_cliente, servicioTV, serviciosPlataformas, nombreMicrotik);
 
         }
         else{

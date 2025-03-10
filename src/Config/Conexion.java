@@ -5,32 +5,45 @@ import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 
 public class Conexion {
-    Connection con;
-    public Conexion(){
+    private Connection con;
+
+    public Conexion() {
         try {
-            // Cargar el driver de MySQL para versiones 8.0+
+            // Cargar el driver de MySQL
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/spidernet", "root", "MinuzaFea265/");
-            
+
+            // Leer configuración desde `config.properties`
+            String host = ConfigManager.getProperty("db.host");
+            String port = ConfigManager.getProperty("db.port");
+            String database = ConfigManager.getProperty("db.database");
+            String user = ConfigManager.getProperty("db.user");
+            String password = ConfigManager.getProperty("db.password");
+
+            // Construir la URL de conexión
+            String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false&allowPublicKeyRetrieval=true";
+
+
+            // Establecer la conexión
+            con = DriverManager.getConnection(url, user, password);
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Tenemos un error en el modulo de conexion: " + e, "Modulo Conexion", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, "Error en la conexión: " + e, "Módulo Conexión", JOptionPane.ERROR_MESSAGE);
         }
-        
     }
-    
-    public Connection getConnection(){
+
+    public Connection getConnection() {
         return con;
     }
-    
-    public void closeConnection(){
+
+    public void closeConnection() {
         try {
-            if (con != null){
+            if (con != null) {
                 con.close();
-                System.out.println("Conexion cerrada");
+                System.out.println("Conexión cerrada");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + e, "Módulo Conexión", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
 }

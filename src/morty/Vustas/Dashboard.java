@@ -4,7 +4,10 @@
  */
 package morty.Vustas;
 
+import Config.Conexion;
 import java.awt.BorderLayout;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,6 +23,7 @@ public class Dashboard extends javax.swing.JFrame {
      */
     public Dashboard() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/img/arana.png")).getImage());
     }
 
     /**
@@ -48,7 +52,6 @@ public class Dashboard extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu10 = new javax.swing.JMenu();
         jMenuItem17 = new javax.swing.JMenuItem();
         jMenuItem18 = new javax.swing.JMenuItem();
@@ -57,13 +60,15 @@ public class Dashboard extends javax.swing.JFrame {
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem15 = new javax.swing.JMenuItem();
-        jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SpiderNET - Morty");
+
+        escritorioInterno.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout escritorioInternoLayout = new javax.swing.GroupLayout(escritorioInterno);
         escritorioInterno.setLayout(escritorioInternoLayout);
@@ -78,6 +83,8 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenu1.setText("Clientes");
 
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/agregar-usuario.png"))); // NOI18N
         jMenuItem4.setText("Crear Cliente");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,6 +93,8 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem4);
 
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuarios.png"))); // NOI18N
         jMenuItem5.setText("Lista de Clientes");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,6 +107,8 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenu2.setText("Pagos");
 
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/monedas.png"))); // NOI18N
         jMenuItem6.setText("Pagos registrados");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,8 +119,10 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("Paquetes");
+        jMenu3.setText("Paquetes Internet");
 
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mundo.png"))); // NOI18N
         jMenuItem2.setText("Paquetes");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,6 +135,8 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenu9.setText("Servicios");
 
+        jMenuItem16.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/taza-caliente-alt.png"))); // NOI18N
         jMenuItem16.setText("Servicios");
         jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,6 +149,8 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenu7.setText("Equipos");
 
+        jMenuItem14.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/aplicaciones-anadir.png"))); // NOI18N
         jMenuItem14.setText("Equipos");
         jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,6 +163,8 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenu4.setText("AP's / PON");
 
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/wi-fi-alternativo.png"))); // NOI18N
         jMenuItem1.setText("AP's / PON");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,7 +182,9 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem3.setText("Microtik's");
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/base-de-datos.png"))); // NOI18N
+        jMenuItem3.setText("Microtik / OLT");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -171,19 +192,19 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem3);
 
-        jMenuItem11.setText("Prueba de Ping");
-        jMenu5.add(jMenuItem11);
-
         jMenuBar1.add(jMenu5);
 
         jMenu10.setText("Whatsapp");
 
+        jMenuItem17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/servicio-de-habitaciones.png"))); // NOI18N
         jMenuItem17.setText("Mensaje por corte de dia");
         jMenu10.add(jMenuItem17);
 
+        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/modo-retrato.png"))); // NOI18N
         jMenuItem18.setText("Mensajes masivos");
         jMenu10.add(jMenuItem18);
 
+        jMenuItem19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/comentarios-pregunta.png"))); // NOI18N
         jMenuItem19.setText("Mensaje Personal");
         jMenu10.add(jMenuItem19);
 
@@ -191,6 +212,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenu6.setText("Software Escobedo");
 
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pregunta.png"))); // NOI18N
         jMenuItem7.setText("Informacion");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,6 +221,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jMenu6.add(jMenuItem7);
 
+        jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuarios.png"))); // NOI18N
         jMenuItem13.setText("Usuarios");
         jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -207,6 +230,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jMenu6.add(jMenuItem13);
 
+        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/id-insignia.png"))); // NOI18N
         jMenuItem10.setText("Empresa");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -214,8 +238,19 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
         jMenu6.add(jMenuItem10);
+
+        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/base-de-datos.png"))); // NOI18N
+        jMenuItem9.setText("Server MySQL");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem9);
         jMenu6.add(jSeparator1);
 
+        jMenuItem15.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/galeria.png"))); // NOI18N
         jMenuItem15.setText("Cerrar ventanas");
         jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -224,14 +259,8 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jMenu6.add(jMenuItem15);
 
-        jMenuItem12.setText("Cerrar sesion");
-        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem12ActionPerformed(evt);
-            }
-        });
-        jMenu6.add(jMenuItem12);
-
+        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/marca-x-rectangular.png"))); // NOI18N
         jMenuItem8.setText("Salir");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -359,19 +388,19 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
-    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        dispose();
-        Login l = new Login();
-        l.setVisible(true);
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem12ActionPerformed
-
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         // TODO add your handling code here:
         informacion fnt = new informacion();
         Dashboard.escritorioInterno.add(fnt);
         fnt.show();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        configuracion cnf = new configuracion();
+        Dashboard.escritorioInterno.add(cnf);
+        cnf.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -408,6 +437,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane escritorioInterno;
     private javax.swing.JMenu jMenu1;
@@ -422,8 +452,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
@@ -438,6 +466,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }

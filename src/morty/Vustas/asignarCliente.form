@@ -88,6 +88,9 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnActualizar">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/flecha-de-circulo-de-disquete-a-la-derecha.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Asignar"/>
           </Properties>
           <Events>
@@ -96,6 +99,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnaEliminar">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/quitar-carpeta.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Eliminar Equipo"/>
           </Properties>
           <Events>
@@ -385,7 +391,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="entryBuscar">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Buscar"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/busqueda.png"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="entryBuscarActionPerformed"/>

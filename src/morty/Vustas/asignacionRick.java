@@ -7,14 +7,18 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import morty.Vustas.editarEquipo;
+import javax.swing.ImageIcon;
+import java.awt.Image;
 
 public class asignacionRick extends javax.swing.JInternalFrame {
 
     public asignacionRick(int id, String nombreCliente) {
+
         initComponents();
         listarEquipos();
         insertarElementos(id, nombreCliente);
@@ -134,6 +138,7 @@ public class asignacionRick extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/asignar.png"))); // NOI18N
         jButton1.setText("Asignar a cliente");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

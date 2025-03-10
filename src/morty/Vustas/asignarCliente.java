@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import Config.UpdateDatos;
 import Config.DeleteDatos;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -96,6 +97,7 @@ public class asignarCliente extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
 
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flecha-de-circulo-de-disquete-a-la-derecha.png"))); // NOI18N
         btnActualizar.setText("Asignar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,6 +105,7 @@ public class asignarCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        btnaEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/quitar-carpeta.png"))); // NOI18N
         btnaEliminar.setText("Eliminar Equipo");
         btnaEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,7 +247,7 @@ public class asignarCliente extends javax.swing.JInternalFrame {
 
         entryTelefono.setEditable(false);
 
-        entryBuscar.setText("Buscar");
+        entryBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/busqueda.png"))); // NOI18N
         entryBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 entryBuscarActionPerformed(evt);
