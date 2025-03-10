@@ -107,62 +107,77 @@ public class UpdateDatos {
     }
 
     public void actualizarCliente(int id_cliente, String nombre, String correo, String telefono, String paquete, String direccion,
-            String antenaAp, String ipCliente, String diaCorte, String servicioTV, String servicioStream) {
+            String antenaAp, String ipCliente, String diaCorte, String servicioTV, String servicioStream, String microtikNuevo) {
         Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
 
         if (cn != null) {
-            //obtenemos el nombre del paquete de la variable
-            String nombrePaquete = paquete;
-            //hacemos el comando de consulta
-            String sqlUno = "SELECT id FROM paquetes WHERE nombre = ?";
+            try {
+                // Obtener el ID del paquete
+                String sqlPaquete = "SELECT id FROM paquetes WHERE nombre = ?";
+                int idPaquete = -1;
 
-            try (PreparedStatement stmtPaquete = cn.prepareStatement(sqlUno)) {
-                stmtPaquete.setString(1, nombrePaquete);  // Asegurarse de pasar el nombre del paquete como parámetro
-                ResultSet rsPaquete = stmtPaquete.executeQuery();
-
-                if (rsPaquete.next()) {
-                    int idPaquete = rsPaquete.getInt("id");
-
-                    // Ahora que tienes el id_paquete, puedes hacer la actualización
-                    String sqlUpdate = """
-                                   UPDATE clientes 
-                                   SET nombre = ?, telefono = ?, email = ?, direccion = ?, id_paquete = ?, 
-                                   ip_cliente = ?, dia_corte = ?, ap_antena = ?, serviciosTV = ?, serviciosPlataformas = ?
-                                   WHERE id = ?;
-                                   """;
-
-                    try (PreparedStatement stmtUpdate = cn.prepareStatement(sqlUpdate)) {
-                        // Aquí puedes establecer los valores para la actualización
-                        stmtUpdate.setString(1, nombre);
-                        stmtUpdate.setString(2, telefono);
-                        stmtUpdate.setString(3, correo);
-                        stmtUpdate.setString(4, direccion);
-                        stmtUpdate.setInt(5, idPaquete);  // El id_paquete obtenido
-                        stmtUpdate.setString(6, ipCliente);
-
-                        // Asegúrate de convertir diaCorte a entero
-                        int diaCorteInt = Integer.parseInt(diaCorte);
-                        stmtUpdate.setInt(7, diaCorteInt);  // Convertimos diaCorte a entero
-                        stmtUpdate.setString(8, antenaAp);
-                        stmtUpdate.setString(9, servicioTV);
-                        stmtUpdate.setString(10, servicioStream);
-                        stmtUpdate.setInt(11, id_cliente); // Asumiendo que el cliente tiene un id único
-
-                        // Ejecutas la actualización
-                        stmtUpdate.executeUpdate();
-                        JOptionPane.showMessageDialog(null, "Cliente actualizado", "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
+                try (PreparedStatement stmtPaquete = cn.prepareStatement(sqlPaquete)) {
+                    stmtPaquete.setString(1, paquete);
+                    ResultSet rsPaquete = stmtPaquete.executeQuery();
+                    if (rsPaquete.next()) {
+                        idPaquete = rsPaquete.getInt("id");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No encontramos el paquete con ese nombre", "Modulo Update", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
-                } else {
-                    System.out.println("No se encontró el paquete con ese nombre.");
-                    JOptionPane.showMessageDialog(null, "No encontramos el paquete con ese nombre", "Modulo Update", JOptionPane.ERROR_MESSAGE);
                 }
+
+                // Obtener el ID del MikroTik
+                String sqlMikrotik = "SELECT id FROM credenciales_microtik WHERE nombre = ?";
+                int idMikrotik = -1;
+
+                try (PreparedStatement stmtMikrotik = cn.prepareStatement(sqlMikrotik)) {
+                    stmtMikrotik.setString(1, microtikNuevo);
+                    ResultSet rsMikrotik = stmtMikrotik.executeQuery();
+                    if (rsMikrotik.next()) {
+                        idMikrotik = rsMikrotik.getInt("id");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No encontramos el MikroTik con ese nombre", "Modulo Update", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
+
+                // Convertir diaCorte a entero
+                int diaCorteInt = Integer.parseInt(diaCorte);
+
+                // Actualizar el cliente con todos los datos
+                String sqlUpdate = """
+                UPDATE clientes 
+                SET nombre = ?, telefono = ?, email = ?, direccion = ?, id_paquete = ?, 
+                ip_cliente = ?, dia_corte = ?, ap_antena = ?, serviciosTV = ?, serviciosPlataformas = ?, id_microtik = ?
+                WHERE id = ?;
+                """;
+
+                try (PreparedStatement stmtUpdate = cn.prepareStatement(sqlUpdate)) {
+                    stmtUpdate.setString(1, nombre);
+                    stmtUpdate.setString(2, telefono);
+                    stmtUpdate.setString(3, correo);
+                    stmtUpdate.setString(4, direccion);
+                    stmtUpdate.setInt(5, idPaquete);
+                    stmtUpdate.setString(6, ipCliente);
+                    stmtUpdate.setInt(7, diaCorteInt);
+                    stmtUpdate.setString(8, antenaAp);
+                    stmtUpdate.setString(9, servicioTV);
+                    stmtUpdate.setString(10, servicioStream);
+                    stmtUpdate.setInt(11, idMikrotik);
+                    stmtUpdate.setInt(12, id_cliente);
+
+                    stmtUpdate.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Cliente actualizado", "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
+                }
+
             } catch (SQLException e) {
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error en la actualización del cliente", "Modulo Update", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            System.out.println("Conexión a la base de datos fallida.");
-            JOptionPane.showMessageDialog(null, "Conexion a la base de datos fallida", "Modulo Update", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Conexión a la base de datos fallida", "Modulo Update", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -243,6 +258,33 @@ public class UpdateDatos {
                 }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Tenemos problemas con la base de datos: " + e, "SpiderNET", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    public void bloqueo(int id){
+        Conexion conexion = new Conexion();
+        Connection cn = conexion.getConnection();
+        ResultSet resultado; 
+        if(cn!=null){
+            PreparedStatement cursor;
+            String estado = "Activo";
+            String sql = "UPDATE clientes SET estado = ? WHERE id = ?;";
+            
+            try {
+                cursor = cn.prepareStatement(sql);
+                cursor.setString(1, estado);
+                cursor.setInt(2, id);
+                int fila = cursor.executeUpdate();
+                
+                if(fila > 0 ){
+                    System.out.println("actualizado");
+                }else{
+                    System.out.println("no actualizado");
+                }
+
+            } catch (SQLException e) {
+                System.out.println(e);
             }
         }
     }

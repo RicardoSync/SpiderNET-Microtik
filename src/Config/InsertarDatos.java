@@ -437,42 +437,134 @@ public class InsertarDatos {
         }
     }
 
-    public void insertarUnSoloCLienteALV(String nombre, String telefono, String correo, String direccion, String paquete, String ip_cliente, String dia_corte, String ap_antena,
-            String serviciosTV, String serviciosPlataformas) {
+    public void insertarUnSoloCLienteALV(String nombre, String telefono, String correo, String direccion, String paquete,
+            String ip_cliente, String dia_corte, String ap_antena, String serviciosTV,
+            String serviciosPlataformas, String nombreMicrotik) {
         Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
 
         if (cn != null) {
-            PreparedStatement cursor;
-            PreparedStatement pstmt2 = null;
+            PreparedStatement pstmtBuscarMicrotik = null;
+            PreparedStatement pstmtInsertarCliente = null;
+            ResultSet rsMicrotik = null;
+
             try {
-                String sql = """
-                            INSERT INTO clientes (nombre, telefono, email, direccion, ip_cliente, dia_corte, estado, ap_antena, serviciosTV, serviciosPlataformas, id_paquete)
-                            VALUES (?,?,?,?,?,?, 'Activo', ?, ?, ?, 
-                            (SELECT id FROM paquetes WHERE nombre = ? LIMIT 1));
-                            """;
-                cursor = cn.prepareStatement(sql);
+                cn.setAutoCommit(false); // 🔹 Iniciar transacción
 
-                // Asignar los valores
-                cursor.setString(1, nombre);
-                cursor.setString(2, telefono);
-                cursor.setString(3, correo);
-                cursor.setString(4, direccion);
-                cursor.setString(5, ip_cliente);
-                cursor.setString(6, dia_corte);
-                cursor.setString(7, ap_antena);
-                cursor.setString(8, serviciosTV);
-                cursor.setString(9, serviciosPlataformas);
-                cursor.setString(10, paquete);
+                // 🔹 Buscar ID del Microtik según su nombre
+                String sqlBuscarMicrotik = "SELECT id FROM credenciales_microtik WHERE nombre = ? LIMIT 1";
+                pstmtBuscarMicrotik = cn.prepareStatement(sqlBuscarMicrotik);
+                pstmtBuscarMicrotik.setString(1, nombreMicrotik);
+                rsMicrotik = pstmtBuscarMicrotik.executeQuery();
 
-                int filasAfectadas = cursor.executeUpdate();
+                int idMicrotik = -1;
+                if (rsMicrotik.next()) {
+                    idMicrotik = rsMicrotik.getInt("id");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error: No se encontró el Microtik con nombre: " + nombreMicrotik,
+                            "SpiderNET", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // 🔹 Insertar cliente en la base de datos
+                String sqlInsertarCliente = """
+                    INSERT INTO clientes (nombre, telefono, email, direccion, ip_cliente, dia_corte, estado, ap_antena, 
+                                          serviciosTV, serviciosPlataformas, id_paquete, id_microtik)
+                    VALUES (?, ?, ?, ?, ?, ?, 'Activo', ?, ?, ?, 
+                            (SELECT id FROM paquetes WHERE nombre = ? LIMIT 1), ?);
+                """;
+
+                pstmtInsertarCliente = cn.prepareStatement(sqlInsertarCliente);
+                pstmtInsertarCliente.setString(1, nombre);
+                pstmtInsertarCliente.setString(2, telefono);
+                pstmtInsertarCliente.setString(3, correo);
+                pstmtInsertarCliente.setString(4, direccion);
+                pstmtInsertarCliente.setString(5, ip_cliente);
+                pstmtInsertarCliente.setString(6, dia_corte);
+                pstmtInsertarCliente.setString(7, ap_antena);
+                pstmtInsertarCliente.setString(8, serviciosTV);
+                pstmtInsertarCliente.setString(9, serviciosPlataformas);
+                pstmtInsertarCliente.setString(10, paquete);
+                pstmtInsertarCliente.setInt(11, idMicrotik);
+
+                int filasAfectadas = pstmtInsertarCliente.executeUpdate();
 
                 if (filasAfectadas > 0) {
-                    JOptionPane.showMessageDialog(null, "Cliente registrado de manera exitosa");
+                    JOptionPane.showMessageDialog(null, "Cliente registrado exitosamente", "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                cn.commit(); // 🔹 Confirmar la transacción
+
+            } catch (SQLException e) {
+                try {
+                    if (cn != null) {
+                        cn.rollback(); // 🔹 Revertir cambios en caso de error
+                    }
+                } catch (SQLException rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+                JOptionPane.showMessageDialog(null, "Error en la base de datos: " + e, "SpiderNET", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            } finally {
+                // 🔹 Cerrar recursos
+                try {
+                    if (rsMicrotik != null) {
+                        rsMicrotik.close();
+                    }
+                    if (pstmtBuscarMicrotik != null) {
+                        pstmtBuscarMicrotik.close();
+                    }
+                    if (pstmtInsertarCliente != null) {
+                        pstmtInsertarCliente.close();
+                    }
+                    if (cn != null) {
+                        cn.setAutoCommit(true); // 🔹 Restaurar auto-commit
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void registroClienteSimple(String nombre, String ip, String nombreMicrotik) {
+        Conexion conexion = new Conexion();
+        Connection cn = conexion.getConnection();
+        PreparedStatement cursorUno, cursorDos;
+        ResultSet resultado;
+
+        if (cn != null) {
+            String sql = "SELECT id FROM credenciales_microtik WHERE nombre = ?";
+            try {
+                cursorUno = cn.prepareStatement(sql);
+                cursorUno.setString(1, nombreMicrotik);
+
+                resultado = cursorUno.executeQuery();
+
+                if (resultado.next()) {
+                    int id = resultado.getInt("id");
+
+                    try {
+                        String sqlDos = "INSERT INTO clientes (nombre, direccion, ip_cliente, estado, id_microtik) VALUES (?,?,?,?,?)";
+                        cursorDos = cn.prepareStatement(sqlDos);
+                        cursorDos.setString(1, nombre);
+                        cursorDos.setString(2, "");
+                        cursorDos.setString(3, ip);
+                        cursorDos.setString(4, "Activo");
+                        cursorDos.setInt(5, id);
+
+                        int resultadoDos = cursorDos.executeUpdate();
+
+                        if (resultadoDos >= 0) {
+                            JOptionPane.showMessageDialog(null, "Cliente registrado de manera exitosa");
+                        }
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                        JOptionPane.showMessageDialog(null, "Tenemos un error al insetar el cliente");
+                    }
                 }
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Problemas con la base de datos: " + e, "SpiderNET", JOptionPane.ERROR_MESSAGE);
-                System.out.println(e);
+                JOptionPane.showMessageDialog(null, "Error al insertar los datos: " + e);
             }
         }
     }

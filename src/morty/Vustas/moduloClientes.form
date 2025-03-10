@@ -82,7 +82,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="846" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -103,7 +103,7 @@
             <Component class="javax.swing.JTable" name="jTable1">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="13" rowCount="0">
+                  <Table columnCount="12" rowCount="0">
                     <Column editable="true" title="ID" type="java.lang.Object"/>
                     <Column editable="true" title="Nombre" type="java.lang.Object"/>
                     <Column editable="true" title="Telefono" type="java.lang.Object"/>
@@ -111,7 +111,6 @@
                     <Column editable="true" title="Direccion" type="java.lang.Object"/>
                     <Column editable="true" title="Instalacion" type="java.lang.Object"/>
                     <Column editable="true" title="Paquete" type="java.lang.Object"/>
-                    <Column editable="true" title="Estado" type="java.lang.Object"/>
                     <Column editable="true" title="IP Cliente" type="java.lang.Object"/>
                     <Column editable="true" title="Corte" type="java.lang.Object"/>
                     <Column editable="true" title="Antena AP" type="java.lang.Object"/>
@@ -122,11 +121,6 @@
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
                     <Column maxWidth="50" minWidth="50" prefWidth="50" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -240,6 +234,9 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnEditar">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/lapiz.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Editar"/>
           </Properties>
           <Events>
@@ -248,6 +245,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnEliminar">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/quitar-carpeta.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Eliminar"/>
           </Properties>
           <Events>
@@ -256,6 +256,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnRefrescar">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/girar-cuadrado.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Refrescar"/>
           </Properties>
           <Events>
@@ -264,6 +267,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnPagar">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/cartera.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Pagar"/>
           </Properties>
           <Events>
@@ -288,9 +294,13 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="btnBloquear" max="32767" attributes="0"/>
-                      <Component id="btnSimpleQueue" pref="178" max="32767" attributes="0"/>
+                      <Component id="btnSimpleQueue" max="32767" attributes="0"/>
                       <Component id="btnCambiarVelocidad" alignment="0" max="32767" attributes="0"/>
                       <Component id="btnDesbloquear" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -307,7 +317,9 @@
                   <Component id="btnSimpleQueue" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="btnCambiarVelocidad" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="58" max="32767" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="22" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -315,22 +327,51 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnBloquear">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/bloquear-hashtag.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Bloquear Cliente"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBloquearActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnSimpleQueue">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/lista-de-rectangulos.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Agregar SimpleQueue"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSimpleQueueActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnCambiarVelocidad">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cambiar Velocidad"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/tacometro-alt-mas-rapido.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Actualizar Velocidad"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCambiarVelocidadActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnDesbloquear">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/desbloquear.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Desbloquear Cliente"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDesbloquearActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Doblenet 2025"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -354,6 +395,12 @@
                   <Component id="entryNombre" min="-2" pref="268" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="entryIpBusqueda" min="-2" pref="174" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="btnBuscarIP" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -366,6 +413,9 @@
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="entryNombre" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="entryIpBusqueda" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnBuscarIP" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="14" max="32767" attributes="0"/>
               </Group>
@@ -382,10 +432,31 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/busqueda.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Buscar"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel3">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Direccion IP"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="entryIpBusqueda">
+        </Component>
+        <Component class="javax.swing.JButton" name="btnBuscarIP">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/img/busqueda.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Buscar IP"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarIPActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

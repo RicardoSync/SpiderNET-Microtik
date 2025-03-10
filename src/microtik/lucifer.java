@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package microtik;
+
 import Config.Conexion;
 import java.sql.*;
 import me.legrange.mikrotik.ApiConnection;
@@ -16,11 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class lucifer {
 
-    public static void main(String[] args) {
-        String routerIp = "192.168.1.70"; // Cambia a la IP de tu MikroTik
-        String user = "admin";
-        String password = "zerocuatro04";
-        String targetIp = "122.122.123.8"; // Dirección IP a modificar
+    public void bloqueoCliente(String routerIp, String user, String password, String targetIp) {
         String blockAccess = "yes"; // Nuevo valor de block-access
 
         try {
@@ -33,50 +30,92 @@ public class lucifer {
 
             if (response.isEmpty()) {
                 System.out.println("No se encontró un lease para " + targetIp);
+                JOptionPane.showMessageDialog(null, "No encontramos esa ip: " + targetIp);
             } else {
                 // Obtener el `.id`
                 String id = response.get(0).get(".id");
 
                 // Ejecutar el comando `set`
                 con.execute("/ip/dhcp-server/lease/set .id=" + id + " block-access=" + blockAccess);
-                System.out.println("Lease actualizado correctamente.");
+                JOptionPane.showMessageDialog(null, "El cliente se bloqueo de manera exitosa");
             }
 
             // Cerrar la conexión
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Tenemos problemas con el microtik: " + routerIp + " tipo: " + e);
+        }
+    }
+
+    public void desbloqueoCliente(String routerIp, String user, String password, String targetIp) {
+        String blockAccess = "no"; // Nuevo valor de block-access
+
+        try {
+            // Conectar al MikroTik
+            ApiConnection con = ApiConnection.connect(routerIp);
+            con.login(user, password);
+
+            // Buscar el `.id` del lease
+            List<Map<String, String>> response = con.execute("/ip/dhcp-server/lease/print where address=" + targetIp);
+
+            if (response.isEmpty()) {
+                System.out.println("No se encontró un lease para " + targetIp);
+                JOptionPane.showMessageDialog(null, "No encontramos esa ip: " + targetIp);
+            } else {
+                // Obtener el `.id`
+                String id = response.get(0).get(".id");
+
+                // Ejecutar el comando `set`
+                con.execute("/ip/dhcp-server/lease/set .id=" + id + " block-access=" + blockAccess);
+                JOptionPane.showMessageDialog(null, "El cliente se desbloqueo de manera correcta");
+            }
+
+            // Cerrar la conexión
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Tenemos problemas con el microtik: " + routerIp + " tipo: " + e);
+        }
+    }
+
+    public void agregarQueueSinPadre(String routerIp, String user, String password, String queueName, String maxLimit, String targetIp) {
+        try {
+            // Conectar al MikroTik
+            ApiConnection con = ApiConnection.connect(routerIp);
+            con.login(user, password);
+
+            // Agregar la cola simple
+            con.execute("/queue/simple/add name=" + queueName
+                    + " max-limit=" + maxLimit
+                    + " target=" + targetIp);
+
+            System.out.println("Cola agregada correctamente.");
+            JOptionPane.showMessageDialog(null, "Cola simple agregada a microtik");
+
+            // Cerrar la conexión
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error en modulo MicrotikQueueAdd: " + e);
         }
     }
     
-    public void bloquearCliente(String nombreMicrotik, String ipCliente){
-        Conexion conexion = new Conexion();
-        Connection cn = conexion.getConnection();
-        
-        if(cn!=null){
-            PreparedStatement cursor;
-            ResultSet resultado;
-            String sql = "SELECT ip, username, password FROM credenciales_microtik WHERE nombre = ?";
+    public void agregarQueuePadre(String routerIP, String user, String password, String queueName, String maxLimit, String targetIp, String padre){
+        try {
+            ApiConnection con = ApiConnection.connect(routerIP);
+            con.login(user, password);
             
-            try {
-                cursor = cn.prepareStatement(sql);
-                cursor.setString(1, nombreMicrotik);
-                
-                resultado = cursor.executeQuery();
-                
-                if(resultado.next()){
-                    String username = resultado.getString("username");
-                    String password = resultado.getString("password");
-                    String ip = resultado.getString("ip");
-                    System.out.println(username + password + ip);
-                }
-                
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Error en consulta de microtik" + e, "Modulo bloqueo", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "No logramos obtener la conexion");
+            con.execute("/queue/simple/add name =" + queueName
+                + " max-limit=" + maxLimit
+                + " target=" + targetIp
+                + " parent=" + padre);
+            
+            JOptionPane.showMessageDialog(null, "Cola simple agregada: " + queueName + " con padre: " + padre);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al agregar cola con padre: " + e);
         }
-        
     }
 }

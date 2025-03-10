@@ -51,6 +51,10 @@ public class pagoWindows extends javax.swing.JInternalFrame {
         entryCantidad = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         entryConcepto = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        entryDescuento = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        comboMeses = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -196,6 +200,14 @@ public class pagoWindows extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Concepto");
 
+        jLabel12.setText("Descuento %");
+
+        entryDescuento.setText("0");
+
+        jLabel13.setText("Meses pagados");
+
+        comboMeses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -203,15 +215,27 @@ public class pagoWindows extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboMetodo, 0, 145, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(entryDescuento))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comboMetodo, 0, 145, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(entryCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(entryCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comboMeses, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(entryConcepto)))
@@ -226,14 +250,20 @@ public class pagoWindows extends javax.swing.JInternalFrame {
                     .addComponent(comboMetodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(entryCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(entryConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(35, Short.MAX_VALUE))
+                    .addComponent(jLabel12)
+                    .addComponent(entryDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13)
+                    .addComponent(comboMeses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(entryConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jButton1.setBackground(new java.awt.Color(0, 255, 255));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/gastos.png"))); // NOI18N
         jButton1.setText("Pagar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -241,6 +271,7 @@ public class pagoWindows extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/marca-x-rectangular.png"))); // NOI18N
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -258,14 +289,14 @@ public class pagoWindows extends javax.swing.JInternalFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -398,12 +429,15 @@ public class pagoWindows extends javax.swing.JInternalFrame {
                 String rfc = null;
                 String direccion = null;
 
-                while (resultado.next()) {
+                if (resultado.next()) {
                     nombreWisp = resultado.getString(1);
                     cp = resultado.getString(2);
                     telefono = resultado.getString(3);
                     rfc = resultado.getString(4);
                     direccion = resultado.getString(5);
+                }else{
+                    JOptionPane.showMessageDialog(null, "No podemos crear el ticket sin los datos de la empresa");
+                    JOptionPane.showMessageDialog(null, "Por favor ve al menu SoftwareEscobedo y a Empresas");
                 }
                 Calendar calendar = Calendar.getInstance();
                 LocalTime horaActual = LocalTime.now();
@@ -439,6 +473,9 @@ public class pagoWindows extends javax.swing.JInternalFrame {
                 String cantidad = entryCantidad.getText();
                 String monto = entryMonto.getText();
                 String stremdeck = entryPrecioServicios.getText();
+                int descuentoPorcentaje = Integer.parseInt(entryDescuento.getText());
+                int mesesPagados = Integer.parseInt((String) comboMeses.getSelectedItem());
+                
                 int cambio = 0;
                 //si la mensualidad es mayor a 0 proceder como lo hacemos
                 //si la mensualidad es 0 y los servicios son mayor a 0 entonces iniciar el segundo
@@ -446,13 +483,13 @@ public class pagoWindows extends javax.swing.JInternalFrame {
                     InsertarDatos insertarDatos = new InsertarDatos();
                     insertarDatos.insertarPago(id_cliente, nombre, monto, metodo_pago, efectivo, cambio);
 
-                    recibo.generarRecibo(nombreWisp, cp, telefono, rfc, direccion, concepto, mesAnio, nombre, cp, plan, mensualidad, fecha, hora, paquete, streming, tv, efectivo, cajero);
+                    recibo.generarRecibo(nombreWisp, cp, telefono, rfc, direccion, concepto, mesAnio, nombre, cp, plan, mensualidad, fecha, hora, paquete, streming, tv, efectivo, cajero, descuentoPorcentaje, mesesPagados);
                     InsertarDatos datos = new InsertarDatos();
                 } else {
                     InsertarDatos insertarDatos = new InsertarDatos();
                     insertarDatos.insertarPago(id_cliente, nombre, stremdeck, metodo_pago, efectivo, cambio);
+                    recibo.generarRecibo(nombreWisp, cp, telefono, rfc, direccion, concepto, mesAnio, nombre, cp, plan, mensualidad, fecha, hora, paquete, streming, tv, efectivo, cajero, descuentoPorcentaje, mesesPagados);
 
-                    recibo.generarRecibo(nombreWisp, cp, telefono, rfc, direccion, concepto, mesAnio, nombre, cp, plan, mensualidad, fecha, hora, paquete, streming, tv, efectivo, cajero);
                     InsertarDatos datos = new InsertarDatos();
                 }
 
@@ -466,10 +503,12 @@ public class pagoWindows extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> comboMeses;
     private javax.swing.JComboBox<String> comboMetodo;
     private javax.swing.JComboBox<String> comboMicrotik;
     private javax.swing.JTextField entryCantidad;
     private javax.swing.JTextField entryConcepto;
+    private javax.swing.JTextField entryDescuento;
     private javax.swing.JTextField entryDireccionIP;
     private javax.swing.JTextField entryID;
     private javax.swing.JTextField entryMonto;
@@ -482,6 +521,8 @@ public class pagoWindows extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
