@@ -8,7 +8,7 @@ import Config.Conexion;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import microtik.lucifer;
-
+import microtik.queueRafagas;
 /**
  *
  * @author ricardo
@@ -76,38 +76,44 @@ public class crearSimpleQueue extends javax.swing.JInternalFrame {
         String queuePadre = entryPadre.getText();
 
         if (queuePadre.isBlank()) {
+            //si no tiene padre
             String routerIp = ipMicrotik;
             String user = username;
-            String queueName = entryNombre.getText();
+            String nombreCliente = entryNombre.getText();
             String maxLimit = entryVelocidad.getText();
             String targetIp = entryIp.getText();
             // Eliminar espacios al principio y al final
-            queueName = queueName.trim();
+            nombreCliente = nombreCliente.trim();
+            String tiempo = "20s/20s";
 
             // Eliminar caracteres no deseados, por ejemplo, todo lo que no sea una letra o número
             
-            queueName = queueName.replaceAll("[^a-zA-Z0-9]", "");
-            lucifer lc = new lucifer();
-            lc.agregarQueueSinPadre(routerIp, user, password, queueName, maxLimit, targetIp);
+            nombreCliente = nombreCliente.replaceAll("[^a-zA-Z0-9]", "");
+            //String nombre, String taget, String maxLimit, String tiempo, String user, String password, String host
+            queueRafagas rafagas = new queueRafagas();
+            rafagas.crearQueueRafaga(nombreCliente, targetIp, maxLimit, tiempo, user, password, routerIp);
 
+            
         } else {
             String routerIp = ipMicrotik;
             String user = username;
-            String queueName = entryNombre.getText();
+            String nombreCliente = entryNombre.getText();
             String maxLimit = entryVelocidad.getText();
             String targetIp = entryIp.getText();
             String padre = entryPadre.getText();
+            String tiempo = "20s/20s";
 
             // Eliminar espacios al principio y al final
-            queueName = queueName.trim();
+            nombreCliente = nombreCliente.trim();
+            padre = padre.trim();
 
             // Eliminar caracteres no deseados, por ejemplo, todo lo que no sea una letra o número
+            //String nombre, String taget, String maxLimit, String parent, String tiempo, String user, String password, String host)
+            nombreCliente = nombreCliente.replaceAll("[^a-zA-Z0-9]", "");
+            padre = padre.replaceAll("[^a-zA-Z0-9]", "");
             
-            queueName = queueName.replaceAll("[^a-zA-Z0-9]", "");
-            
-            lucifer lc = new lucifer();
-            lc.agregarQueuePadre(routerIp, user, password, queueName, maxLimit, targetIp, padre);
-
+            queueRafagas rafagas = new queueRafagas();
+            rafagas.crearQueueRafagaPadre(nombreCliente, targetIp, maxLimit, padre, tiempo, user, password, routerIp);
         }
     }
 
@@ -267,27 +273,25 @@ public class crearSimpleQueue extends javax.swing.JInternalFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel6))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(entryPadre, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(118, Short.MAX_VALUE))
+                        .addComponent(entryPadre, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
-                .addGap(31, 31, 31)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(entryPadre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -295,16 +299,16 @@ public class crearSimpleQueue extends javax.swing.JInternalFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(31, 31, 31)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Queue Padre", jPanel4);

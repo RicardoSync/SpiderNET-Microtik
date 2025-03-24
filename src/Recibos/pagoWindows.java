@@ -6,6 +6,7 @@ import Config.InsertarDatos;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import Recibos.generarRecibo;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -14,13 +15,15 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import me.legrange.mikrotik.MikrotikApiException;
+import microtik.PPoEAuto;
+import microtik.taskMicrotik;
 import microtik.unlockClient;
 
 public class pagoWindows extends javax.swing.JInternalFrame {
 
-    public pagoWindows(int id, String nombre, String paquete, String servicios, String direccionIp) {
+    public pagoWindows(int id, String nombre, String paquete, String servicios, String direccionIp, String nombreMicrotik) {
         initComponents();
-        insertarElementos(id, nombre, paquete, servicios, direccionIp);
+        insertarElementos(id, nombre, paquete, servicios, direccionIp, nombreMicrotik);
 
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -43,7 +46,7 @@ public class pagoWindows extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         entryPrecioServicios = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        comboMicrotik = new javax.swing.JComboBox<>();
+        entryMicrotikNombre = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         comboMetodo = new javax.swing.JComboBox<>();
@@ -138,6 +141,8 @@ public class pagoWindows extends javax.swing.JInternalFrame {
 
         jLabel10.setText("Microtik Administrador");
 
+        entryMicrotikNombre.setEditable(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -165,8 +170,8 @@ public class pagoWindows extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(comboMicrotik, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(entryMicrotikNombre)))
+                .addGap(0, 51, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,8 +191,8 @@ public class pagoWindows extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(comboMicrotik, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(entryMicrotikNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de pago"));
@@ -310,7 +315,7 @@ public class pagoWindows extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -326,6 +331,8 @@ public class pagoWindows extends javax.swing.JInternalFrame {
             // TODO add your handling code here:
         } catch (MikrotikApiException ex) {
             Logger.getLogger(pagoWindows.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(pagoWindows.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -334,16 +341,19 @@ public class pagoWindows extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    public void listarMicrotiks() {
+    public void listarMicrotiks(String nombreMicrotik) {
         Consultas consultas = new Consultas();
         ArrayList<String> microtiks = consultas.nombresMicrotiks();
-        for (String plataformas : microtiks) {
-            comboMicrotik.addItem(plataformas);
-        }
+        
+        entryMicrotikNombre.setText(nombreMicrotik);
+        
+//        for (String plataformas : microtiks) {
+//            comboMicrotik.addItem(plataformas);
+//        }
     }
 
-    public void insertarElementos(int id, String nombre, String paquete, String servicios, String direccionIp) {
-        listarMicrotiks();
+    public void insertarElementos(int id, String nombre, String paquete, String servicios, String direccionIp,String nombreMicrotik) {
+        listarMicrotiks(nombreMicrotik);
         Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
         if (cn != null) {
@@ -406,7 +416,7 @@ public class pagoWindows extends javax.swing.JInternalFrame {
         }
     }
 
-    public void obtenerInformacion() throws MikrotikApiException {
+    public void obtenerInformacion() throws MikrotikApiException, IOException {
         //obtener los datos de la empresa - listo
         //obtener los datos de la ventana = listo
         //llamar al metodo de los recibos = listo
@@ -467,7 +477,7 @@ public class pagoWindows extends javax.swing.JInternalFrame {
                 String servicios = entryServicios.getText();
                 generarRecibo recibo = new generarRecibo();
                 String direccionIp = entryDireccionIP.getText();
-                String nombreMicrotik = (String) comboMicrotik.getSelectedItem();
+//                String nombreMicrotik = (String) comboMicrotik.getSelectedItem();
                 int id_cliente = Integer.parseInt(entryID.getText());
                 String metodo_pago = (String) comboMetodo.getSelectedItem();
                 String cantidad = entryCantidad.getText();
@@ -485,10 +495,13 @@ public class pagoWindows extends javax.swing.JInternalFrame {
 
                     recibo.generarRecibo(nombreWisp, cp, telefono, rfc, direccion, concepto, mesAnio, nombre, cp, plan, mensualidad, fecha, hora, paquete, streming, tv, efectivo, cajero, descuentoPorcentaje, mesesPagados);
                     InsertarDatos datos = new InsertarDatos();
+                    //String ipCliente, String user, String password, String host
+                    obtenerDatosMicrotik();
                 } else {
                     InsertarDatos insertarDatos = new InsertarDatos();
                     insertarDatos.insertarPago(id_cliente, nombre, stremdeck, metodo_pago, efectivo, cambio);
                     recibo.generarRecibo(nombreWisp, cp, telefono, rfc, direccion, concepto, mesAnio, nombre, cp, plan, mensualidad, fecha, hora, paquete, streming, tv, efectivo, cajero, descuentoPorcentaje, mesesPagados);
+                    obtenerDatosMicrotik();
 
                     InsertarDatos datos = new InsertarDatos();
                 }
@@ -505,12 +518,12 @@ public class pagoWindows extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboMeses;
     private javax.swing.JComboBox<String> comboMetodo;
-    private javax.swing.JComboBox<String> comboMicrotik;
     private javax.swing.JTextField entryCantidad;
     private javax.swing.JTextField entryConcepto;
     private javax.swing.JTextField entryDescuento;
     private javax.swing.JTextField entryDireccionIP;
     private javax.swing.JTextField entryID;
+    private javax.swing.JTextField entryMicrotikNombre;
     private javax.swing.JTextField entryMonto;
     private javax.swing.JTextField entryNombre;
     private javax.swing.JTextField entryPaquete;
@@ -535,4 +548,45 @@ public class pagoWindows extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
+
+    public void obtenerDatosMicrotik(){
+        String nombreMicrotik = entryMicrotikNombre.getText();
+        Conexion conexion = new Conexion();
+        Connection cn = conexion.getConnection();
+        String sql = "SELECT ip, username, password FROM credenciales_microtik WHERE nombre = ?";
+        try {
+            PreparedStatement cursor;
+            ResultSet resultado;
+            
+            cursor = cn.prepareStatement(sql);
+            cursor.setString(1, nombreMicrotik);
+            
+            resultado = cursor.executeQuery();
+            
+            if(resultado.next()){
+                String user = resultado.getString("username");
+                String password = resultado.getString("password");
+                String host = resultado.getString("ip");
+                String direccionIp = entryDireccionIP.getText();
+                String nameCliente = entryNombre.getText();
+                
+                nameCliente = nameCliente.trim();
+                nameCliente = nameCliente.replaceAll("[^a-zA-Z0-9]", "");
+                
+                
+                PPoEAuto auto = new PPoEAuto();
+                auto.desbloquearCliente(direccionIp, user, password, host);
+                
+                taskMicrotik m = new taskMicrotik();
+                m.eliminarTask(nameCliente, direccionIp, user, password, host);
+            }else{
+                JOptionPane.showMessageDialog(null, "No encotramos datos para ese microtik asociado, corrobora!. Por ahora desbloquea el cliente manuealmente");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar los datos del microtik en base de datos: " + e);
+        }
+            
+        
+    }
+
 }

@@ -4,13 +4,23 @@
  */
 package morty.Vustas;
 
-import Config.Conexion;
+import java.awt.Color;
 import java.awt.Image;
 import java.sql.*;
 import javax.swing.ImageIcon;
 import java.awt.Image;
+import java.awt.Insets;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import morty.Vustas.configuracion;
+import com.formdev.flatlaf.FlatDarkLaf;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
+import activacion.ConexionServidor;
+
 /**
  *
  * @author cisco
@@ -23,6 +33,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/img/arana.png")).getImage());
+
     }
 
     public boolean inicioSesion() {
@@ -35,7 +46,7 @@ public class Login extends javax.swing.JFrame {
             return false;
         }
 
-        Conexion conexion = new Conexion();
+        ConexionServidor conexion = new ConexionServidor();
         Connection cn = conexion.getConnection();
 
         if (cn == null) {
@@ -43,7 +54,7 @@ public class Login extends javax.swing.JFrame {
             return false;
         }
 
-        String sql = "SELECT password FROM usuarios WHERE usuario = ?";
+        String sql = "SELECT password, rol FROM usuarios WHERE usuario = ?";
 
         try (PreparedStatement cursor = cn.prepareStatement(sql)) {
             cursor.setString(1, username);
@@ -51,16 +62,25 @@ public class Login extends javax.swing.JFrame {
 
             if (resultado.next()) {
                 String passwordBD = resultado.getString("password");
+                int rol = resultado.getInt("rol");
+                System.out.println(rol);
 
-                // Comparar contraseñas (deberías usar hashing en producción)
-                if (password.equals(passwordBD)) {
-                    dispose();
-                    Dashboard dashboard = new Dashboard();
-                    dashboard.setVisible(true);
+                if (rol == 0) {//si el rol es 0 la cuenta esta activa
+                    // Comparar contraseñas (deberías usar hashing en producción)
                     
-                    
-                } else {
-                    JOptionPane.showMessageDialog(null, "Contraseña incorrecta.");
+                    if (password.equals(passwordBD)) {
+                        dispose();
+                        Dashboard dashboard = new Dashboard();
+                        dashboard.setVisible(true);
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Contraseña incorrecta.");
+                    }
+                }else if(rol == 1){
+                    JOptionPane.showMessageDialog(null, "Estimado usuario: " + username + " su cuenta fue suspendida. Lo que indica que su prueba fue expirada, por favor"
+                            + " contacte con nostros Sofware Escobedo al numero +1524981442266 para poder activar su cuenta.", "SpiderNET", JOptionPane.WARNING_MESSAGE);
+                    //si el rol es uno es porque la cuenta no se pago
+                    //llamar al modulo de que pague el sistema
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
@@ -89,6 +109,7 @@ public class Login extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SpiderNET");
@@ -114,11 +135,16 @@ public class Login extends javax.swing.JFrame {
 
         jLabel2.setText("Usuario:");
 
-        entryUsuario.setText("spidernet");
+        entryUsuario.setText("admin");
+        entryUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                entryUsuarioActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Contraseña:");
 
-        entryPassword.setText("spidernet123");
+        entryPassword.setText("admin");
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/entrar-en-el-portal.png"))); // NOI18N
         jButton1.setText("Inicio");
@@ -137,6 +163,19 @@ public class Login extends javax.swing.JFrame {
         });
 
         jLabel4.setText("Software Escobedo 2025");
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ajustes.png"))); // NOI18N
+        jButton3.setText("Configurar Servidor");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -147,18 +186,19 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(entryUsuario)
                     .addComponent(entryPassword)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel4))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 14, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel4)))
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 14, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -176,6 +216,8 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addContainerGap())
@@ -199,7 +241,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
@@ -227,6 +269,20 @@ public class Login extends javax.swing.JFrame {
         emergencia.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+
+    }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void entryUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_entryUsuarioActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        configEmergencia emergencia = new configEmergencia();
+        emergencia.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -268,6 +324,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTextField entryUsuario;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

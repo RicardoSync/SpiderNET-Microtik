@@ -2,17 +2,25 @@ package Recibos;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
-
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 
@@ -21,7 +29,7 @@ public class generarRecibo {
     public void generarRecibo(String nombreWisp, String cp, String telefono, String rfc, String direccion, String concepto,
             String mesAnio, String nombre, String id, String plan, double mensualidad, String fecha,
             String hora, double paquete, double streaming, double tv, double efectivo, String cajero,
-            int descuento, int mesesPagados) {
+            int descuento, int mesesPagados) throws IOException {
 
         // Detectar el sistema operativo y el idioma
         String userLanguage = Locale.getDefault().getLanguage();
@@ -39,75 +47,218 @@ public class generarRecibo {
         String reciboFileName = "Recibo_" + nombreWisp.replace(" ", "_") + "_" + nombre.replace(" ", "_") + ".pdf";
         String reciboFilePath = Paths.get(recibosFolderPath, reciboFileName).toString();
 
-        // Tamaño del ticket
+        // Tamaño del ticket (se mantiene el tamaño original)
         Rectangle ticketSize = new Rectangle(220, 750);
         Document document = new Document(ticketSize);
 
         try {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(reciboFilePath));
             document.open();
+
+            // Agregar borde a la página
             PdfContentByte cb = writer.getDirectContent();
-            Graphics g = cb.createGraphicsShapes(ticketSize.getWidth(), ticketSize.getHeight());
+            Rectangle rect = new Rectangle(document.getPageSize());
+            rect.setBorder(Rectangle.BOX);
+            rect.setBorderWidth(2);
+            rect.setBorderColor(new Color(0, 0, 0)); // Borde negro
+            cb.rectangle(rect);
 
-            // Estilo
-            g.setColor(Color.BLACK);
-            g.setFont(new Font("Arial", Font.BOLD, 14));
+            // --- Encabezado de la empresa ---
+            Paragraph encabezado = new Paragraph(nombreWisp, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14));
+            encabezado.setAlignment(Element.ALIGN_CENTER);
+            document.add(encabezado);
 
-            // Datos de la empresa
-            g.drawString(nombreWisp, 50, 30);
-            g.setFont(new Font("Arial", Font.PLAIN, 10));
-            g.drawString("Dirección: " + direccion, 10, 45);
-            g.drawString("C.P: " + cp, 10, 60);
-            g.drawString("Tel: " + telefono, 10, 75);
-            g.drawString("RFC: " + rfc, 10, 90);
-            g.drawLine(10, 100, 210, 100);
+            Paragraph datosEmpresa = new Paragraph(
+                    "Dirección: " + direccion + "\n"
+                    + "C.P: " + cp + "   Tel: " + telefono + "\n"
+                    + "RFC: " + rfc,
+                    FontFactory.getFont(FontFactory.HELVETICA, 8)
+            );
+            datosEmpresa.setAlignment(Element.ALIGN_CENTER);
+            document.add(datosEmpresa);
 
-            // Encabezado del recibo
-            g.setFont(new Font("Arial", Font.BOLD, 12));
-            g.drawString("RECIBO DE PAGO", 60, 115);
-            g.drawLine(10, 125, 210, 125);
+            document.add(new Paragraph("-----------------------------------------------------", FontFactory.getFont(FontFactory.HELVETICA, 8)));
 
-            // Datos del cliente
-            g.setFont(new Font("Arial", Font.PLAIN, 10));
-            g.drawString("Cliente: " + nombre, 10, 140);
-            g.drawString("Plan: " + plan + " ($" + String.format("%.2f", mensualidad) + ")", 10, 155);
-            g.drawString("Periodo: " + mesAnio, 10, 170);
-            g.drawLine(10, 180, 210, 180);
+            // --- Título del recibo ---
+            Paragraph tituloRecibo = new Paragraph("RECIBO DE PAGO", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12));
+            tituloRecibo.setAlignment(Element.ALIGN_CENTER);
+            document.add(tituloRecibo);
 
-            // Cálculo correcto según meses pagados
+            document.add(new Paragraph("-----------------------------------------------------", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+
+            // --- Datos del cliente ---
+            Paragraph datosCliente = new Paragraph(
+                    "Cliente: " + nombre + "\n"
+                    + "Plan: " + plan + " ($" + String.format("%.2f", mensualidad) + ")\n"
+                    + "Periodo: " + mesAnio,
+                    FontFactory.getFont(FontFactory.HELVETICA, 8)
+            );
+            datosCliente.setAlignment(Element.ALIGN_LEFT);
+            document.add(datosCliente);
+
+            document.add(new Paragraph("-----------------------------------------------------", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+
+            // --- Cálculos ---
             double totalMensualidad = mensualidad * mesesPagados;
             double totalServicios = (streaming + tv) * mesesPagados;
             double totalAntesDescuento = totalMensualidad + totalServicios;
-
-            // Aplicar descuento si existe
             double descuentoAplicado = (descuento > 0 && descuento <= 100) ? totalAntesDescuento * (descuento / 100.0) : 0;
             double totalAPagar = totalAntesDescuento - descuentoAplicado;
-
-            // Calcular cambio
             double cambio = efectivo - totalAPagar;
 
-            // Mostrar detalles en el recibo
-            g.setFont(new Font("Arial", Font.BOLD, 10));
-            g.drawString("Mensualidad x " + mesesPagados + " meses: $" + String.format("%.2f", totalMensualidad), 10, 260);
-            g.drawString("Servicios x " + mesesPagados + " meses: $" + String.format("%.2f", totalServicios), 10, 275);
-            g.drawString("Descuento (" + descuento + "%): -$" + String.format("%.2f", descuentoAplicado), 10, 290);
-            g.drawString("TOTAL A PAGAR: $ " + String.format("%.2f", totalAPagar), 10, 305);
-            g.drawLine(10, 315, 210, 315);
+// Creamos la tabla de 3 columnas
+            PdfPTable detalleTable = new PdfPTable(3);
 
-            // Pago y cambio
-            g.setFont(new Font("Arial", Font.PLAIN, 10));
-            g.drawString("Efectivo: $ " + String.format("%.2f", efectivo), 10, 330);
-            g.drawString("Cambio: $ " + String.format("%.2f", cambio), 10, 345);
-            g.drawLine(10, 355, 210, 355);
+// Bloqueamos el ancho de la tabla
+            detalleTable.setLockedWidth(true);
 
-            // Firma y fecha
-            g.setFont(new Font("Arial", Font.BOLD, 9));
-            g.drawString("Cajero: " + cajero, 10, 390);
-            g.drawString("Fecha: " + fecha + "  Hora: " + hora, 10, 405);
-            g.drawString("© Software Escobedo", 60, 420);
+// Definimos el ancho total de la tabla (restamos un poco para márgenes)
+            detalleTable.setTotalWidth(200);
 
-            g.dispose();
+// Definimos anchos absolutos para cada columna
+            detalleTable.setWidths(new float[]{80f, 60f, 60f});
+
+// Espaciado antes y después de la tabla (opcional)
+            detalleTable.setSpacingBefore(5f);
+            detalleTable.setSpacingAfter(5f);
+
+// Por defecto, sin borde y con un padding decente
+            detalleTable.getDefaultCell().setBorder(0);
+            detalleTable.getDefaultCell().setPadding(5);
+
+// -------------------------------------------------------------
+// Encabezados
+// -------------------------------------------------------------
+            PdfPCell c1 = new PdfPCell(new Phrase("Concepto", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9)));
+            c1.setBorder(0);
+            c1.setPadding(5);
+            detalleTable.addCell(c1);
+
+            PdfPCell c2 = new PdfPCell(new Phrase("Detalle", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9)));
+            c2.setBorder(0);
+            c2.setPadding(5);
+            detalleTable.addCell(c2);
+
+            PdfPCell c3 = new PdfPCell(new Phrase("Monto", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9)));
+            c3.setBorder(0);
+            c3.setPadding(5);
+// Alinear el texto a la derecha si deseas que los montos se vean alineados
+            c3.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            detalleTable.addCell(c3);
+
+// -------------------------------------------------------------
+// Fila Mensualidad
+// -------------------------------------------------------------
+            PdfPCell cConcepto = new PdfPCell(new Phrase("Mensualidad", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cConcepto.setBorder(0);
+            cConcepto.setPadding(5);
+            detalleTable.addCell(cConcepto);
+
+            PdfPCell cDetalle = new PdfPCell(new Phrase("x " + mesesPagados + " meses", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cDetalle.setBorder(0);
+            cDetalle.setPadding(5);
+            detalleTable.addCell(cDetalle);
+
+            PdfPCell cMonto = new PdfPCell(new Phrase("$" + String.format("%.2f", totalMensualidad), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cMonto.setBorder(0);
+            cMonto.setPadding(5);
+            cMonto.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            detalleTable.addCell(cMonto);
+
+// -------------------------------------------------------------
+// Fila Servicios
+// -------------------------------------------------------------
+            PdfPCell cConcepto2 = new PdfPCell(new Phrase("Servicios", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cConcepto2.setBorder(0);
+            cConcepto2.setPadding(5);
+            detalleTable.addCell(cConcepto2);
+
+            PdfPCell cDetalle2 = new PdfPCell(new Phrase("Streaming + TV", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cDetalle2.setBorder(0);
+            cDetalle2.setPadding(5);
+            detalleTable.addCell(cDetalle2);
+
+            PdfPCell cMonto2 = new PdfPCell(new Phrase("$" + String.format("%.2f", totalServicios), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cMonto2.setBorder(0);
+            cMonto2.setPadding(5);
+            cMonto2.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            detalleTable.addCell(cMonto2);
+
+// -------------------------------------------------------------
+// Fila Descuento
+// -------------------------------------------------------------
+            PdfPCell cConcepto3 = new PdfPCell(new Phrase("Descuento (" + descuento + "%)", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cConcepto3.setBorder(0);
+            cConcepto3.setPadding(5);
+            detalleTable.addCell(cConcepto3);
+
+// Si no quieres mostrar nada en la columna de detalle:
+            PdfPCell cDetalle3 = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cDetalle3.setBorder(0);
+            cDetalle3.setPadding(5);
+            detalleTable.addCell(cDetalle3);
+
+            PdfPCell cMonto3 = new PdfPCell(new Phrase("-$" + String.format("%.2f", descuentoAplicado), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cMonto3.setBorder(0);
+            cMonto3.setPadding(5);
+            cMonto3.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            detalleTable.addCell(cMonto3);
+
+// -------------------------------------------------------------
+// Fila Total
+// -------------------------------------------------------------
+            PdfPCell cConcepto4 = new PdfPCell(new Phrase("TOTAL A PAGAR", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9)));
+            cConcepto4.setBorder(0);
+            cConcepto4.setPadding(5);
+            detalleTable.addCell(cConcepto4);
+
+// Dejar la segunda columna vacía
+            PdfPCell cDetalle4 = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cDetalle4.setBorder(0);
+            cDetalle4.setPadding(5);
+            detalleTable.addCell(cDetalle4);
+
+            PdfPCell cMonto4 = new PdfPCell(new Phrase("$" + String.format("%.2f", totalAPagar), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9)));
+            cMonto4.setBorder(0);
+            cMonto4.setPadding(5);
+            cMonto4.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            detalleTable.addCell(cMonto4);
+
+// -------------------------------------------------------------
+// Agregar la tabla al documento
+// -------------------------------------------------------------
+            document.add(detalleTable);
+
+            // --- Firma y fecha ---
+            Paragraph firma = new Paragraph(
+                    "Cajero: " + cajero + "\n"
+                    + "Fecha: " + fecha + "  Hora: " + hora,
+                    FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)
+            );
+            firma.setAlignment(Element.ALIGN_LEFT);
+            document.add(firma);
+
+            // --- Copyright ---
+            Paragraph copyright = new Paragraph("© Software Escobedo", FontFactory.getFont(FontFactory.HELVETICA, 7));
+            copyright.setAlignment(Element.ALIGN_CENTER);
+            document.add(copyright);
+
             document.close();
+            writer.close();
+
+            // Después de document.close() y writer.close()
+            try {
+                // Abre el PDF con la aplicación predeterminada del sistema
+                Desktop.getDesktop().open(new File(reciboFilePath));
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, 
+                    "No se pudo abrir el archivo PDF automáticamente. " 
+                    + "Ubicación: " + reciboFilePath,
+                    "Error al abrir PDF",
+                    JOptionPane.ERROR_MESSAGE
+                );
+            }
 
             JOptionPane.showMessageDialog(null, "Recibo generado: " + reciboFilePath);
         } catch (DocumentException | FileNotFoundException ex) {

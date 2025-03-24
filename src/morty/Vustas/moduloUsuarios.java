@@ -4,7 +4,7 @@
  */
 package morty.Vustas;
 
-import Config.Conexion;
+import activacion.ConexionServidor;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -24,7 +24,7 @@ public class moduloUsuarios extends javax.swing.JInternalFrame {
     }
 
     public void listarUsuarios() {
-        Conexion conexion = new Conexion();
+        ConexionServidor conexion = new ConexionServidor();
         Connection cn = conexion.getConnection();
         if (cn != null) {
             PreparedStatement cursor;
@@ -58,7 +58,7 @@ public class moduloUsuarios extends javax.swing.JInternalFrame {
         if (resultado == JOptionPane.YES_OPTION) {
             int id = Integer.parseInt(entryID.getText());
 
-            Conexion conexion = new Conexion();
+            ConexionServidor conexion = new ConexionServidor();
             Connection cn = conexion.getConnection();
 
             if (cn != null) {
@@ -94,7 +94,7 @@ public class moduloUsuarios extends javax.swing.JInternalFrame {
             String password = entryPassword.getText();
             int rol = 0;
 
-            Conexion conexion = new Conexion();
+            ConexionServidor conexion = new ConexionServidor();
             Connection cn = conexion.getConnection();
 
             if (cn != null) {
@@ -130,7 +130,7 @@ public class moduloUsuarios extends javax.swing.JInternalFrame {
         String password = entryPassword.getText();
 
         if (nombre.length() > 0 && usuario.length() > 0) {
-            Conexion conexion = new Conexion();
+            ConexionServidor conexion = new ConexionServidor();
             Connection cn = conexion.getConnection();
 
             if (cn != null) {
@@ -276,6 +276,7 @@ public class moduloUsuarios extends javax.swing.JInternalFrame {
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flecha-de-circulo-de-disquete-a-la-derecha.png"))); // NOI18N
         jButton1.setText("Guardar");
+        jButton1.setEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

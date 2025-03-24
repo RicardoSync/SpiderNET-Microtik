@@ -34,6 +34,7 @@ public class InsertarDatos {
                 int filasAfectadas = cursor.executeUpdate();
 
                 if (filasAfectadas > 0) {
+                    con.close();
                     JOptionPane.showMessageDialog(null, "Se actualizaron las filas" + filasAfectadas, "Modulo Insertar Datos", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "No logramos ingresar los datos en la base", "Modulo Insertar Datos", JOptionPane.ERROR_MESSAGE);
@@ -67,6 +68,7 @@ public class InsertarDatos {
                 int filasAfectadas = cursor.executeUpdate();
 
                 if (filasAfectadas > 0) {
+                    con.close();
                     JOptionPane.showMessageDialog(null, "Se registro de manera exitosa la antena", "Modulo Insertar", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "No logramos insertar ningun elemento", "Modulo Insertar", JOptionPane.ERROR_MESSAGE);
@@ -97,6 +99,7 @@ public class InsertarDatos {
                 int filasAfectadas = cursor.executeUpdate();
 
                 if (filasAfectadas > 0) {
+                    con.close();
                     JOptionPane.showMessageDialog(null, "Se registro de manera exitosa el paquete", "Modulo Insertar", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "Tenemos un error al insertar el elemento", "Modulo Insertar", JOptionPane.ERROR_MESSAGE);
@@ -329,6 +332,7 @@ public class InsertarDatos {
 
                     if (pstmt2.executeUpdate() > 0 && pstmt3.executeUpdate() > 0) {
                         cn.commit();
+                        cn.close();
                         JOptionPane.showMessageDialog(null, "Cliente y equipos agregados al sistema", "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         cn.rollback();
@@ -373,6 +377,7 @@ public class InsertarDatos {
                 int rows = cursor.executeUpdate();
 
                 if (rows > 0) {
+                    cn.close();
                     JOptionPane.showMessageDialog(null, "Se agrego de manera correcta el equipo al sistema", "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (SQLException e) {
@@ -399,6 +404,7 @@ public class InsertarDatos {
                 int rows = cursor.executeUpdate();
 
                 if (rows > 0) {
+                    cn.close();
                     JOptionPane.showMessageDialog(null, "Se registro de manera exitosa el servicio", "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
                 }
 
@@ -428,6 +434,7 @@ public class InsertarDatos {
                 int rows = cursor.executeUpdate();
 
                 if (rows > 0) {
+                    cn.close();
                     JOptionPane.showMessageDialog(null, "Pago registrado");
                 }
             } catch (SQLException e) {
@@ -556,6 +563,7 @@ public class InsertarDatos {
                         int resultadoDos = cursorDos.executeUpdate();
 
                         if (resultadoDos >= 0) {
+                            cn.close();
                             JOptionPane.showMessageDialog(null, "Cliente registrado de manera exitosa");
                         }
                     } catch (SQLException e) {

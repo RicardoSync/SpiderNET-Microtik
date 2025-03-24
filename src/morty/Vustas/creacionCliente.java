@@ -709,6 +709,7 @@ public class creacionCliente extends javax.swing.JInternalFrame {
                         primerEquipo, tipo, marca, modelo, mac, serial, estado,
                         segundoEquipo, tipoExtra, marcaExtra, modeloExtra, macExtra, serialExtra, estadoExtra, microtikNombre);
                 
+                
             } else if (primerEquipo.length() > 0) {
                 // Si solo tenemos el primer equipo
                 String tipoUno = (String) comboTipoEquipo1.getSelectedItem();

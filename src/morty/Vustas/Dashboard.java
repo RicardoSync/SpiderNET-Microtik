@@ -5,12 +5,17 @@
 package morty.Vustas;
 
 import Config.Conexion;
+import caja.Egresos;
+import caja.corteCaja;
+import com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import testDeveloper.testEnvios;
 
 /**
  *
@@ -42,6 +47,8 @@ public class Dashboard extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem19 = new javax.swing.JMenuItem();
+        jMenuItem29 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
@@ -52,21 +59,33 @@ public class Dashboard extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu10 = new javax.swing.JMenu();
-        jMenuItem17 = new javax.swing.JMenuItem();
+        jMenu8 = new javax.swing.JMenu();
+        jMenuItem12 = new javax.swing.JMenuItem();
+        jMenuItem21 = new javax.swing.JMenuItem();
+        jMenuItem20 = new javax.swing.JMenuItem();
+        jMenuItem22 = new javax.swing.JMenuItem();
+        jMenuItem23 = new javax.swing.JMenuItem();
+        jMenuItem24 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem25 = new javax.swing.JMenuItem();
+        jMenu11 = new javax.swing.JMenu();
         jMenuItem18 = new javax.swing.JMenuItem();
-        jMenuItem19 = new javax.swing.JMenuItem();
+        jMenuItem17 = new javax.swing.JMenuItem();
+        jMenuItem26 = new javax.swing.JMenuItem();
+        jMenuItem27 = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem28 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("SpiderNET - Morty");
+        setTitle("SpiderNET");
 
         escritorioInterno.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -78,14 +97,16 @@ public class Dashboard extends javax.swing.JFrame {
         );
         escritorioInternoLayout.setVerticalGroup(
             escritorioInternoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 751, Short.MAX_VALUE)
+            .addGap(0, 752, Short.MAX_VALUE)
         );
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/busqueda.png"))); // NOI18N
         jMenu1.setText("Clientes");
 
         jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/agregar-usuario.png"))); // NOI18N
         jMenuItem4.setText("Crear Cliente");
+        jMenuItem4.setEnabled(false);
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
@@ -105,7 +126,8 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Pagos");
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/caja-registradora.png"))); // NOI18N
+        jMenu2.setText("Caja");
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/monedas.png"))); // NOI18N
@@ -117,8 +139,27 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem6);
 
+        jMenuItem19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/gastos.png"))); // NOI18N
+        jMenuItem19.setText("Salidas");
+        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem19ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem19);
+
+        jMenuItem29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cartera.png"))); // NOI18N
+        jMenuItem29.setText("Corte Caja");
+        jMenuItem29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem29ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem29);
+
         jMenuBar1.add(jMenu2);
 
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/tacometro-alt-mas-rapido.png"))); // NOI18N
         jMenu3.setText("Paquetes Internet");
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -133,6 +174,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
+        jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/aplicaciones-anadir.png"))); // NOI18N
         jMenu9.setText("Servicios");
 
         jMenuItem16.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -147,6 +189,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu9);
 
+        jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/enrutador-wifi.png"))); // NOI18N
         jMenu7.setText("Equipos");
 
         jMenuItem14.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -161,11 +204,12 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu7);
 
-        jMenu4.setText("AP's / PON");
+        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/wi-fi-alternativo.png"))); // NOI18N
+        jMenu4.setText("Antenas AP");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/wi-fi-alternativo.png"))); // NOI18N
-        jMenuItem1.setText("AP's / PON");
+        jMenuItem1.setText("Antenas AP");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -175,6 +219,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu4);
 
+        jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/base-de-datos.png"))); // NOI18N
         jMenu5.setText("Microtik");
         jMenu5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,7 +229,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/base-de-datos.png"))); // NOI18N
-        jMenuItem3.setText("Microtik / OLT");
+        jMenuItem3.setText("Microtik");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -194,23 +239,148 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu5);
 
-        jMenu10.setText("Whatsapp");
+        jMenu8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/modo-retrato.png"))); // NOI18N
+        jMenu8.setText("PPoE");
+        jMenu8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu8ActionPerformed(evt);
+            }
+        });
 
-        jMenuItem17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/servicio-de-habitaciones.png"))); // NOI18N
-        jMenuItem17.setText("Mensaje por corte de dia");
-        jMenu10.add(jMenuItem17);
+        jMenuItem12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/suspension-del-puente.png"))); // NOI18N
+        jMenuItem12.setText("Bridge Int");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem12);
 
-        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/modo-retrato.png"))); // NOI18N
-        jMenuItem18.setText("Mensajes masivos");
-        jMenu10.add(jMenuItem18);
+        jMenuItem21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/barco.png"))); // NOI18N
+        jMenuItem21.setText("Add interface to bridge");
+        jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem21ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem21);
 
-        jMenuItem19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/comentarios-pregunta.png"))); // NOI18N
-        jMenuItem19.setText("Mensaje Personal");
-        jMenu10.add(jMenuItem19);
+        jMenuItem20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/direccion-ip.png"))); // NOI18N
+        jMenuItem20.setText("IP Pool");
+        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem20ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem20);
 
-        jMenuBar1.add(jMenu10);
+        jMenuItem22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/enrutador-wifi.png"))); // NOI18N
+        jMenuItem22.setText("PPoE Servers");
+        jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem22ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem22);
 
-        jMenu6.setText("Software Escobedo");
+        jMenuItem23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/tacometro-alt-mas-rapido.png"))); // NOI18N
+        jMenuItem23.setText("Porfile PPPoE");
+        jMenuItem23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem23ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem23);
+
+        jMenuItem24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bolsa-de-usuario.png"))); // NOI18N
+        jMenuItem24.setText("Create Client PPPoE");
+        jMenuItem24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem24ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem24);
+
+        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuarios.png"))); // NOI18N
+        jMenuItem11.setText("PPP Client Active");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem11);
+        jMenu8.add(jSeparator2);
+
+        jMenuItem25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lapiz-regla.png"))); // NOI18N
+        jMenuItem25.setText("Apply Rules");
+        jMenuItem25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem25ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem25);
+
+        jMenuBar1.add(jMenu8);
+
+        jMenu11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/perno-circular-del-tapon.png"))); // NOI18N
+        jMenu11.setText("Simple Queue");
+        jMenu11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu11ActionPerformed(evt);
+            }
+        });
+
+        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flechas-para-rodear.png"))); // NOI18N
+        jMenuItem18.setText("DNS y NAT");
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
+        jMenu11.add(jMenuItem18);
+
+        jMenuItem17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lista-de-rectangulos.png"))); // NOI18N
+        jMenuItem17.setText("DHCP");
+        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem17ActionPerformed(evt);
+            }
+        });
+        jMenu11.add(jMenuItem17);
+
+        jMenuItem26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/equipo-de-usuario.png"))); // NOI18N
+        jMenuItem26.setText("DHCP Config");
+        jMenuItem26.setEnabled(false);
+        jMenuItem26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem26ActionPerformed(evt);
+            }
+        });
+        jMenu11.add(jMenuItem26);
+
+        jMenuItem27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lapiz-regla.png"))); // NOI18N
+        jMenuItem27.setText("Apply Rules");
+        jMenuItem27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem27ActionPerformed(evt);
+            }
+        });
+        jMenu11.add(jMenuItem27);
+        jMenu11.add(jSeparator3);
+
+        jMenuItem28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/configuracion-alternativa-del-flujo-de-trabajo.png"))); // NOI18N
+        jMenuItem28.setText("Config");
+        jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem28ActionPerformed(evt);
+            }
+        });
+        jMenu11.add(jMenuItem28);
+
+        jMenuBar1.add(jMenu11);
+
+        jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/comentarios-pregunta.png"))); // NOI18N
+        jMenu6.setText("SpiderNET");
 
         jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pregunta.png"))); // NOI18N
         jMenuItem7.setText("Informacion");
@@ -223,6 +393,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuarios.png"))); // NOI18N
         jMenuItem13.setText("Usuarios");
+        jMenuItem13.setEnabled(false);
         jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem13ActionPerformed(evt);
@@ -238,15 +409,6 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
         jMenu6.add(jMenuItem10);
-
-        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/base-de-datos.png"))); // NOI18N
-        jMenuItem9.setText("Server MySQL");
-        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem9ActionPerformed(evt);
-            }
-        });
-        jMenu6.add(jMenuItem9);
         jMenu6.add(jSeparator1);
 
         jMenuItem15.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -281,7 +443,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorioInterno)
+            .addComponent(escritorioInterno, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         pack();
@@ -395,12 +557,128 @@ public class Dashboard extends javax.swing.JFrame {
         fnt.show();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        configuracion cnf = new configuracion();
-        Dashboard.escritorioInterno.add(cnf);
-        cnf.show();
+    private void jMenu8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu8ActionPerformed
+        ApplyRules applyRules = new ApplyRules();
+        Dashboard.escritorioInterno.add(applyRules);
+        applyRules.show();
+        
+        
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
+    }//GEN-LAST:event_jMenu8ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        System.out.println("holaa");
+        Bridge b = new Bridge();
+        Dashboard.escritorioInterno.add(b);
+        b.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed
+        System.out.println("hola que haces viendo los logs??");
+        AddInterfaceBridge addInterfaceBridge = new AddInterfaceBridge();
+        Dashboard.escritorioInterno.add(addInterfaceBridge);
+        addInterfaceBridge.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem21ActionPerformed
+
+    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
+        System.out.println("!");
+        IpPools ipPools = new IpPools();
+        Dashboard.escritorioInterno.add(ipPools);
+        ipPools.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem20ActionPerformed
+
+    private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
+        PPoE_Service e_Service = new PPoE_Service();
+        Dashboard.escritorioInterno.add(e_Service);
+        e_Service.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem22ActionPerformed
+
+    private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
+        PerilPPPoE pPPoE = new PerilPPPoE();
+        Dashboard.escritorioInterno.add(pPPoE);
+        pPPoE.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem23ActionPerformed
+
+    private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
+        CreateClientePPPoE ccpppe = new CreateClientePPPoE();
+        Dashboard.escritorioInterno.add(ccpppe);
+        ccpppe.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem24ActionPerformed
+
+    private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
+        ApplyRules applyRules = new ApplyRules();
+        Dashboard.escritorioInterno.add(applyRules);
+        applyRules.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem25ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        clientActivatePPPoE activatePPPoE = new clientActivatePPPoE();
+        Dashboard.escritorioInterno.add(activatePPPoE);
+        activatePPPoE.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenu11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu11ActionPerformed
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu11ActionPerformed
+
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        simpleDNS dNS = new simpleDNS();
+        Dashboard.escritorioInterno.add(dNS);
+        dNS.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
+
+    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+        simpleAddresList addresList = new simpleAddresList();
+        Dashboard.escritorioInterno.add(addresList);
+        addresList.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem17ActionPerformed
+
+    private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
+
+        simpleDHCP cP = new simpleDHCP();
+        Dashboard.escritorioInterno.add(cP);
+        cP.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem26ActionPerformed
+
+    private void jMenuItem27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem27ActionPerformed
+        ApplyRules applyRules = new ApplyRules();
+        Dashboard.escritorioInterno.add(applyRules);
+        applyRules.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem27ActionPerformed
+
+    private void jMenuItem28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem28ActionPerformed
+        simpleConfiguracion c = new simpleConfiguracion();
+        Dashboard.escritorioInterno.add(c);
+        c.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem28ActionPerformed
+
+    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+        Egresos egresos = new Egresos();
+        Dashboard.escritorioInterno.add(egresos);
+        egresos.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem19ActionPerformed
+
+    private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
+        corteCaja c = new corteCaja();
+        Dashboard.escritorioInterno.add(c);
+        c.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem29ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -441,17 +719,20 @@ public class Dashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane escritorioInterno;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu10;
+    private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
     private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
@@ -460,13 +741,24 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem20;
+    private javax.swing.JMenuItem jMenuItem21;
+    private javax.swing.JMenuItem jMenuItem22;
+    private javax.swing.JMenuItem jMenuItem23;
+    private javax.swing.JMenuItem jMenuItem24;
+    private javax.swing.JMenuItem jMenuItem25;
+    private javax.swing.JMenuItem jMenuItem26;
+    private javax.swing.JMenuItem jMenuItem27;
+    private javax.swing.JMenuItem jMenuItem28;
+    private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     // End of variables declaration//GEN-END:variables
 }

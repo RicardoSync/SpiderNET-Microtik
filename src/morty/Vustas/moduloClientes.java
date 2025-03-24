@@ -10,10 +10,15 @@ import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
 import Recibos.pagoWindows;
 import java.awt.Color;
+import java.net.ConnectException;
 import java.sql.*;
 import microtik.cambioVelocidad;
 import microtik.lucifer;
 import Config.UpdateDatos;
+import microtik.PPoEAuto;
+import microtik.actualizaQueueTask;
+import microtik.taskMicrotik;
+import microtik.testConnectionAsync;
 
 public class moduloClientes extends javax.swing.JInternalFrame {
 
@@ -26,20 +31,19 @@ public class moduloClientes extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        submenu_clientes = new javax.swing.JPopupMenu();
+        click_bloquear = new javax.swing.JMenuItem();
+        click_desbloquear = new javax.swing.JMenuItem();
+        click_agregar_queue = new javax.swing.JMenuItem();
+        click_actualizar_velocidad = new javax.swing.JMenuItem();
+        click_editar = new javax.swing.JMenuItem();
+        click_refresh = new javax.swing.JMenuItem();
+        click_pagar = new javax.swing.JMenuItem();
+        click_eliminar = new javax.swing.JMenuItem();
+        click_probar_cliente = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
-        btnEditar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
-        btnRefrescar = new javax.swing.JButton();
-        btnPagar = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        btnBloquear = new javax.swing.JButton();
-        btnSimpleQueue = new javax.swing.JButton();
-        btnCambiarVelocidad = new javax.swing.JButton();
-        btnDesbloquear = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         entryNombre = new javax.swing.JTextField();
@@ -47,6 +51,88 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         entryIpBusqueda = new javax.swing.JTextField();
         btnBuscarIP = new javax.swing.JButton();
+
+        click_bloquear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bloquear-hashtag.png"))); // NOI18N
+        click_bloquear.setText("Bloquear");
+        click_bloquear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                click_bloquearActionPerformed(evt);
+            }
+        });
+        submenu_clientes.add(click_bloquear);
+
+        click_desbloquear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/desbloquear.png"))); // NOI18N
+        click_desbloquear.setText("Desbloquear");
+        click_desbloquear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                click_desbloquearActionPerformed(evt);
+            }
+        });
+        submenu_clientes.add(click_desbloquear);
+
+        click_agregar_queue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/barco.png"))); // NOI18N
+        click_agregar_queue.setText("Agregar a QUEUE");
+        click_agregar_queue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                click_agregar_queueActionPerformed(evt);
+            }
+        });
+        submenu_clientes.add(click_agregar_queue);
+
+        click_actualizar_velocidad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/tacometro-alt-mas-rapido.png"))); // NOI18N
+        click_actualizar_velocidad.setText("Actualizar Velocidad");
+        click_actualizar_velocidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                click_actualizar_velocidadActionPerformed(evt);
+            }
+        });
+        submenu_clientes.add(click_actualizar_velocidad);
+
+        click_editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lapiz.png"))); // NOI18N
+        click_editar.setText("Editar");
+        click_editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                click_editarActionPerformed(evt);
+            }
+        });
+        submenu_clientes.add(click_editar);
+
+        click_refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/actualizar.png"))); // NOI18N
+        click_refresh.setText("Recargar");
+        click_refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                click_refreshActionPerformed(evt);
+            }
+        });
+        submenu_clientes.add(click_refresh);
+
+        click_pagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cartera.png"))); // NOI18N
+        click_pagar.setText("Regitrar pago");
+        click_pagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                click_pagarActionPerformed(evt);
+            }
+        });
+        submenu_clientes.add(click_pagar);
+
+        click_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/borrar.png"))); // NOI18N
+        click_eliminar.setText("Eliminar");
+        click_eliminar.setToolTipText("");
+        click_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                click_eliminarActionPerformed(evt);
+            }
+        });
+        submenu_clientes.add(click_eliminar);
+
+        click_probar_cliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/carta-red.png"))); // NOI18N
+        click_probar_cliente.setText("Probar cliente");
+        click_probar_cliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                click_probar_clienteActionPerformed(evt);
+            }
+        });
+        submenu_clientes.add(click_probar_cliente);
 
         setClosable(true);
         setIconifiable(true);
@@ -64,6 +150,7 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                 "ID", "Nombre", "Telefono", "Microtik/OLT", "Direccion", "Instalacion", "Paquete", "IP Cliente", "Corte", "Antena AP", "TV", "Strem"
             }
         ));
+        jTable1.setComponentPopupMenu(submenu_clientes);
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setMinWidth(50);
@@ -77,140 +164,11 @@ public class moduloClientes extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1072, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-        );
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones Edicion"));
-
-        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lapiz.png"))); // NOI18N
-        btnEditar.setText("Editar");
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
-            }
-        });
-
-        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/quitar-carpeta.png"))); // NOI18N
-        btnEliminar.setText("Eliminar");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
-
-        btnRefrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/girar-cuadrado.png"))); // NOI18N
-        btnRefrescar.setText("Refrescar");
-        btnRefrescar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefrescarActionPerformed(evt);
-            }
-        });
-
-        btnPagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cartera.png"))); // NOI18N
-        btnPagar.setText("Pagar");
-        btnPagar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPagarActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnRefrescar, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
-                    .addComponent(btnPagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnEditar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRefrescar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPagar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addComponent(btnEliminar)
-                .addContainerGap())
-        );
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones Microtik"));
-
-        btnBloquear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bloquear-hashtag.png"))); // NOI18N
-        btnBloquear.setText("Bloquear Cliente");
-        btnBloquear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBloquearActionPerformed(evt);
-            }
-        });
-
-        btnSimpleQueue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lista-de-rectangulos.png"))); // NOI18N
-        btnSimpleQueue.setText("Agregar SimpleQueue");
-        btnSimpleQueue.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSimpleQueueActionPerformed(evt);
-            }
-        });
-
-        btnCambiarVelocidad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/tacometro-alt-mas-rapido.png"))); // NOI18N
-        btnCambiarVelocidad.setText("Actualizar Velocidad");
-        btnCambiarVelocidad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCambiarVelocidadActionPerformed(evt);
-            }
-        });
-
-        btnDesbloquear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/desbloquear.png"))); // NOI18N
-        btnDesbloquear.setText("Desbloquear Cliente");
-        btnDesbloquear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDesbloquearActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("Doblenet 2025");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBloquear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSimpleQueue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCambiarVelocidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDesbloquear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBloquear)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnDesbloquear)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSimpleQueue)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCambiarVelocidad)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addContainerGap(22, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Busqueda"));
@@ -252,7 +210,7 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                 .addComponent(entryIpBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnBuscarIP)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(229, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,63 +231,56 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnRefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefrescarActionPerformed
-        listarClientes();
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        buscarCliente();
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnRefrescarActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        int filaSeleccionada;
-        try {
-            filaSeleccionada = jTable1.getSelectedRow();
-
-            if (filaSeleccionada >= 0) {
-                int id = (int) jTable1.getValueAt(filaSeleccionada, 0);
-                listarClientes();
-                DeleteDatos deleteDatos = new DeleteDatos();
-                deleteDatos.eliminarCliente(id);
-                listarClientes();
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Para eliminar un cliente, primero seleccionelo", "SpiderNET", JOptionPane.WARNING_MESSAGE);
-            }
-        } catch (Exception e) {
-        }
+    private void btnBuscarIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIPActionPerformed
+        buscarIp();
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminarActionPerformed
+    }//GEN-LAST:event_btnBuscarIPActionPerformed
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+    private void click_bloquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_click_bloquearActionPerformed
+        bloquearCliente();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_click_bloquearActionPerformed
+
+    private void click_desbloquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_click_desbloquearActionPerformed
+        debloquearCliente();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_click_desbloquearActionPerformed
+
+    private void click_agregar_queueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_click_agregar_queueActionPerformed
+      agregarQueue();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_click_agregar_queueActionPerformed
+
+    private void click_actualizar_velocidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_click_actualizar_velocidadActionPerformed
+        cambioVelocidad();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_click_actualizar_velocidadActionPerformed
+
+    private void click_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_click_editarActionPerformed
         int filaSeleccionada;
         try {
             filaSeleccionada = jTable1.getSelectedRow();
@@ -357,81 +308,80 @@ public class moduloClientes extends javax.swing.JInternalFrame {
             }
         } catch (Exception e) {
         }
-    }//GEN-LAST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_click_editarActionPerformed
 
-    private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
+    private void click_refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_click_refreshActionPerformed
+    listarClientes();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_click_refreshActionPerformed
+
+    private void click_pagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_click_pagarActionPerformed
         int filaSeleccionada;
         filaSeleccionada = jTable1.getSelectedRow();
         if (filaSeleccionada >= 0) {
             int id = (int) jTable1.getValueAt(filaSeleccionada, 0);
             String nombre = (String) jTable1.getValueAt(filaSeleccionada, 1);
             String paquete = (String) jTable1.getValueAt(filaSeleccionada, 6);
-            String direccionIp = (String) jTable1.getValueAt(filaSeleccionada, 8);
-            String servicios = (String) jTable1.getValueAt(filaSeleccionada, 12);
+            String direccionIp = (String) jTable1.getValueAt(filaSeleccionada, 7);
+            String servicios = (String) jTable1.getValueAt(filaSeleccionada, 11);
+            String nombreMicrotik = (String)jTable1.getValueAt(filaSeleccionada, 3);
 
-            pagoWindows windows = new pagoWindows(id, nombre, paquete, servicios, direccionIp);
+            pagoWindows windows = new pagoWindows(id, nombre, paquete, servicios, direccionIp, nombreMicrotik);
             Dashboard.escritorioInterno.add(windows);
             windows.show();
         } else {
             JOptionPane.showMessageDialog(null, "Para registrar un pago, seleccione el cliente", "SpiderNET", JOptionPane.WARNING_MESSAGE);
         }
-
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnPagarActionPerformed
+    }//GEN-LAST:event_click_pagarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        buscarCliente();
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void click_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_click_eliminarActionPerformed
+        int filaSeleccionada;
+        try {
+            filaSeleccionada = jTable1.getSelectedRow();
 
-    private void btnBloquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBloquearActionPerformed
-        bloquearCliente();
+            if (filaSeleccionada >= 0) {
+                int id = (int) jTable1.getValueAt(filaSeleccionada, 0);
+                listarClientes();
+                DeleteDatos deleteDatos = new DeleteDatos();
+                deleteDatos.eliminarCliente(id);
+                listarClientes();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Para eliminar un cliente, primero seleccionelo", "SpiderNET", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception e) {
+        }
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnBloquearActionPerformed
+    }//GEN-LAST:event_click_eliminarActionPerformed
 
-    private void btnDesbloquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesbloquearActionPerformed
-        debloquearCliente();
+    private void click_probar_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_click_probar_clienteActionPerformed
+        testConexion();
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnDesbloquearActionPerformed
-
-    private void btnSimpleQueueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpleQueueActionPerformed
-        agregarQueue();
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSimpleQueueActionPerformed
-
-    private void btnCambiarVelocidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarVelocidadActionPerformed
-        cambioVelocidad();
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCambiarVelocidadActionPerformed
-
-    private void btnBuscarIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIPActionPerformed
-        buscarIp();
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnBuscarIPActionPerformed
+    }//GEN-LAST:event_click_probar_clienteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBloquear;
     private javax.swing.JButton btnBuscarIP;
-    private javax.swing.JButton btnCambiarVelocidad;
-    private javax.swing.JButton btnDesbloquear;
-    private javax.swing.JButton btnEditar;
-    private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnPagar;
-    private javax.swing.JButton btnRefrescar;
-    private javax.swing.JButton btnSimpleQueue;
+    private javax.swing.JMenuItem click_actualizar_velocidad;
+    private javax.swing.JMenuItem click_agregar_queue;
+    private javax.swing.JMenuItem click_bloquear;
+    private javax.swing.JMenuItem click_desbloquear;
+    private javax.swing.JMenuItem click_editar;
+    private javax.swing.JMenuItem click_eliminar;
+    private javax.swing.JMenuItem click_pagar;
+    private javax.swing.JMenuItem click_probar_cliente;
+    private javax.swing.JMenuItem click_refresh;
     private javax.swing.JTextField entryIpBusqueda;
     private javax.swing.JTextField entryNombre;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JPopupMenu submenu_clientes;
     // End of variables declaration//GEN-END:variables
 
     private void listarClientes() {
@@ -444,22 +394,24 @@ public class moduloClientes extends javax.swing.JInternalFrame {
 
             try {
                 String sql = """
-                             SELECT 
+                                SELECT 
                                  c.id,
                                  c.nombre,
                                  c.telefono,
-                                 cm.nombre AS microtik_nombre,  -- Obtener el nombre en lugar del id_microtik
+                                 cm.nombre AS microtik_nombre,  -- Obtener el nombre del MikroTik
                                  c.direccion,
-                                 DATE_FORMAT(c.fecha_registro, '%d/%m/%Y') AS fecha_registro,  -- Formato de la fecha
+                                 DATE_FORMAT(c.fecha_registro, '%d/%m/%Y') AS fecha_registro,  -- Formato de fecha
                                  p.nombre AS paquete,  -- Obtener el nombre del paquete
                                  c.ip_cliente,
                                  c.dia_corte,
-                                 c.ap_antena,
+                                 a.nombre AS antena_ap,  -- Obtener el nombre de la antena (si existe)
                                  c.serviciosTV,
-                                 c.serviciosPlataformas
+                                 sp.nombre AS servicio_plataforma  -- Obtener el nombre del servicio de plataforma
                              FROM clientes c
                              LEFT JOIN paquetes p ON c.id_paquete = p.id
-                             LEFT JOIN credenciales_microtik cm ON c.id_microtik = cm.id;  -- Unir con la tabla credenciales_microtik
+                             LEFT JOIN credenciales_microtik cm ON c.id_microtik = cm.id
+                             LEFT JOIN antenasap a ON c.id_antena_ap = a.idantenasAp
+                             LEFT JOIN serviciosplataforma sp ON c.id_servicio_plataforma = sp.idPlataformas;
                              """;
                 DefaultTableModel modelo;
                 st = cn.createStatement();
@@ -480,14 +432,13 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                     clientes[6] = rs.getString("paquete");
                     clientes[7] = rs.getString("ip_cliente");
                     clientes[8] = rs.getString("dia_corte");
-                    clientes[9] = rs.getString("ap_antena");
+                    clientes[9] = rs.getString("antena_ap");
                     clientes[10] = rs.getString("serviciosTV");
-                    clientes[11] = rs.getString("serviciosPlataformas");
+                    clientes[11] = rs.getString("servicio_plataforma");
 
                     modelo.addRow(clientes);
                 }
                 jTable1.setModel(modelo);
-                
 
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "Error al listar los clientes: " + e, "SpiderNET", JOptionPane.ERROR_MESSAGE);
@@ -587,8 +538,8 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         filaSeleccionada = jTable1.getSelectedRow();
         if (filaSeleccionada >= 0) {
             String nombreMicrotik = (String) jTable1.getValueAt(filaSeleccionada, 3);
-            String targetIp = (String) jTable1.getValueAt(filaSeleccionada, 8);
-            int id = (int)jTable1.getValueAt(filaSeleccionada, 0);
+            String targetIp = (String) jTable1.getValueAt(filaSeleccionada, 7);
+            int id = (int) jTable1.getValueAt(filaSeleccionada, 0);
 
             Conexion conexion = new Conexion();
             Connection cn = conexion.getConnection();
@@ -608,9 +559,12 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                         String password = resultado.getString("password");
                         String routerIp = resultado.getString("ip");
 
-                        lucifer bloqueo = new lucifer();
-                        bloqueo.bloqueoCliente(routerIp, user, password, targetIp);
+                        //lucifer bloqueo = new lucifer();
+                       // bloqueo.bloqueoCliente(routerIp, user, password, targetIp);
                         //String routerIp, String user, String password, String targetIp
+                        //(String address, String user, String host, String password)
+                        PPoEAuto auto = new PPoEAuto();
+                        auto.bloquearClientePPoE(targetIp, user, routerIp, password);
                         UpdateDatos datos = new UpdateDatos();
                         datos.bloqueo(id);
                     }
@@ -631,7 +585,7 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         filaSeleccionada = jTable1.getSelectedRow();
         if (filaSeleccionada >= 0) {
             String nombreMicrotik = (String) jTable1.getValueAt(filaSeleccionada, 3);
-            String targetIp = (String) jTable1.getValueAt(filaSeleccionada, 8);
+            String targetIp = (String) jTable1.getValueAt(filaSeleccionada, 7);
 
             Conexion conexion = new Conexion();
             Connection cn = conexion.getConnection();
@@ -651,9 +605,12 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                         String password = resultado.getString("password");
                         String routerIp = resultado.getString("ip");
 
-                        lucifer bloqueo = new lucifer();
-                        bloqueo.desbloqueoCliente(routerIp, user, password, targetIp);
+                        //lucifer bloqueo = new lucifer();
+                        //bloqueo.desbloqueoCliente(routerIp, user, password, targetIp);
                         //String routerIp, String user, String password, String targetIp
+                        //String ipCliente, String user, String password, String host
+                        PPoEAuto auto = new PPoEAuto();
+                        auto.desbloquearCliente(targetIp, user, password, routerIp);
                     }
 
                 } catch (SQLException e) {
@@ -672,7 +629,7 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         filaSeleccionada = jTable1.getSelectedRow();
         if (filaSeleccionada >= 0) {
             String nombreCliente = (String) jTable1.getValueAt(filaSeleccionada, 1);
-            String ipCliente = (String) jTable1.getValueAt(filaSeleccionada, 8);
+            String ipCliente = (String) jTable1.getValueAt(filaSeleccionada, 7);
             String paquete = (String) jTable1.getValueAt(filaSeleccionada, 6);
             String nombreMicrotik = (String) jTable1.getValueAt(filaSeleccionada, 3);
 
@@ -716,7 +673,7 @@ public class moduloClientes extends javax.swing.JInternalFrame {
 
         if (filaSeleccionada >= 0) {
             //String nombreCliente, String ip, String paquete
-            String targetIp = (String) jTable1.getValueAt(filaSeleccionada, 8);
+            String targetIp = (String) jTable1.getValueAt(filaSeleccionada, 7);
             String paquete = (String) jTable1.getValueAt(filaSeleccionada, 6);
             String microtik = (String) jTable1.getValueAt(filaSeleccionada, 3);
 
@@ -749,8 +706,9 @@ public class moduloClientes extends javax.swing.JInternalFrame {
 
                             if (resultadoPaquete.next()) {
                                 String maxLimit = resultadoPaquete.getString("velocidad");
+                                String tiempoBurst = "20s";
                                 cambioVelocidad cambio = new cambioVelocidad();
-                                cambio.cambioVelocidad(routerIp, user, password, targetIp, maxLimit);
+                                cambio.cambioVelocidad(routerIp, user, password, targetIp, maxLimit, tiempoBurst);
                             } else {
                                 JOptionPane.showMessageDialog(null, "No podemos enctrar los datos de este paquete");
                             }
@@ -851,6 +809,167 @@ public class moduloClientes extends javax.swing.JInternalFrame {
             }
         } else {
             JOptionPane.showMessageDialog(null, "No logramos establecer una conexión", "Módulo Clientes", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void bloquearPPPoE() {
+        int rows = jTable1.getSelectedRow();
+        if (rows >= 0) {
+            String addres = (String) jTable1.getValueAt(rows, 7);
+            String nombreMicrotik = (String) jTable1.getValueAt(rows, 3);
+            String nuevoPerfil = "";
+            if (addres.isBlank() && nombreMicrotik.isBlank()) {
+                JOptionPane.showConfirmDialog(null, "El campo de microtik e ip no deben estar solos");
+            } else {
+                String modo = "bloqueo";
+                buscarCredencialesPPPoE(modo, addres, nombreMicrotik, nuevoPerfil);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor primero selecciona un cliente");
+        }
+    }
+
+    public void desbloquearPPPoE() {
+        int rows = jTable1.getSelectedRow();
+        if (rows >= 0) {
+            String addres = (String) jTable1.getValueAt(rows, 7);
+            String nombreMicrotik = (String) jTable1.getValueAt(rows, 3);
+            String nuevoPerfil = "";
+            if (addres.isBlank() && nombreMicrotik.isBlank()) {
+                JOptionPane.showConfirmDialog(null, "El campo de microtik e ip no deben estar solos");
+            } else {
+                String modo = "desbloqueo";
+                buscarCredencialesPPPoE(modo, addres, nombreMicrotik, nuevoPerfil);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor primero selecciona un cliente");
+        }
+    }
+    public void actualizarVelocidadPPoE() {
+        int rows = jTable1.getSelectedRow();
+        if (rows >= 0) {
+            String addres = (String) jTable1.getValueAt(rows, 7);
+            String nombreMicrotik = (String) jTable1.getValueAt(rows, 3);
+            String nuevoPerfil = (String)jTable1.getValueAt(rows, 6);
+            if (addres.isBlank() && nombreMicrotik.isBlank() && nuevoPerfil.isBlank()) {
+                JOptionPane.showConfirmDialog(null, "El campo de microtik e ip no deben estar solos");
+            } else {
+                String modo = "cambio_limit";
+                buscarCredencialesPPPoE(modo, addres, nombreMicrotik, nuevoPerfil);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor primero selecciona un cliente");
+        }
+    }
+  
+    public void buscarCredencialesPPPoE(String modo, String addres, String nombreMicrotik, String nuevoPerfil) {
+        Conexion conexion = new Conexion();
+        Connection cn = conexion.getConnection();
+        if (cn != null) {
+            PreparedStatement cursor;
+            ResultSet resultado;
+            String sql = "SELECT ip, username, password FROM credenciales_microtik WHERE nombre = ? LIMIT 1";
+            try {
+                cursor = cn.prepareStatement(sql);
+                cursor.setString(1, nombreMicrotik);
+                resultado = cursor.executeQuery();
+                if (resultado.next()) {
+                    String user = resultado.getString("username");
+                    String password = resultado.getString("password");
+                    String host = resultado.getString("ip");
+
+                    if (modo.equals("bloqueo")) {
+                        PPoEAuto pPoEAuto = new PPoEAuto();
+                        pPoEAuto.bloquearClientePPoE(addres, user, host, password);
+                    } else if (modo.equals("desbloqueo")) {
+                        PPoEAuto pPoEAuto = new PPoEAuto();
+                        pPoEAuto.desbloquearCliente(addres, user, password, host);
+                    } else if(modo.equals("cambio_limit")){
+                        PPoEAuto auto = new PPoEAuto();
+                        auto.actualizarProfilePorIP(addres, nuevoPerfil, user, password, host);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Tenemos problemas al buscar el microtik");
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Problemas con base de datos: " + e);
+                // TODO: handle exception
+            }
+        }
+    }
+
+    public void actualizarQueue(){
+        //String address, String newName, String user, String password, String host
+        int filaSeleccionada = jTable1.getSelectedRow();
+        if(filaSeleccionada>=0){
+            
+            Conexion conexion = new Conexion();
+            Connection cn = conexion.getConnection();
+            String sql = "SELECT ip, username, password FROM credenciales_microtik WHERE nombre = ?";
+            PreparedStatement cursor;
+            ResultSet resultado;
+            try {
+                String nombreMicrotik = (String)jTable1.getValueAt(filaSeleccionada, 3);
+                cursor = cn.prepareStatement(sql);
+                cursor.setString(1, nombreMicrotik);
+                
+                resultado = cursor.executeQuery();
+                
+                if(resultado.next()){
+                    String host = resultado.getString("ip");
+                    String user = resultado.getString("username");
+                    String password = resultado.getString("password");
+                    String newName = (String)jTable1.getValueAt(filaSeleccionada, 1);
+                    String address = (String)jTable1.getValueAt(filaSeleccionada, 7);
+                    
+                    newName = newName.trim();
+                    newName = newName.replaceAll("[^a-zA-Z0-9]", "");
+                    
+                    actualizaQueueTask qt = new actualizaQueueTask();
+                    qt.actualizarQueue(address, newName, user, password, host);
+                    
+                    cn.close();
+                }else{
+                    JOptionPane.showMessageDialog(null, "No encontramos informacion para este microtik: " + nombreMicrotik);
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, "Error al buscar el microtik en base de datos: " + e, "SpiderNET", JOptionPane.ERROR_MESSAGE);
+            }
+            
+        }
+    }
+    
+    public void testConexion(){
+        int filaSeleccionada = jTable1.getSelectedRow();
+        if(filaSeleccionada>=0){
+        Conexion conexion = new Conexion();
+        Connection cn = conexion.getConnection();
+        String sql = "SELECT ip, username, password FROM credenciales_microtik WHERE nombre = ?";
+        PreparedStatement cursor;
+            ResultSet resultado;
+            try {
+                String nombreMicrotik = (String)jTable1.getValueAt(filaSeleccionada, 3);
+                String direccion_ip = (String)jTable1.getValueAt(filaSeleccionada, 7);
+                cursor = cn.prepareStatement(sql);
+                cursor.setString(1, nombreMicrotik);
+                
+                resultado = cursor.executeQuery();
+                
+                if(resultado.next()){
+                    String host = resultado.getString("ip");
+                    String user = resultado.getString("username");
+                    String password = resultado.getString("password");
+                    testConnectionAsync async = new testConnectionAsync();
+                    async.testPingFromMikrotikAsync(user, password, host, direccion_ip);
+                    cn.close();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Sin credenciales para el mikrotik");
+                }
+        }catch(Exception e){
+                System.out.println("error de conexion: " + e);
+                JOptionPane.showMessageDialog(null, "Error en conexion: " + e);
+        }   
         }
     }
 }

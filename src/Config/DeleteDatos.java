@@ -31,6 +31,7 @@ public class DeleteDatos {
                 int rows = cursor.executeUpdate();  // Usamos executeUpdate() para la eliminación
 
                 if (rows > 0) {
+                    cn.close();
                     JOptionPane.showMessageDialog(null, "Se eliminó el elemento de manera correcta", "Módulo Eliminar", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "No logramos eliminar ningún elemento", "Módulo Eliminar", JOptionPane.ERROR_MESSAGE);
@@ -62,6 +63,7 @@ public class DeleteDatos {
                 int rows = cursor.executeUpdate();  // Usamos executeUpdate() para la eliminación
 
                 if (rows > 0) {
+                    cn.close();
                     JOptionPane.showMessageDialog(null, "Se eliminó el elemento de manera correcta", "Módulo Eliminar", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "No logramos eliminar ningún elemento", "Módulo Eliminar", JOptionPane.ERROR_MESSAGE);
@@ -93,6 +95,7 @@ public class DeleteDatos {
                 int rows = cursor.executeUpdate();  // Usamos executeUpdate() para la eliminación
 
                 if (rows > 0) {
+                    cn.close();
                     JOptionPane.showMessageDialog(null, "Se eliminó el elemento de manera correcta", "Módulo Eliminar", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "No logramos eliminar ningún elemento", "Módulo Eliminar", JOptionPane.ERROR_MESSAGE);
@@ -128,6 +131,7 @@ public class DeleteDatos {
                     crs.setInt(1, id);
                     crs.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Se eliminó el elemento de manera correcta", "Módulo Eliminar", JOptionPane.INFORMATION_MESSAGE);
+                    cn.close();
                 } else {
                     JOptionPane.showMessageDialog(null, "No logramos eliminar ningún elemento", "Módulo Eliminar", JOptionPane.ERROR_MESSAGE);
                 }
@@ -152,6 +156,7 @@ public class DeleteDatos {
                 int filasAfectadas = cursor.executeUpdate();
 
                 if (filasAfectadas > 0) {
+                    cn.close();
                     JOptionPane.showMessageDialog(null, "Se elimino de manera exitosa el equipo", "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (SQLException e) {
@@ -176,6 +181,7 @@ public class DeleteDatos {
                 int filasAfectadas = cursor.executeUpdate();
 
                 if (filasAfectadas > 0) {
+                    cn.close();
                     JOptionPane.showMessageDialog(null, "Se elimino de manera exitosa el servicio", "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (SQLException e) {
