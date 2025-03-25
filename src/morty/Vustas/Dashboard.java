@@ -60,6 +60,7 @@ public class Dashboard extends javax.swing.JFrame {
         jMenu5 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem21 = new javax.swing.JMenuItem();
         jMenuItem20 = new javax.swing.JMenuItem();
@@ -79,9 +80,11 @@ public class Dashboard extends javax.swing.JFrame {
         jMenu6 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
+        jMenuItem30 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem15 = new javax.swing.JMenuItem();
+        jMenuItem31 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -240,12 +243,21 @@ public class Dashboard extends javax.swing.JFrame {
         jMenuBar1.add(jMenu5);
 
         jMenu8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/modo-retrato.png"))); // NOI18N
-        jMenu8.setText("PPoE");
+        jMenu8.setText("PPPoE");
         jMenu8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenu8ActionPerformed(evt);
             }
         });
+
+        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/enrutador-wifi.png"))); // NOI18N
+        jMenuItem9.setText("NAT y DNS");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem9);
 
         jMenuItem12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/suspension-del-puente.png"))); // NOI18N
         jMenuItem12.setText("Bridge Int");
@@ -330,7 +342,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flechas-para-rodear.png"))); // NOI18N
+        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/carta-red.png"))); // NOI18N
         jMenuItem18.setText("DNS y NAT");
         jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -401,6 +413,15 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jMenu6.add(jMenuItem13);
 
+        jMenuItem30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/base-de-datos.png"))); // NOI18N
+        jMenuItem30.setText("MySQL Configuracion");
+        jMenuItem30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem30ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem30);
+
         jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/id-insignia.png"))); // NOI18N
         jMenuItem10.setText("Empresa");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
@@ -420,6 +441,15 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
         jMenu6.add(jMenuItem15);
+
+        jMenuItem31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/entrar-en-el-portal.png"))); // NOI18N
+        jMenuItem31.setText("Cerrar Sesion");
+        jMenuItem31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem31ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem31);
 
         jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/marca-x-rectangular.png"))); // NOI18N
@@ -680,6 +710,29 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem29ActionPerformed
 
+    private void jMenuItem30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem30ActionPerformed
+        System.out.println("Modulo mysql presionado");
+        configuracion cnf = new configuracion();
+        Dashboard.escritorioInterno.add(cnf);
+        cnf.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem30ActionPerformed
+
+    private void jMenuItem31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem31ActionPerformed
+        Login l = new Login();
+        l.setVisible(true);
+        dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem31ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        System.out.println("Click en configuracion NAT y DNS");
+        ApplyRules applyRules = new ApplyRules();
+        Dashboard.escritorioInterno.add(applyRules);
+        applyRules.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -752,11 +805,14 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem28;
     private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem30;
+    private javax.swing.JMenuItem jMenuItem31;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;

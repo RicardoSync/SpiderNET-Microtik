@@ -224,7 +224,6 @@ public class PPoEAuto {
                         "/ip/firewall/nat/add chain=srcnat action=masquerade src-address-list=Internet",
                         "/ip/firewall/nat/add chain=srcnat action=masquerade dst-address-list=Internet",
                         "/system/ntp/client/set enabled=yes servers=162.159.200.1,216.239.35.0",
-                        "/system/clock/set time-zone-name=America/Mexico_City time-zone-autodetect=no"
                     };
 
                     for (String comando : comandos) {
@@ -232,7 +231,7 @@ public class PPoEAuto {
                     }
 
                     SwingUtilities.invokeLater(()
-                            -> JOptionPane.showMessageDialog(null, "Reglas de firewall y NAT aplicadas correctamente.")
+                            -> JOptionPane.showMessageDialog(null, "Address List corte, y Address List internet aplicadas con exito!")
                     );
 
                     cn.close();

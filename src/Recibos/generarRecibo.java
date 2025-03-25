@@ -1,10 +1,10 @@
 package Recibos;
 
+import VO.ArchivosVO;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.FontFactory;
-import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
@@ -19,13 +19,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Locale;
 import javax.swing.JOptionPane;
+import mivisorpdf.MiVisorPDF;
+import morty.Vustas.Dashboard;
 
 public class generarRecibo {
-
     public void generarRecibo(String nombreWisp, String cp, String telefono, String rfc, String direccion, String concepto,
             String mesAnio, String nombre, String id, String plan, double mensualidad, String fecha,
             String hora, double paquete, double streaming, double tv, double efectivo, String cajero,
@@ -252,11 +252,11 @@ public class generarRecibo {
                 Desktop.getDesktop().open(new File(reciboFilePath));
             } catch (IOException e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, 
-                    "No se pudo abrir el archivo PDF automáticamente. " 
-                    + "Ubicación: " + reciboFilePath,
-                    "Error al abrir PDF",
-                    JOptionPane.ERROR_MESSAGE
+                JOptionPane.showMessageDialog(null,
+                        "No se pudo abrir el archivo PDF automáticamente. "
+                        + "Ubicación: " + reciboFilePath,
+                        "Error al abrir PDF",
+                        JOptionPane.ERROR_MESSAGE
                 );
             }
 
@@ -265,4 +265,6 @@ public class generarRecibo {
             System.err.println(ex.getMessage());
         }
     }
+
+
 }
