@@ -45,6 +45,7 @@ public class Dashboard extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem26 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem19 = new javax.swing.JMenuItem();
@@ -73,7 +74,6 @@ public class Dashboard extends javax.swing.JFrame {
         jMenu11 = new javax.swing.JMenu();
         jMenuItem18 = new javax.swing.JMenuItem();
         jMenuItem17 = new javax.swing.JMenuItem();
-        jMenuItem26 = new javax.swing.JMenuItem();
         jMenuItem27 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItem28 = new javax.swing.JMenuItem();
@@ -105,6 +105,11 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/busqueda.png"))); // NOI18N
         jMenu1.setText("Clientes");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
 
         jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/agregar-usuario.png"))); // NOI18N
@@ -126,6 +131,15 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem5);
+
+        jMenuItem26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bolsa-de-usuario.png"))); // NOI18N
+        jMenuItem26.setText("Bloqueados");
+        jMenuItem26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem26ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem26);
 
         jMenuBar1.add(jMenu1);
 
@@ -335,7 +349,7 @@ public class Dashboard extends javax.swing.JFrame {
         jMenuBar1.add(jMenu8);
 
         jMenu11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/perno-circular-del-tapon.png"))); // NOI18N
-        jMenu11.setText("Simple Queue");
+        jMenu11.setText("PCQ");
         jMenu11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenu11ActionPerformed(evt);
@@ -359,16 +373,6 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
         jMenu11.add(jMenuItem17);
-
-        jMenuItem26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/equipo-de-usuario.png"))); // NOI18N
-        jMenuItem26.setText("DHCP Config");
-        jMenuItem26.setEnabled(false);
-        jMenuItem26.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem26ActionPerformed(evt);
-            }
-        });
-        jMenu11.add(jMenuItem26);
 
         jMenuItem27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lapiz-regla.png"))); // NOI18N
         jMenuItem27.setText("Apply Rules");
@@ -405,7 +409,6 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuarios.png"))); // NOI18N
         jMenuItem13.setText("Usuarios");
-        jMenuItem13.setEnabled(false);
         jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem13ActionPerformed(evt);
@@ -674,14 +677,6 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
-    private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
-
-        simpleDHCP cP = new simpleDHCP();
-        Dashboard.escritorioInterno.add(cP);
-        cP.show();
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem26ActionPerformed
-
     private void jMenuItem27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem27ActionPerformed
         ApplyRules applyRules = new ApplyRules();
         Dashboard.escritorioInterno.add(applyRules);
@@ -732,6 +727,19 @@ public class Dashboard extends javax.swing.JFrame {
         applyRules.show();
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
+        System.out.println("clientes bloqueados");
+        moduloClientesBloqueados bloqueados = new  moduloClientesBloqueados();
+        Dashboard.escritorioInterno.add(bloqueados);
+        bloqueados.show();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem26ActionPerformed
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu1ActionPerformed
 
     /**
      * @param args the command line arguments

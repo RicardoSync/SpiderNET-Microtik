@@ -13,11 +13,11 @@ public class ConexionServidor {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             // Leer configuración desde `config.properties`
-            String host = "200.234.227.222";
-            String port = "3389";
-            String database = "spiderNET_Activacion";
-            String user = "cisco";
-            String password = "MinuzaFea265/";
+            String host = "localhost";
+            String port = "3306";
+            String database = "spidernet";
+            String user = "root";
+            String password = "spidernet/";
 
             // Construir la URL de conexión
             String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false&allowPublicKeyRetrieval=true";

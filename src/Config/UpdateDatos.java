@@ -353,31 +353,34 @@ public class UpdateDatos {
         }
     }
 
-    public void bloqueo(int id){
+    public void bloqueo(int id, String estado) {
         Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
-        ResultSet resultado; 
-        if(cn!=null){
-            PreparedStatement cursor;
-            String estado = "Activo";
-            String sql = "UPDATE clientes SET estado = ? WHERE id = ?;";
-            
-            try {
-                cursor = cn.prepareStatement(sql);
+
+        if (cn != null) {
+            String sql = "UPDATE clientes SET estado = ? WHERE id = ?";
+            try (PreparedStatement cursor = cn.prepareStatement(sql)) {
                 cursor.setString(1, estado);
                 cursor.setInt(2, id);
                 int fila = cursor.executeUpdate();
-                
-                if(fila > 0 ){
-                    cn.close();
-                    System.out.println("actualizado");
-                }else{
-                    System.out.println("no actualizado");
-                }
 
+                if (fila > 0) {
+                    System.out.println("Estado actualizado correctamente.");
+                } else {
+                    System.out.println("No se encontró el cliente con ID: " + id);
+                }
             } catch (SQLException e) {
-                System.out.println(e);
+                System.out.println("Error al actualizar el estado: " + e.getMessage());
+            } finally {
+                try {
+                    cn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error al cerrar la conexión: " + ex.getMessage());
+                }
             }
+        } else {
+            System.out.println("Error: No se pudo establecer la conexión con la base de datos.");
         }
     }
+
 }

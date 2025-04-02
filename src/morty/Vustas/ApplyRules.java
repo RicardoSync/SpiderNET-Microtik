@@ -6,7 +6,9 @@ package morty.Vustas;
 import microtik.PPoEAuto;
 import javax.swing.JOptionPane;
 import Config.Conexion;
+import Config.Consultas;
 import java.sql.*;
+import java.util.ArrayList;
 /**
  *
  * @author ricardo
@@ -18,6 +20,8 @@ public class ApplyRules extends javax.swing.JInternalFrame {
      */
     public ApplyRules() {
         initComponents();
+        listarMicrotik();
+
     }
 
     /**
@@ -149,7 +153,13 @@ public class ApplyRules extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public void listarMicrotik() {
+        Consultas consultas = new Consultas();
+        ArrayList<String> nombreMicrotik = consultas.nombresMicrotiks();
+        for (String microtiks : nombreMicrotik) {
+            comboMicrotik.addItem(microtiks);
+        }
+    }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String host = entryHost1.getText();
         String user = entryUsername1.getText();

@@ -40,40 +40,40 @@ public class queueRafagas {
     }
 
     public void crearQueueRafaga(String nombre, String taget, String maxLimit, String tiempo, String user, String password, String host) {
-
         // Extraer valores numéricos de maxLimit
         String[] parts = maxLimit.split("/"); // Divide en subida y bajada
-        double maxUpload = extractNumber(parts[0]); // 20M → 20
-        double maxDownload = extractNumber(parts[1]); // 20M → 20
+        double maxUpload = extractNumber(parts[0]); // 15M → 15
+        double maxDownload = extractNumber(parts[1]); // 15M → 15
 
         // Calcular Burst Limit (1.5x del Max Limit)
         double burstUpload = maxUpload * 1.5;
         double burstDownload = maxDownload * 1.5;
 
-        // Calcular Burst Threshold (75% del Max Limit)
-        double thresholdUpload = maxUpload * 0.75;
-        double thresholdDownload = maxDownload * 0.75;
+        // Calcular Burst Threshold (75% del Max Limit) y asegurarse de que sean enteros
+        int thresholdUpload = (int) (maxUpload * 0.75);
+        int thresholdDownload = (int) (maxDownload * 0.75);
 
         // Formatear salida en string con "M" al final
         String burstLimit = String.format("%.0fM/%.0fM", burstUpload, burstDownload);
-        String burstThreshold = String.format("%.1fM/%.1fM", thresholdUpload, thresholdDownload);
+        String burstThreshold = String.format("%dM/%dM", thresholdUpload, thresholdDownload); // Ahora son enteros
 
         try {
             ApiConnection cn = ApiConnection.connect(host);
             cn.login(user, password);
-            String comandoPro = "/queue/simple/add name=" + nombre + " target=" + taget + " max-limit=" + maxLimit + " burst-limit=" + burstLimit + " burst-threshold=" + burstThreshold + " burst-time=" + tiempo;
+            String comandoPro = "/queue/simple/add name=" + nombre + " target=" + taget + " max-limit=" + maxLimit + 
+                                " burst-limit=" + burstLimit + " burst-threshold=" + burstThreshold + " burst-time=" + tiempo;
             System.out.println(comandoPro);
 
             cn.execute(comandoPro);
             taskMicrotik microtik = new taskMicrotik();
             microtik.createTask(nombre, taget, user, password, host);
-            JOptionPane.showMessageDialog(null, "Cliente agregado a SimpleQueue junto a rafaga");
+            JOptionPane.showMessageDialog(null, "Cliente agregado a SimpleQueue junto a ráfaga");
         } catch (Exception e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "Error al agregar el queue: " + e);
         }
-
     }
+
 
     // Método para extraer el número de una cadena con "M" al final
     private static double extractNumber(String value) {

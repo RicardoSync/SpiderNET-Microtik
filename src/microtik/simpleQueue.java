@@ -174,4 +174,29 @@ public class simpleQueue {
            JOptionPane.showMessageDialog(null, "Tenemos un problema para eliminar: " + e);
        }
    } 
+   
+    public void eliminarQueue(String user, String password, String host, String target) {
+//        try {
+//            ApiConnection cn = ApiConnection.connect(host);
+//            if (cn == null) {
+//                System.out.println("Error: No se pudo conectar a MikroTik.");
+//                return;
+//            }
+//
+//            String targetIp = target + "/32"; // Se agrega la máscara de red
+//            cn.login(user, password);
+//
+//            String comando = "/queue/simple/remove numbers=[find target=" + targetIp + "]"; // Corrección aquí
+//            System.out.println("Comando enviado eliminar queue: " + comando);
+//
+//            cn.execute(comando);
+//            cn.close();
+//
+//            System.out.println("Queue eliminada correctamente.");
+//        } catch (Exception e) {
+//            System.out.println("Error al eliminar la queue: " + e.getMessage());
+//        }
+    }
+
+
 }

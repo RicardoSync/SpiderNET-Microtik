@@ -13,7 +13,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import me.legrange.mikrotik.ApiConnection;
 import me.legrange.mikrotik.MikrotikApiException;
-
 /**
  *
  * @author ricardo
@@ -221,8 +220,8 @@ public class PPoEAuto {
                     String[] comandos = {
                         "/ip/firewall/filter/add chain=forward action=drop src-address-list=corte comment=corteDeInternet",
                         "/ip/firewall/filter/add chain=forward action=drop dst-address-list=corte comment=corteDeInternet",
-                        "/ip/firewall/nat/add chain=srcnat action=masquerade src-address-list=Internet",
-                        "/ip/firewall/nat/add chain=srcnat action=masquerade dst-address-list=Internet",
+//                        "/ip/firewall/nat/add chain=srcnat action=masquerade src-address-list=Internet",
+//                        "/ip/firewall/nat/add chain=srcnat action=masquerade dst-address-list=Internet",
                         "/system/ntp/client/set enabled=yes servers=162.159.200.1,216.239.35.0",
                     };
 
@@ -254,13 +253,10 @@ public class PPoEAuto {
                 try {
                     ApiConnection cn = ApiConnection.connect(host);
                     cn.login(user, password);
-                    String comandoWhatsapp = "/tool/fetch url=\"https://api.callmebot.com/whatsapp.php?phone=+521498144226&text=Su+servicio+fue+bloqueado.+Contacta+con+el+administrador&apikey=3442075\" keep-result=no";
                     
                     String comando = "/ip/firewall/address-list/add list=corte address=" + address;
                     System.out.println(comando);
-                    System.out.println(comandoWhatsapp);
                     cn.execute(comando);
-                    cn.execute(comandoWhatsapp);
 
                     SwingUtilities.invokeLater(()
                             -> JOptionPane.showMessageDialog(null, "El cliente con dirección IP: " + address + " fue bloqueado de manera exitosa")

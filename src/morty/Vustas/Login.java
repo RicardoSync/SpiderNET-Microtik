@@ -4,6 +4,7 @@
  */
 package morty.Vustas;
 
+import Config.Conexion;
 import java.awt.Color;
 import java.awt.Image;
 import java.sql.*;
@@ -19,8 +20,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import activacion.ConexionServidor;
-
+import Config.Conexion;
 /**
  *
  * @author cisco
@@ -46,7 +46,7 @@ public class Login extends javax.swing.JFrame {
             return false;
         }
 
-        ConexionServidor conexion = new ConexionServidor();
+        Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
 
         if (cn == null) {
@@ -259,6 +259,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
+
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel1AncestorAdded
 

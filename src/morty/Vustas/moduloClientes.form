@@ -35,7 +35,8 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/img/barco.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Agregar a QUEUE"/>
+            <Property name="text" type="java.lang.String" value="Dar de alta MikroTik"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="click_agregar_queueActionPerformed"/>

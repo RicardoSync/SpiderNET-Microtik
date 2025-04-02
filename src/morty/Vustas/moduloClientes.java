@@ -17,6 +17,7 @@ import microtik.lucifer;
 import Config.UpdateDatos;
 import microtik.PPoEAuto;
 import microtik.actualizaQueueTask;
+import microtik.simpleQueue;
 import microtik.taskMicrotik;
 import microtik.testConnectionAsync;
 
@@ -71,7 +72,8 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         submenu_clientes.add(click_desbloquear);
 
         click_agregar_queue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/barco.png"))); // NOI18N
-        click_agregar_queue.setText("Agregar a QUEUE");
+        click_agregar_queue.setText("Dar de alta MikroTik");
+        click_agregar_queue.setToolTipText("");
         click_agregar_queue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 click_agregar_queueActionPerformed(evt);
@@ -343,10 +345,13 @@ public class moduloClientes extends javax.swing.JInternalFrame {
 
             if (filaSeleccionada >= 0) {
                 int id = (int) jTable1.getValueAt(filaSeleccionada, 0);
+                String target = (String)jTable1.getValueAt(filaSeleccionada, 7);
+                String mikoritik = (String)jTable1.getValueAt(filaSeleccionada, 3);
                 listarClientes();
                 DeleteDatos deleteDatos = new DeleteDatos();
                 deleteDatos.eliminarCliente(id);
                 listarClientes();
+                eliminarQueue(mikoritik, target);
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Para eliminar un cliente, primero seleccionelo", "SpiderNET", JOptionPane.WARNING_MESSAGE);
             }
@@ -566,7 +571,8 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                         PPoEAuto auto = new PPoEAuto();
                         auto.bloquearClientePPoE(targetIp, user, routerIp, password);
                         UpdateDatos datos = new UpdateDatos();
-                        datos.bloqueo(id);
+                        String estado = "Bloqueado";
+                        datos.bloqueo(id, estado);
                     }
 
                 } catch (SQLException e) {
@@ -584,6 +590,7 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         int filaSeleccionada;
         filaSeleccionada = jTable1.getSelectedRow();
         if (filaSeleccionada >= 0) {
+            int id = (int)jTable1.getValueAt(filaSeleccionada, 0);
             String nombreMicrotik = (String) jTable1.getValueAt(filaSeleccionada, 3);
             String targetIp = (String) jTable1.getValueAt(filaSeleccionada, 7);
 
@@ -611,6 +618,9 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                         //String ipCliente, String user, String password, String host
                         PPoEAuto auto = new PPoEAuto();
                         auto.desbloquearCliente(targetIp, user, password, routerIp);
+                        UpdateDatos datos = new UpdateDatos();
+                        String estado = "Activo";
+                        datos.bloqueo(id, estado);
                     }
 
                 } catch (SQLException e) {
@@ -970,6 +980,40 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                 System.out.println("error de conexion: " + e);
                 JOptionPane.showMessageDialog(null, "Error en conexion: " + e);
         }   
+        }
+    }
+    
+    public void eliminarQueue(String mikrotik, String targetIp) {
+        Conexion conexion = new Conexion();
+        Connection cn = conexion.getConnection();
+        if (cn != null) {
+            PreparedStatement cursor;
+            ResultSet resultado;
+            String sql = "SELECT ip, username, password FROM credenciales_microtik WHERE nombre = ?";
+            try {
+                cursor = cn.prepareStatement(sql);
+                cursor.setString(1, mikrotik);
+
+                resultado = cursor.executeQuery();
+
+                if (resultado.next()) {
+                    String user = resultado.getString("username");
+                    String password = resultado.getString("password");
+                    String routerIp = resultado.getString("ip");
+
+                    //lucifer bloqueo = new lucifer();
+                    // bloqueo.bloqueoCliente(routerIp, user, password, targetIp);
+                    //String routerIp, String user, String password, String targetIp
+                    //(String address, String user, String host, String password)
+                    simpleQueue queue = new simpleQueue();
+                    queue.eliminarQueue(user, password, routerIp, targetIp);
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Problema con la base de datos: " + e);
+                System.out.println(e);
+                // TODO: handle exception
+            }
         }
     }
 }

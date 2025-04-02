@@ -23,12 +23,14 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         entryNombre = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        entryVelocidad = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         entryPrecio = new javax.swing.JTextField();
         entryID = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        velocidadBajada = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        velocidadSubifa = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
@@ -42,18 +44,9 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
         setTitle("Registrar Paquetes");
         setToolTipText("Registrar Paquetes");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Antena AP"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Paquetes"));
 
         jLabel1.setText("Nombre");
-
-        jLabel2.setText("Velocidad (Subida/Bajada)");
-
-        entryVelocidad.setText("10M/10M");
-        entryVelocidad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryVelocidadActionPerformed(evt);
-            }
-        });
 
         jLabel3.setText("Precio");
 
@@ -61,47 +54,70 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
 
         jLabel4.setText("ID");
 
+        jLabel2.setText("Velocidad Bajada");
+
+        velocidadBajada.setText("10M");
+        velocidadBajada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                velocidadBajadaActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Velocidad subida");
+
+        velocidadSubifa.setText("10M");
+        velocidadSubifa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                velocidadSubifaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(entryID, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(entryID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(entryNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(entryVelocidad, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(entryNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(entryPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(velocidadSubifa, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(entryPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(velocidadBajada)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(10, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(entryID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
+                    .addComponent(entryID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(entryNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(entryVelocidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(entryPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(velocidadSubifa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(velocidadBajada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
@@ -130,7 +146,7 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
             }
         });
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Antenas Regitradas"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Paquetes Registrados"));
 
         tablaPaquetes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -151,13 +167,13 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -172,14 +188,13 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnActualizar)
@@ -191,17 +206,20 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -215,9 +233,9 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void entryVelocidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryVelocidadActionPerformed
+    private void velocidadBajadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_velocidadBajadaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_entryVelocidadActionPerformed
+    }//GEN-LAST:event_velocidadBajadaActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         enviarActualizacion();
@@ -249,13 +267,16 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
         if(filaSeleccionada >= 0){
             entryID.setText(String.valueOf(tablaPaquetes.getValueAt(filaSeleccionada, 0)));
             entryNombre.setText(String.valueOf(tablaPaquetes.getValueAt(filaSeleccionada, 1)));
-            entryVelocidad.setText(String.valueOf(tablaPaquetes.getValueAt(filaSeleccionada, 2)));
             entryPrecio.setText(String.valueOf(tablaPaquetes.getValueAt(filaSeleccionada, 3)));
         }else{
             JOptionPane.showMessageDialog(null, closable);
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_tablaPaquetesMouseClicked
+
+    private void velocidadSubifaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_velocidadSubifaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_velocidadSubifaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -265,16 +286,18 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
     private javax.swing.JTextField entryID;
     private javax.swing.JTextField entryNombre;
     private javax.swing.JTextField entryPrecio;
-    private javax.swing.JTextField entryVelocidad;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaPaquetes;
+    private javax.swing.JTextField velocidadBajada;
+    private javax.swing.JTextField velocidadSubifa;
     // End of variables declaration//GEN-END:variables
 
     public void listarPaquetes(){
@@ -323,9 +346,11 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
   
     public void guardarPaquetes(){
       String nombre = entryNombre.getText();
-      String velocidad = entryVelocidad.getText();
+      String velociadBajada = velocidadBajada.getText();
+      String velocidadSubida = velocidadSubifa.getText();
       String precio = entryPrecio.getText();
-      
+      String velocidad = velocidadSubida + "/" + velociadBajada;
+        System.out.println("Velocidad enviada es: " + velocidad);
       InsertarDatos insertarDatos = new InsertarDatos();
       insertarDatos.insertarPaquetes(nombre, velocidad, precio);
 
@@ -340,7 +365,7 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
       
       entryID.setText(String.valueOf(id));
       entryNombre.setText(nombre);
-      entryVelocidad.setText(velocidad);
+      velocidadBajada.setText(velocidad);
       entryPrecio.setText(precio);
     }
     
@@ -349,9 +374,10 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
         if(id_paquete.length()>0){
             int id = Integer.parseInt(id_paquete);
             String nombre = entryNombre.getText();
-            String velocidad = entryVelocidad.getText();
+            String velocidadBajaAda = velocidadBajada.getText();
+            String velocidadSubida = velocidadSubifa.getText();
             String precio = entryPrecio.getText();
-            
+            String velocidad = velocidadSubida + "/" + velocidadBajaAda;
             UpdateDatos updateDatos = new UpdateDatos();
             updateDatos.actualizarPaquetes(id, nombre, velocidad, precio);
             listarPaquetes();
@@ -365,7 +391,7 @@ public class creacionPaquetes extends javax.swing.JInternalFrame {
         if(id_paquete.length()>0){
             int id = Integer.parseInt(id_paquete);
             String nombre = entryNombre.getText();
-            String velocidad = entryVelocidad.getText();
+            String velocidad = velocidadBajada.getText();
             String precio = entryPrecio.getText();
             DeleteDatos deleteDatos = new DeleteDatos();
             deleteDatos.eliminarPaquete(id);
