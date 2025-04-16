@@ -320,7 +320,6 @@ public class clientActivatePPPoE extends javax.swing.JInternalFrame {
             datos.registroClienteSimple(nombre, addres, microtik);
             
             taskMicrotik m = new taskMicrotik();
-            m.createTask(nombre, addres, user, password, host);
         }else{
             JOptionPane.showMessageDialog(null, "Selecciona un cliente de la lista");
         }

@@ -175,28 +175,28 @@ public class simpleQueue {
        }
    } 
    
-    public void eliminarQueue(String user, String password, String host, String target) {
-//        try {
-//            ApiConnection cn = ApiConnection.connect(host);
-//            if (cn == null) {
-//                System.out.println("Error: No se pudo conectar a MikroTik.");
-//                return;
-//            }
-//
-//            String targetIp = target + "/32"; // Se agrega la máscara de red
-//            cn.login(user, password);
-//
-//            String comando = "/queue/simple/remove numbers=[find target=" + targetIp + "]"; // Corrección aquí
-//            System.out.println("Comando enviado eliminar queue: " + comando);
-//
-//            cn.execute(comando);
-//            cn.close();
-//
-//            System.out.println("Queue eliminada correctamente.");
-//        } catch (Exception e) {
-//            System.out.println("Error al eliminar la queue: " + e.getMessage());
+public void eliminarQueue(String user, String password, String host, String direccion_ip) {
+//    String sub_red = "/32";
+//    try {
+//        ApiConnection cn = ApiConnection.connect(host);
+//        if (cn == null) {
+//            System.out.println("Error: No se pudo conectar a MikroTik.");
+//            return;
 //        }
-    }
-
+//
+//        cn.login(user, password);
+//
+//        // Se construye el comando usando direccion_ip y sub_red concatenados
+//        String comando = "/queue/simple/remove [find where target=" + direccion_ip + sub_red + "]";
+//        System.out.println("Comando enviado para eliminar queue: " + comando);
+//
+//        cn.execute(comando);
+//        cn.close();
+//
+//        System.out.println("Queue eliminada correctamente.");
+//    } catch (Exception e) {
+//        System.out.println("Error al eliminar la queue: " + e.getMessage());
+//    }
+}
 
 }

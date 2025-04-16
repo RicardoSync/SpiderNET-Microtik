@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.swing.RowFilter;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import me.legrange.mikrotik.ApiConnection;
@@ -68,11 +69,13 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
         entryTargetQueue = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaSimpleQueue = new javax.swing.JTable();
+        jLabel_informacion = new javax.swing.JLabel();
+        progresoBar = new javax.swing.JProgressBar();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        btnRegistroDBDhcp = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         entryDireccionesIp = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
@@ -95,9 +98,6 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
         jPanel19 = new javax.swing.JPanel();
         jScrollPane10 = new javax.swing.JScrollPane();
         tablaAddress = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
 
         click_make_static.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flechas-para-rodear.png"))); // NOI18N
@@ -220,7 +220,7 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(entryHost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -249,6 +249,14 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
             }
         });
 
+        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/asignar.png"))); // NOI18N
+        jToggleButton1.setText("Registro en sistema");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -262,7 +270,9 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
                 .addComponent(jButton4)
-                .addContainerGap(492, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jToggleButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,7 +282,8 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5)
                     .addComponent(entryTargetQueue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)
-                    .addComponent(jButton4))
+                    .addComponent(jButton4)
+                    .addComponent(jToggleButton1))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -290,6 +301,8 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
         tablaSimpleQueue.setComponentPopupMenu(submenu_simple_queue);
         jScrollPane2.setViewportView(tablaSimpleQueue);
 
+        jLabel_informacion.setText("Progreso %");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -297,6 +310,10 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel_informacion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(progresoBar, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 947, Short.MAX_VALUE))
                 .addContainerGap())
@@ -307,22 +324,17 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel_informacion)
+                    .addComponent(progresoBar, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20))
         );
 
         jTabbedPane1.addTab("Simple Queue", jPanel4);
 
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        btnRegistroDBDhcp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flecha-de-circulo-de-disquete-a-la-derecha.png"))); // NOI18N
-        btnRegistroDBDhcp.setText("Registrar");
-        btnRegistroDBDhcp.setEnabled(false);
-        btnRegistroDBDhcp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistroDBDhcpActionPerformed(evt);
-            }
-        });
 
         jLabel4.setText("Direccion IP");
 
@@ -355,16 +367,13 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnRegistroDBDhcp)
-                .addContainerGap())
+                .addContainerGap(415, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRegistroDBDhcp)
                     .addComponent(jLabel4)
                     .addComponent(entryDireccionesIp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3)
@@ -404,8 +413,8 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dhcp Leases", jPanel6);
@@ -534,37 +543,9 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Queue Parent Creados"));
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Id", "Nombre", "Subred", "Max Limit", "MikroTik"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 83, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -573,10 +554,8 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -584,13 +563,11 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cola Padre", jPanel9);
@@ -605,7 +582,7 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 115, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -626,9 +603,9 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, Short.MAX_VALUE)
                 .addContainerGap())
@@ -662,7 +639,6 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
                         entryHost.setText(ip);
                         entryUsername.setText(username);
                         entryPassword.setText(password);
-
 
                     }
                 } catch (SQLException e) {
@@ -743,7 +719,7 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
         String username = entryUsername.getText();
         String password = entryPassword.getText();
         String host = entryHost.getText();
-        
+
         dhcpSimpleQueue(username, password, host);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -762,7 +738,7 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
         String username = entryUsername.getText();
         String password = entryPassword.getText();
         String host = entryHost.getText();
-        
+
         dhcpLeases(username, password, host);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -773,20 +749,15 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
 
     private void tablaAddressMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAddressMouseClicked
         int filaSeleccionada = tablaAddress.getSelectedRow();
-        if(filaSeleccionada >=0){
-            String netork = (String)tablaAddress.getValueAt(filaSeleccionada, 1);
+        if (filaSeleccionada >= 0) {
+            String netork = (String) tablaAddress.getValueAt(filaSeleccionada, 1);
             netork = netork + "/24";
             entrySegmento.setText(netork);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Primero selecciona un elemento");
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_tablaAddressMouseClicked
-
-    private void btnRegistroDBDhcpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroDBDhcpActionPerformed
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnRegistroDBDhcpActionPerformed
 
     private void click_make_staticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_click_make_staticActionPerformed
         String user = entryUsername.getText();
@@ -899,10 +870,14 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_click_registro_bdActionPerformed
 
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        registrarClientesConProgreso();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAplicat;
-    private javax.swing.JButton btnRegistroDBDhcp;
     private javax.swing.JMenuItem click_desabilitar;
     private javax.swing.JMenuItem click_habilitar;
     private javax.swing.JMenuItem click_make_static;
@@ -935,22 +910,22 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel_informacion;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JProgressBar progresoBar;
     private javax.swing.JPopupMenu submenu_dhcp_leases;
     private javax.swing.JPopupMenu submenu_simple_queue;
     private javax.swing.JTable tablaAddress;
@@ -1027,7 +1002,6 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Error de MikroTik: " + e.getMessage(), "MikroTik", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
 // Método para eliminar la máscara de subred de la IP
     private String removeSubnetMask(String target) {
@@ -1163,7 +1137,250 @@ public class simpleConfiguracion extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Error: " + e, "MikroTik", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
 
+    public void registrarClientesConProgreso() {
+        SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+            @Override
+            protected Void doInBackground() {
+                String username = entryUsername.getText(); // O extraer de un campo de texto
+                String password = entryPassword.getText();
+                String ip = entryHost.getText(); // IP del router
+                String nombreMicrotik = (String) comboMicrotik.getSelectedItem();
 
+                ApiConnection con = null;
+                Connection cn = null;
+                PreparedStatement psObtenerId = null;
+                PreparedStatement psInsert = null;
+                try {
+                    publish("Conectando al Mikrotik...");
+                    // Conexión y autenticación al router
+                    con = ApiConnection.connect(ip);
+                    con.login(username, password);
+                    publish("Autenticado. Obteniendo datos de la Simple Queue...");
+                    List<Map<String, String>> results = con.execute("/queue/simple/print");
+
+                    if (results.isEmpty()) {
+                        publish("No se encontraron registros en Simple Queue.");
+                        return null;
+                    }
+
+                    // Conexión a la base de datos
+                    Conexion conexion = new Conexion();
+                    cn = conexion.getConnection();
+                    if (cn == null) {
+                        publish("No se pudo conectar a la base de datos.");
+                        return null;
+                    }
+
+                    // Obtener el id del microtik según el nombre
+                    String sqlObtenerId = "SELECT id FROM credenciales_microtik WHERE nombre = ?";
+                    psObtenerId = cn.prepareStatement(sqlObtenerId);
+                    psObtenerId.setString(1, nombreMicrotik);
+                    ResultSet rs = psObtenerId.executeQuery();
+                    int idMicrotik = 0;
+                    if (rs.next()) {
+                        idMicrotik = rs.getInt("id");
+                    } else {
+                        publish("No se encontró el microtik: " + nombreMicrotik);
+                        return null;
+                    }
+                    rs.close();
+
+                    // Preparar la inserción en batch
+                    String sqlInsert = "INSERT INTO clientes (nombre, direccion, ip_cliente, estado, id_microtik) VALUES (?,?,?,?,?)";
+                    psInsert = cn.prepareStatement(sqlInsert);
+                    int batchSize = 10;
+                    int count = 0;
+                    int total = results.size(); // Total de registros a procesar
+
+                    publish("Insertando registros en la base de datos...");
+                    // Procesar cada registro y actualizar el progreso
+                    for (Map<String, String> result : results) {
+                        String name = result.get("name");
+                        // Se asume que removeSubnetMask es un método que extrae la IP sin la máscara
+                        String target = removeSubnetMask(result.get("target"));
+
+                        psInsert.setString(1, name);
+                        psInsert.setString(2, "");         // Dirección vacía
+                        psInsert.setString(3, target);       // IP del cliente
+                        psInsert.setString(4, "Activo");     // Estado predeterminado
+                        psInsert.setInt(5, idMicrotik);
+                        psInsert.addBatch();
+                        count++;
+
+                        // Actualizar la barra de progreso (porcentaje)
+                        int progreso = (int) ((count * 100.0) / total);
+                        setProgress(progreso);
+                        publish("Registrados " + count + " de " + total + " registros...");
+
+                        if (count % batchSize == 0) {
+                            psInsert.executeBatch();
+                        }
+                    }
+                    // Ejecutar el batch pendiente
+                    psInsert.executeBatch();
+                    setProgress(100);
+                    publish("Se han registrado un total de " + count + " clientes.");
+                } catch (Exception e) {
+                    publish("Error: " + e.getMessage());
+                } finally {
+                    try {
+                        if (psInsert != null) {
+                            psInsert.close();
+                        }
+                        if (psObtenerId != null) {
+                            psObtenerId.close();
+                        }
+                        if (cn != null) {
+                            cn.close();
+                        }
+
+                    } catch (SQLException ex) {
+                        publish("Error al cerrar recursos: " + ex.getMessage());
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            protected void process(List<String> chunks) {
+                // Se actualiza el JLabel con el último mensaje recibido
+                String ultimoMensaje = chunks.get(chunks.size() - 1);
+                jLabel_informacion.setText(ultimoMensaje);
+            }
+
+            @Override
+            protected void done() {
+                JOptionPane.showMessageDialog(null, "Proceso de registro finalizado.");
+            }
+        };
+
+        // Actualizar la barra de progreso cada vez que se modifique la propiedad "progress"
+        worker.addPropertyChangeListener(evt -> {
+            if ("progress".equals(evt.getPropertyName())) {
+                int progreso = (Integer) evt.getNewValue();
+                progresoBar.setValue(progreso);
+            }
+        });
+
+        worker.execute();
+    }
+
+//    public void registrarClientesDesdeMikrotikConProgreso() {
+//        SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+//            @Override
+//            protected Void doInBackground() {
+//                // Actualizar mensaje: iniciando la conexión al Mikrotik
+//                publish("Conectando al Mikrotik...");
+//                String username = entryUsername.getText(); // O extraer de un campo de texto
+//                String password = entryPassword.getText();
+//                String ip = entryHost.getText(); // IP del router
+//                String nombreMicrotik = (String) comboMicrotik.getSelectedItem();
+//
+//                ApiConnection con = null;
+//                Connection cn = null;
+//                PreparedStatement psObtenerId = null;
+//                PreparedStatement psInsert = null;
+//
+//                try {
+//                    // Conexión y autenticación al router
+//                    con = ApiConnection.connect(ip);
+//                    con.login(username, password);
+//                    publish("Autenticado. Obteniendo datos de la Simple Queue...");
+//                    List<Map<String, String>> results = con.execute("/queue/simple/print");
+//
+//                    if (results.isEmpty()) {
+//                        publish("No se encontraron registros en Simple Queue.");
+//                        return null;
+//                    }
+//
+//                    // Conexión a la base de datos
+//                    Conexion conexion = new Conexion();
+//                    cn = conexion.getConnection();
+//                    if (cn == null) {
+//                        publish("No se pudo conectar a la base de datos.");
+//                        return null;
+//                    }
+//
+//                    // Obtener el id del microtik según el nombre
+//                    String sqlObtenerId = "SELECT id FROM credenciales_microtik WHERE nombre = ?";
+//                    psObtenerId = cn.prepareStatement(sqlObtenerId);
+//                    psObtenerId.setString(1, nombreMicrotik);
+//                    ResultSet rs = psObtenerId.executeQuery();
+//                    int idMicrotik = 0;
+//                    if (rs.next()) {
+//                        idMicrotik = rs.getInt("id");
+//                    } else {
+//                        publish("No se encontró el microtik: " + nombreMicrotik);
+//                        return null;
+//                    }
+//                    rs.close();
+//
+//                    // Preparar inserción en batch
+//                    String sqlInsert = "INSERT INTO clientes (nombre, direccion, ip_cliente, estado, id_microtik) VALUES (?,?,?,?,?)";
+//                    psInsert = cn.prepareStatement(sqlInsert);
+//                    int batchSize = 10;
+//                    int count = 0;
+//
+//                    publish("Insertando registros en la base de datos...");
+//                    // Recorrer los resultados y agregarlos en batch
+//                    for (Map<String, String> result : results) {
+//                        String name = result.get("name");
+//                        // Se asume que removeSubnetMask es un método que extrae la IP sin la máscara
+//                        String target = removeSubnetMask(result.get("target"));
+//
+//                        psInsert.setString(1, name);
+//                        psInsert.setString(2, "");         // Dirección vacía
+//                        psInsert.setString(3, target);       // IP del cliente
+//                        psInsert.setString(4, "Activo");     // Estado predeterminado
+//                        psInsert.setInt(5, idMicrotik);
+//                        psInsert.addBatch();
+//                        count++;
+//
+//                        // Actualizar el progreso cada 10 registros
+//                        if (count % batchSize == 0) {
+//                            psInsert.executeBatch();
+//                            publish("Registrados " + count + " registros...");
+//                        }
+//                    }
+//                    // Ejecutar el batch restante
+//                    psInsert.executeBatch();
+//                    publish("Se han registrado un total de " + count + " clientes.");
+//                } catch (Exception e) {
+//                    publish("Error: " + e.getMessage());
+//                } finally {
+//                    try {
+//                        if (psInsert != null) {
+//                            psInsert.close();
+//                        }
+//                        if (psObtenerId != null) {
+//                            psObtenerId.close();
+//                        }
+//                        if (cn != null) {
+//                            cn.close();
+//                        }
+//
+//                    } catch (SQLException ex) {
+//                        publish("Error al cerrar recursos: " + ex.getMessage());
+//                    }
+//                }
+//                return null;
+//            }
+//
+//            @Override
+//            protected void process(List<String> chunks) {
+//                // Se actualiza el último mensaje recibido en el componente de progreso
+//                String ultimoMensaje = chunks.get(chunks.size() - 1);
+//                System.out.println(ultimoMensaje);
+//            }
+//
+//            @Override
+//            protected void done() {
+//                JOptionPane.showMessageDialog(null, "Proceso de registro finalizado.");
+//            }
+//        };
+//
+//        // Ejecutar el SwingWorker
+//        worker.execute();
+//    }
 }

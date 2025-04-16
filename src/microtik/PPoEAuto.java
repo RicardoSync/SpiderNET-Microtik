@@ -222,7 +222,6 @@ public class PPoEAuto {
                         "/ip/firewall/filter/add chain=forward action=drop dst-address-list=corte comment=corteDeInternet",
 //                        "/ip/firewall/nat/add chain=srcnat action=masquerade src-address-list=Internet",
 //                        "/ip/firewall/nat/add chain=srcnat action=masquerade dst-address-list=Internet",
-                        "/system/ntp/client/set enabled=yes servers=162.159.200.1,216.239.35.0",
                     };
 
                     for (String comando : comandos) {

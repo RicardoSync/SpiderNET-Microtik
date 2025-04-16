@@ -106,29 +106,19 @@ public class generarRecibo {
             double totalAPagar = totalAntesDescuento - descuentoAplicado;
             double cambio = efectivo - totalAPagar;
 
-// Creamos la tabla de 3 columnas
+            // Creamos la tabla de 3 columnas
             PdfPTable detalleTable = new PdfPTable(3);
-
-// Bloqueamos el ancho de la tabla
             detalleTable.setLockedWidth(true);
-
-// Definimos el ancho total de la tabla (restamos un poco para márgenes)
             detalleTable.setTotalWidth(200);
-
-// Definimos anchos absolutos para cada columna
             detalleTable.setWidths(new float[]{80f, 60f, 60f});
-
-// Espaciado antes y después de la tabla (opcional)
             detalleTable.setSpacingBefore(5f);
             detalleTable.setSpacingAfter(5f);
-
-// Por defecto, sin borde y con un padding decente
             detalleTable.getDefaultCell().setBorder(0);
             detalleTable.getDefaultCell().setPadding(5);
 
-// -------------------------------------------------------------
-// Encabezados
-// -------------------------------------------------------------
+            // -------------------------------------------------------------
+            // Encabezados
+            // -------------------------------------------------------------
             PdfPCell c1 = new PdfPCell(new Phrase("Concepto", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9)));
             c1.setBorder(0);
             c1.setPadding(5);
@@ -142,13 +132,12 @@ public class generarRecibo {
             PdfPCell c3 = new PdfPCell(new Phrase("Monto", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9)));
             c3.setBorder(0);
             c3.setPadding(5);
-// Alinear el texto a la derecha si deseas que los montos se vean alineados
             c3.setHorizontalAlignment(Element.ALIGN_RIGHT);
             detalleTable.addCell(c3);
 
-// -------------------------------------------------------------
-// Fila Mensualidad
-// -------------------------------------------------------------
+            // -------------------------------------------------------------
+            // Fila Mensualidad
+            // -------------------------------------------------------------
             PdfPCell cConcepto = new PdfPCell(new Phrase("Mensualidad", FontFactory.getFont(FontFactory.HELVETICA, 8)));
             cConcepto.setBorder(0);
             cConcepto.setPadding(5);
@@ -165,9 +154,9 @@ public class generarRecibo {
             cMonto.setHorizontalAlignment(Element.ALIGN_RIGHT);
             detalleTable.addCell(cMonto);
 
-// -------------------------------------------------------------
-// Fila Servicios
-// -------------------------------------------------------------
+            // -------------------------------------------------------------
+            // Fila Servicios
+            // -------------------------------------------------------------
             PdfPCell cConcepto2 = new PdfPCell(new Phrase("Servicios", FontFactory.getFont(FontFactory.HELVETICA, 8)));
             cConcepto2.setBorder(0);
             cConcepto2.setPadding(5);
@@ -184,15 +173,14 @@ public class generarRecibo {
             cMonto2.setHorizontalAlignment(Element.ALIGN_RIGHT);
             detalleTable.addCell(cMonto2);
 
-// -------------------------------------------------------------
-// Fila Descuento
-// -------------------------------------------------------------
+            // -------------------------------------------------------------
+            // Fila Descuento
+            // -------------------------------------------------------------
             PdfPCell cConcepto3 = new PdfPCell(new Phrase("Descuento (" + descuento + "%)", FontFactory.getFont(FontFactory.HELVETICA, 8)));
             cConcepto3.setBorder(0);
             cConcepto3.setPadding(5);
             detalleTable.addCell(cConcepto3);
 
-// Si no quieres mostrar nada en la columna de detalle:
             PdfPCell cDetalle3 = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8)));
             cDetalle3.setBorder(0);
             cDetalle3.setPadding(5);
@@ -204,15 +192,14 @@ public class generarRecibo {
             cMonto3.setHorizontalAlignment(Element.ALIGN_RIGHT);
             detalleTable.addCell(cMonto3);
 
-// -------------------------------------------------------------
-// Fila Total
-// -------------------------------------------------------------
+            // -------------------------------------------------------------
+            // Fila TOTAL A PAGAR
+            // -------------------------------------------------------------
             PdfPCell cConcepto4 = new PdfPCell(new Phrase("TOTAL A PAGAR", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9)));
             cConcepto4.setBorder(0);
             cConcepto4.setPadding(5);
             detalleTable.addCell(cConcepto4);
 
-// Dejar la segunda columna vacía
             PdfPCell cDetalle4 = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8)));
             cDetalle4.setBorder(0);
             cDetalle4.setPadding(5);
@@ -224,9 +211,47 @@ public class generarRecibo {
             cMonto4.setHorizontalAlignment(Element.ALIGN_RIGHT);
             detalleTable.addCell(cMonto4);
 
-// -------------------------------------------------------------
-// Agregar la tabla al documento
-// -------------------------------------------------------------
+            // -------------------------------------------------------------
+            // Fila Concepto (mostrar el concepto recibido)
+            // -------------------------------------------------------------
+            PdfPCell cConceptoConcepto = new PdfPCell(new Phrase("Concepto", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cConceptoConcepto.setBorder(0);
+            cConceptoConcepto.setPadding(5);
+            detalleTable.addCell(cConceptoConcepto);
+
+            PdfPCell cDetalleConcepto = new PdfPCell(new Phrase(concepto, FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cDetalleConcepto.setBorder(0);
+            cDetalleConcepto.setPadding(5);
+            detalleTable.addCell(cDetalleConcepto);
+
+            PdfPCell cMontoConcepto = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cMontoConcepto.setBorder(0);
+            cMontoConcepto.setPadding(5);
+            cMontoConcepto.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            detalleTable.addCell(cMontoConcepto);
+
+            // -------------------------------------------------------------
+            // Fila Cambio (monto a regresar)
+            // -------------------------------------------------------------
+            PdfPCell cConceptoCambio = new PdfPCell(new Phrase("Cambio", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cConceptoCambio.setBorder(0);
+            cConceptoCambio.setPadding(5);
+            detalleTable.addCell(cConceptoCambio);
+
+            PdfPCell cDetalleCambio = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cDetalleCambio.setBorder(0);
+            cDetalleCambio.setPadding(5);
+            detalleTable.addCell(cDetalleCambio);
+
+            PdfPCell cMontoCambio = new PdfPCell(new Phrase("$" + String.format("%.2f", cambio), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+            cMontoCambio.setBorder(0);
+            cMontoCambio.setPadding(5);
+            cMontoCambio.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            detalleTable.addCell(cMontoCambio);
+
+            // -------------------------------------------------------------
+            // Agregar la tabla al documento
+            // -------------------------------------------------------------
             document.add(detalleTable);
 
             // --- Firma y fecha ---
@@ -245,10 +270,9 @@ public class generarRecibo {
 
             document.close();
             writer.close();
-
-            // Después de document.close() y writer.close()
+            generarFactura f = new generarFactura();
+            // Abrir el PDF con la aplicación predeterminada del sistema
             try {
-                // Abre el PDF con la aplicación predeterminada del sistema
                 Desktop.getDesktop().open(new File(reciboFilePath));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -265,6 +289,4 @@ public class generarRecibo {
             System.err.println(ex.getMessage());
         }
     }
-
-
 }

@@ -156,9 +156,6 @@ public class editarCliente extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Dia de Corte");
 
-        entryDiaCorte.setEditable(false);
-        entryDiaCorte.setEnabled(false);
-
         jLabel10.setText("Ejemplo 10, 15, 20, 30 etc");
 
         jLabel6.setText("Microtik / OLT");
@@ -423,7 +420,7 @@ public class editarCliente extends javax.swing.JInternalFrame {
             int id = Integer.parseInt(entryID.getText());
             String telefono = entryTelefono.getText();
             String ip_cliente = entryIpCliente.getText();
-            String dia_corte = "0";
+            String dia_corte = entryDiaCorte.getText();
             String paqueteActual = (String) comboPaquetes.getSelectedItem();
             String apActual = (String) comboAntenasAP.getSelectedItem();
             String tvActual = (String) comboTV.getSelectedItem();

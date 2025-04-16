@@ -15,6 +15,11 @@ import java.sql.*;
 import microtik.cambioVelocidad;
 import microtik.lucifer;
 import Config.UpdateDatos;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
+import me.legrange.mikrotik.ApiConnectionException;
 import microtik.PPoEAuto;
 import microtik.actualizaQueueTask;
 import microtik.simpleQueue;
@@ -42,6 +47,8 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         click_pagar = new javax.swing.JMenuItem();
         click_eliminar = new javax.swing.JMenuItem();
         click_probar_cliente = new javax.swing.JMenuItem();
+        click_programar_corte = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -52,6 +59,8 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         entryIpBusqueda = new javax.swing.JTextField();
         btnBuscarIP = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         click_bloquear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bloquear-hashtag.png"))); // NOI18N
         click_bloquear.setText("Bloquear");
@@ -136,6 +145,24 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         });
         submenu_clientes.add(click_probar_cliente);
 
+        click_programar_corte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/comparar-codigo.png"))); // NOI18N
+        click_programar_corte.setText("Programar cortes");
+        click_programar_corte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                click_programar_corteActionPerformed(evt);
+            }
+        });
+        submenu_clientes.add(click_programar_corte);
+
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/boleto-alternativo.png"))); // NOI18N
+        jMenuItem1.setText("Eliminar Corte");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        submenu_clientes.add(jMenuItem1);
+
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
@@ -153,6 +180,7 @@ public class moduloClientes extends javax.swing.JInternalFrame {
             }
         ));
         jTable1.setComponentPopupMenu(submenu_clientes);
+        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setMinWidth(50);
@@ -170,7 +198,7 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Busqueda"));
@@ -187,6 +215,8 @@ public class moduloClientes extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Direccion IP");
 
+        entryIpBusqueda.setText("192.168.30.254");
+
         btnBuscarIP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/busqueda.png"))); // NOI18N
         btnBuscarIP.setText("Buscar IP");
         btnBuscarIP.addActionListener(new java.awt.event.ActionListener() {
@@ -195,24 +225,44 @@ public class moduloClientes extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/actualizar.png"))); // NOI18N
+        jButton2.setText("Refrescar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jButton2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton2KeyPressed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setText("AdmiNET");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(entryNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(entryNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(entryIpBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(entryIpBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnBuscarIP)
-                .addContainerGap(229, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,7 +274,9 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                     .addComponent(jButton1)
                     .addComponent(jLabel3)
                     .addComponent(entryIpBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscarIP))
+                    .addComponent(btnBuscarIP)
+                    .addComponent(jButton2)
+                    .addComponent(jLabel2))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -253,14 +305,19 @@ public class moduloClientes extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        buscarCliente();
+        String busqueda = entryNombre.getText();
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo = (DefaultTableModel) jTable1.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+        jTable1.setRowSorter(sorter);
+
+        if (busqueda.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Por favor ingresa un valor");
+        } else {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + busqueda));
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void btnBuscarIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIPActionPerformed
-        buscarIp();
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnBuscarIPActionPerformed
 
     private void click_bloquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_click_bloquearActionPerformed
         bloquearCliente();
@@ -328,8 +385,8 @@ public class moduloClientes extends javax.swing.JInternalFrame {
             String direccionIp = (String) jTable1.getValueAt(filaSeleccionada, 7);
             String servicios = (String) jTable1.getValueAt(filaSeleccionada, 11);
             String nombreMicrotik = (String)jTable1.getValueAt(filaSeleccionada, 3);
-
-            pagoWindows windows = new pagoWindows(id, nombre, paquete, servicios, direccionIp, nombreMicrotik);
+            String diaCorte = (String)jTable1.getValueAt(filaSeleccionada, 8);
+            pagoWindows windows = new pagoWindows(id, nombre, paquete, servicios, direccionIp, nombreMicrotik, diaCorte);
             Dashboard.escritorioInterno.add(windows);
             windows.show();
         } else {
@@ -365,6 +422,38 @@ public class moduloClientes extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_click_probar_clienteActionPerformed
 
+    private void click_programar_corteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_click_programar_corteActionPerformed
+        try {
+            programarTarea();
+            // TODO add your handling code here:
+        } catch (ApiConnectionException ex) {
+            Logger.getLogger(moduloClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_click_programar_corteActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        try {
+            eliminarTareaALV();
+            // TODO add your handling code here:
+        } catch (ApiConnectionException ex) {
+            Logger.getLogger(moduloClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jButton2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton2KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2KeyPressed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        listarClientes();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnBuscarIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIPActionPerformed
+        buscarIp();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarIPActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarIP;
@@ -376,12 +465,16 @@ public class moduloClientes extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem click_eliminar;
     private javax.swing.JMenuItem click_pagar;
     private javax.swing.JMenuItem click_probar_cliente;
+    private javax.swing.JMenuItem click_programar_corte;
     private javax.swing.JMenuItem click_refresh;
     private javax.swing.JTextField entryIpBusqueda;
     private javax.swing.JTextField entryNombre;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
@@ -399,31 +492,30 @@ public class moduloClientes extends javax.swing.JInternalFrame {
 
             try {
                 String sql = """
-                                SELECT 
-                                 c.id,
-                                 c.nombre,
-                                 c.telefono,
-                                 cm.nombre AS microtik_nombre,  -- Obtener el nombre del MikroTik
-                                 c.direccion,
-                                 DATE_FORMAT(c.fecha_registro, '%d/%m/%Y') AS fecha_registro,  -- Formato de fecha
-                                 p.nombre AS paquete,  -- Obtener el nombre del paquete
-                                 c.ip_cliente,
-                                 c.dia_corte,
-                                 a.nombre AS antena_ap,  -- Obtener el nombre de la antena (si existe)
-                                 c.serviciosTV,
-                                 sp.nombre AS servicio_plataforma  -- Obtener el nombre del servicio de plataforma
-                             FROM clientes c
-                             LEFT JOIN paquetes p ON c.id_paquete = p.id
-                             LEFT JOIN credenciales_microtik cm ON c.id_microtik = cm.id
-                             LEFT JOIN antenasap a ON c.id_antena_ap = a.idantenasAp
-                             LEFT JOIN serviciosplataforma sp ON c.id_servicio_plataforma = sp.idPlataformas;
-                             """;
+                            SELECT 
+                             c.id,
+                             c.nombre,
+                             c.telefono,
+                             cm.nombre AS microtik_nombre,
+                             c.direccion,
+                             DATE_FORMAT(c.fecha_registro, '%d/%m/%Y') AS fecha_registro,
+                             p.nombre AS paquete,
+                             c.ip_cliente,
+                             c.dia_corte,
+                             a.nombre AS antena_ap,
+                             c.serviciosTV,
+                             sp.nombre AS servicio_plataforma
+                         FROM clientes c
+                         LEFT JOIN paquetes p ON c.id_paquete = p.id
+                         LEFT JOIN credenciales_microtik cm ON c.id_microtik = cm.id
+                         LEFT JOIN antenasap a ON c.id_antena_ap = a.idantenasAp
+                         LEFT JOIN serviciosplataforma sp ON c.id_servicio_plataforma = sp.idPlataformas;
+                         """;
                 DefaultTableModel modelo;
                 st = cn.createStatement();
-                rs = st.executeQuery(sql); //ejecutamos para obtener el resultado
+                rs = st.executeQuery(sql);
                 Object[] clientes = new Object[12];
-                String estados = "Activo";
-                String bloqueado = "Bloqueado";
+
                 modelo = (DefaultTableModel) jTable1.getModel();
                 modelo.setRowCount(0);
 
@@ -443,8 +535,15 @@ public class moduloClientes extends javax.swing.JInternalFrame {
 
                     modelo.addRow(clientes);
                 }
+
                 jTable1.setModel(modelo);
 
+                // 🔥 AQUI: Agregar ordenamiento con TableRowSorter
+                TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+                jTable1.setRowSorter(sorter);
+
+                // (Opcional) Ordenar por nombre alfabéticamente por defecto
+                // sorter.setSortKeys(Arrays.asList(new RowSorter.SortKey(1, SortOrder.ASCENDING)));
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "Error al listar los clientes: " + e, "SpiderNET", JOptionPane.ERROR_MESSAGE);
             } finally {
@@ -517,7 +616,8 @@ public class moduloClientes extends javax.swing.JInternalFrame {
                     modelo.addRow(clientes);
                 }
                 jTable1.setModel(modelo);
-
+                
+                
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Error al listar los clientes: " + e, "SpiderNET", JOptionPane.ERROR_MESSAGE);
             } finally {
@@ -1016,4 +1116,92 @@ public class moduloClientes extends javax.swing.JInternalFrame {
             }
         }
     }
+
+
+    public void programarTarea() throws ApiConnectionException {
+        int fila = jTable1.getSelectedRow();
+        if (fila >= 0) {
+            String nombre = (String) jTable1.getValueAt(fila, 1);
+            String mikrotik = (String) jTable1.getValueAt(fila, 3);
+            String target = (String) jTable1.getValueAt(fila, 7);
+            String diaCorteStr = (String) jTable1.getValueAt(fila, 8);
+
+            if (nombre == null || mikrotik == null || target == null || diaCorteStr == null || diaCorteStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Faltan datos necesarios para programar la tarea.\nVerifica que el nombre, router, IP y día de corte estén completos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int diaCorte = Integer.parseInt(diaCorteStr);
+            Conexion conexion = new Conexion();
+            Connection cn = conexion.getConnection();
+            if (cn != null) {
+                String sql = "SELECT ip, username, password FROM credenciales_microtik WHERE nombre = ?";
+                try (PreparedStatement cursor = cn.prepareStatement(sql)) {
+                    cursor.setString(1, mikrotik);
+                    ResultSet resultado = cursor.executeQuery();
+
+                    if (resultado.next()) {
+                        String user = resultado.getString("username");
+                        String password = resultado.getString("password");
+                        String routerIp = resultado.getString("ip");
+
+                        taskMicrotik m = new taskMicrotik();
+                        m.createTaskEsteMes(nombre, target, user, password, routerIp, diaCorte);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se encontraron credenciales para el MikroTik: " + mikrotik, "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    }
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error al consultar la base de datos:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecciona una fila de la tabla primero para programar la tarea.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    public void eliminarTareaALV() throws ApiConnectionException {
+        int fila = jTable1.getSelectedRow();
+        if (fila >= 0) {
+            String nombre = (String) jTable1.getValueAt(fila, 1);
+            String mikrotik = (String) jTable1.getValueAt(fila, 3);
+            String target = (String) jTable1.getValueAt(fila, 7);
+            String diaCorteStr = (String) jTable1.getValueAt(fila, 8);
+
+            if (nombre == null || mikrotik == null || target == null || diaCorteStr == null || diaCorteStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Faltan datos para eliminar la tarea.\nVerifica nombre, router, IP y día de corte.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int diaCorte = Integer.parseInt(diaCorteStr);
+            Conexion conexion = new Conexion();
+            Connection cn = conexion.getConnection();
+            if (cn != null) {
+                String sql = "SELECT ip, username, password FROM credenciales_microtik WHERE nombre = ?";
+                try (PreparedStatement cursor = cn.prepareStatement(sql)) {
+                    cursor.setString(1, mikrotik);
+                    ResultSet resultado = cursor.executeQuery();
+
+                    if (resultado.next()) {
+                        String user = resultado.getString("username");
+                        String password = resultado.getString("password");
+                        String routerIp = resultado.getString("ip");
+
+                        taskMicrotik m = new taskMicrotik();
+                        m.eliminarTareaEnSegundoPlano(nombre, target, user, password, routerIp, diaCorte);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se encontraron credenciales para el MikroTik: " + mikrotik, "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    }
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error al consultar la base de datos:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo establecer conexión con la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecciona una fila de la tabla para eliminar la tarea.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
 }

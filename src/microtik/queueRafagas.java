@@ -66,7 +66,7 @@ public class queueRafagas {
 
             cn.execute(comandoPro);
             taskMicrotik microtik = new taskMicrotik();
-            microtik.createTask(nombre, taget, user, password, host);
+//            microtik.createTask(nombre, taget, user, password, host);
             JOptionPane.showMessageDialog(null, "Cliente agregado a SimpleQueue junto a ráfaga");
         } catch (Exception e) {
             System.out.println(e);
@@ -110,7 +110,7 @@ public class queueRafagas {
             JOptionPane.showMessageDialog(null, "Cliente agregado a SimpleQueue junto a rafaga");
             cn.close();
             taskMicrotik microtik = new taskMicrotik();
-            microtik.createTask(nombre, taget, user, password, host);
+//            microtik.createTask(nombre, taget, user, password, host);
         } catch (Exception e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "Error al agregar el queue: " + e);

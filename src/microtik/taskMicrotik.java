@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import me.legrange.mikrotik.ApiConnection;
+import Corte.CorteHelper;
+import SSH.SSHHelper;
+import me.legrange.mikrotik.ApiConnectionException;
 
 /**
  *
@@ -15,135 +18,167 @@ import me.legrange.mikrotik.ApiConnection;
  */
 public class taskMicrotik {
 
-    public void createTask(String nameCliente, String address, String user, String password, String host) {
-        /*Cuando se agrega el cliente a simple queue, se crea su tarea con intervalo de 30d
-        Cuando el cliente paga se debe eliminar la tarea existente y crear una nueva
-         */
+    public void createTask(String nameCliente, String address, String user, String password, String host, int diaCorte) throws ApiConnectionException {
+        ApiConnection cn = null;
+
         try {
-            ApiConnection cn = ApiConnection.connect(host);
+            cn = ApiConnection.connect(host);
             cn.login(user, password);
 
-            String comando = "/system/scheduler/add name=" + nameCliente + " start-time=00:00:00 interval=30d on-event=\"/ip firewall address-list add list=corte address=" + address + "\"";
-            System.out.println(comando);
+            String fechaCorte = CorteHelper.getFechaCorteSiguienteMes(diaCorte);
+
+            // CORREGIDO: se agregan comillas dobles escapadas alrededor del nameCliente
+            String comando = "/system/scheduler/add name=\"" + nameCliente + "\""
+                    + " start-date=" + fechaCorte
+                    + " start-time=00:00:00 interval=1m on-event=\"/ip firewall address-list add list=corte address=" + address + "\"";
+
+            System.out.println("[INFO] Comando generado: " + comando);
             cn.execute(comando);
-            System.out.println("Agregada la tarea");
+            System.out.println("[✅] Tarea de corte creada para: " + fechaCorte);
+
+            JOptionPane.showMessageDialog(null, "Tarea de corte programada para el " + fechaCorte, "AdmiNET", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            System.out.println(e);
-            JOptionPane.showMessageDialog(null, "Tenemos un problema al integrar al cliente en los cortes automaticos: " + e);
+            System.err.println("[❌] Error al crear la tarea de corte: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al crear la tarea de corte:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (cn != null) {
+                cn.close();
+            }
         }
     }
 
-
-//    public void createTask(String nameCliente, String address, String user, String password, String host) {
-//        try {
-//            ApiConnection cn = ApiConnection.connect(host);
-//            cn.login(user, password);
-//            String url = "https://api.callmebot.com/whatsapp.php?phone=+5214981442266&text=Su+servicio+fue+suspendido+porfavor+contacta+con+el+administrador+para+reactivarlo&apikey=3442075";
-//            String editCommand = "/system/scheduler/add name=" + nameCliente +
-//                    " start-time=00:00:00 interval=30d" +
-//                    " on-event=\"/ip firewall address-list add list=corte address=" + address +
-//                    "; :delay 2s; /tool/fetch url="+url+" keep-result-no";
-//
-//            System.out.println("Ejecutando: " + editCommand);
-//            cn.execute(editCommand);
-//
-//            System.out.println("Tarea creada y modificada exitosamente.");
-//        } catch (Exception e) {
-//            System.out.println(e);
-//            JOptionPane.showMessageDialog(null, "Error al configurar la tarea del cliente: " + e);
-//        }
-//    }
-
-//public void createTask(String nameCliente, String address, String user, String password, String host) {
-//    try {
-//        ApiConnection cn = ApiConnection.connect(host);
-//        cn.login(user, password);
-//        
-//        // URL sin comillas externas
-//        String url = "https://api.callmebot.com/whatsapp.php?phone=+5214981442266&text=Su+servicio+fue+suspendido+porfavor+contacta+con+el+administrador+para+reactivarlo&apikey=3442075";
-//        
-//        // Comando con la URL entre comillas dobles
-//        String editCommand = "/system/scheduler/add name=" + nameCliente +
-//                " start-time=00:00:00 interval=30d" +
-//                " on-event=\"/ip firewall address-list add list=corte address=" + address +
-//                "; :delay 2s; /tool/fetch url=\\\"" + url + "\\\" keep-result=no\"";
-//        
-//        System.out.println("Ejecutando: " + editCommand);
-//        cn.execute(editCommand);
-//
-//        System.out.println("Tarea creada y modificada exitosamente.");
-//    } catch (Exception e) {
-//        System.out.println(e);
-//        JOptionPane.showMessageDialog(null, "Error al configurar la tarea del cliente: " + e);
-//    }
-//}
-
-
-    public void eliminarTaskPorIP(String address, String user, String password, String host) {
+    public void reprogramarCorteTrasPago(
+            String nombreCliente,
+            String address,
+            String user,
+            String password,
+            String host,
+            int diaCorte
+    ) {
+        ApiConnection cn = null;
         try {
-            ApiConnection cn = ApiConnection.connect(host);
+            cn = ApiConnection.connect(host);
             cn.login(user, password);
 
-            String nameCliente = null;
+            // Buscar el ID del scheduler por nombre
+            String buscarComando = "/system/scheduler/print where name=\"" + nombreCliente + "\"";
+            List<Map<String, String>> resultados = cn.execute(buscarComando);
 
-            // 🔍 Intentar encontrar el cliente en "/ppp/active"
-            List<Map<String, String>> response = cn.execute("/ppp/active/print where address=" + address);
-            if (!response.isEmpty()) {
-                nameCliente = response.get(0).get("name");
-                System.out.println("📌 Cliente encontrado en PPP Active: " + nameCliente);
+            if (!resultados.isEmpty()) {
+                String idScheduler = resultados.get(0).get(".id");
+
+                // Eliminar el scheduler usando el ID
+                String eliminarComando = "/system/scheduler/remove .id=" + idScheduler;
+                System.out.println("[INFO] Eliminando scheduler ID: " + idScheduler + " para cliente: " + nombreCliente);
+                cn.execute(eliminarComando);
+
+                System.out.println("[✅] Scheduler anterior eliminado para: " + nombreCliente);
+                JOptionPane.showMessageDialog(null, "Tarea anterior eliminada correctamente.", "AdmiNET", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                System.out.println("[⚠️] No se encontró una tarea con el nombre: " + nombreCliente);
+                JOptionPane.showMessageDialog(null, "No se encontró una tarea programada anterior con ese nombre.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
 
-            // 🔍 Si no se encontró en "/ppp/active", buscar en "/queue/simple"
-            if (nameCliente == null) {
-                String ip = address + "/32"; // Formato requerido por MikroTik
-                List<Map<String, String>> queueResponse = cn.execute("/queue/simple/print where target=" + ip);
-                if (!queueResponse.isEmpty()) {
-                    nameCliente = queueResponse.get(0).get("name");
-                    System.out.println("📌 Cliente encontrado en Queue Simple: " + nameCliente);
+        } catch (Exception e) {
+            System.err.println("[❌] Error al intentar eliminar tarea: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al eliminar la tarea anterior:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    System.err.println("[⚠️] Error al cerrar conexión MikroTik: " + e.getMessage());
                 }
             }
-
-            // ❌ Si no se encontró en ninguna tabla, mostrar error
-            if (nameCliente == null) {
-                JOptionPane.showMessageDialog(null, "❌ No se encontró un cliente con la IP: " + address);
-                cn.close();
-                return;
-            }
-
-            // Llamar al método para eliminar la tarea
-            eliminarTask(nameCliente, address, user, password, host);
-
-            cn.close();
-        } catch (Exception e) {
-            System.out.println("❌ Error: " + e);
-            JOptionPane.showMessageDialog(null, "Error al buscar el cliente por IP: " + e);
+        }
+        // Crear nueva tarea con fecha del próximo mes
+        try {
+            createTask(nombreCliente, address, user, password, host, diaCorte);
+        } catch (ApiConnectionException ex) {
+            JOptionPane.showMessageDialog(null, "Error al crear la nueva tarea:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public void eliminarTask(String nameCliente, String address, String user, String password, String host) {
+    public void createTaskEsteMes(String nameCliente, String address, String user, String password, String host, int diaCorte) throws ApiConnectionException {
+        ApiConnection cn = null;
+
         try {
-            ApiConnection cn = ApiConnection.connect(host);
+            cn = ApiConnection.connect(host);
             cn.login(user, password);
 
-            // Eliminar la tarea programada
-            String comando = "/system/scheduler/remove numbers=" + nameCliente;
-            System.out.println(comando);
+            // 🔄 Obtener la fecha de corte para ESTE MES
+            String fechaCorte = CorteHelper.getFechaCorteEsteMes(diaCorte);
+
+            // Armar comando scheduler
+            String comando = "/system/scheduler/add name=\"" + nameCliente + "\""
+                    + " start-date=" + fechaCorte
+                    + " start-time=00:00:00 interval=1m on-event=\"/ip firewall address-list add list=corte address=" + address + "\"";
+
+            System.out.println("[INFO] Comando generado: " + comando);
             cn.execute(comando);
+            System.out.println("[✅] Tarea de corte creada para: " + fechaCorte);
 
-            System.out.println("✅ Eliminada la tarea: " + nameCliente);
-            JOptionPane.showMessageDialog(null, "Se eliminó la tarea programada correctamente.");
-
-            cn.close();
-
-            // Volver a crear la tarea (si es necesario)
-            createTask(nameCliente, address, user, password, host);
+            JOptionPane.showMessageDialog(null, "Tarea de corte programada para el " + fechaCorte, "AdmiNET", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception e) {
-            System.out.println("❌ Error: " + e);
-            createTask(nameCliente, address, user, password, host);
-            JOptionPane.showMessageDialog(null, "Tenemos un problema al eliminar la tarea programada: " + e);
-            JOptionPane.showMessageDialog(null, "Corte automatico re-creado", "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
+            System.err.println("[❌] Error al crear la tarea de corte: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al crear la tarea de corte:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (cn != null) {
+                cn.close();
+            }
         }
     }
+
+    public void eliminarTareaEnSegundoPlano(
+            String nombreCliente,
+            String address,
+            String user,
+            String password,
+            String host,
+            int diaCorte
+    ) {
+        JOptionPane.showMessageDialog(null, "Eliminando tarea programada (scheduler)... esto se realizará en segundo plano.", "AdmiNET", JOptionPane.INFORMATION_MESSAGE);
+
+        new Thread(() -> {
+            ApiConnection cn = null;
+            try {
+                cn = ApiConnection.connect(host);
+                cn.login(user, password);
+
+                // Buscar el ID del scheduler por nombre
+                String buscarComando = "/system/scheduler/print where name=\"" + nombreCliente + "\"";
+                List<Map<String, String>> resultados = cn.execute(buscarComando);
+
+                if (!resultados.isEmpty()) {
+                    String idScheduler = resultados.get(0).get(".id");
+
+                    // Eliminar el scheduler usando el ID
+                    String eliminarComando = "/system/scheduler/remove .id=" + idScheduler;
+                    System.out.println("[INFO] Eliminando scheduler ID: " + idScheduler + " para cliente: " + nombreCliente);
+                    cn.execute(eliminarComando);
+
+                    System.out.println("[✅] Scheduler anterior eliminado para: " + nombreCliente);
+                    JOptionPane.showMessageDialog(null, "Tarea anterior eliminada correctamente.", "AdmiNET", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    System.out.println("[⚠️] No se encontró una tarea con el nombre: " + nombreCliente);
+                    JOptionPane.showMessageDialog(null, "No se encontró una tarea programada con ese nombre.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+
+            } catch (Exception e) {
+                System.err.println("[❌] Error al intentar eliminar tarea: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Error al eliminar la tarea:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            } finally {
+                if (cn != null) {
+                    try {
+                        cn.close();
+                    } catch (Exception e) {
+                        System.err.println("[⚠️] Error al cerrar conexión MikroTik: " + e.getMessage());
+                    }
+                }
+            }
+        }).start(); // 🚀 Lanzamos el hilo
+    }
+
 
 }
