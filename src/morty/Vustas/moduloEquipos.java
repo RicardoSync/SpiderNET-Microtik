@@ -1,5 +1,6 @@
 package morty.Vustas;
 
+import UIPrincipal.Dashboard;
 import Config.Conexion;
 import Config.DeleteDatos;
 import java.sql.Connection;

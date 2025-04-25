@@ -5,9 +5,39 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Consultas {
+    public Map<String, Integer> consultarPaquetesConID() {
+        Map<String, Integer> paquetes = new HashMap<>();
+        Conexion conexion = new Conexion();
+        Connection cn = conexion.getConnection();
+
+        if (cn != null) {
+            try {
+                String sql = "SELECT id, nombre FROM paquetes";
+                PreparedStatement ps = cn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String nombre = rs.getString("nombre");
+                    paquetes.put(nombre, id);
+                }
+
+                rs.close();
+                ps.close();
+                conexion.closeConnection();
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al obtener paquetes con ID: " + e, "Error SQL", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+        return paquetes;
+    }
 
     public ArrayList<String> consultarPaquetes(){
         ArrayList<String> paquetes = new ArrayList<>();
@@ -60,6 +90,35 @@ public class Consultas {
         return antenasAp;
     }
    
+    public Map<String, Integer> consultarAntenasConID() {
+        Map<String, Integer> antenas = new HashMap<>();
+        Conexion conexion = new Conexion();
+        Connection con = conexion.getConnection();
+
+        if (con != null) {
+            try {
+                String sql = "SELECT idantenasAp, nombre FROM antenasap";
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    int id = rs.getInt("idantenasAp");
+                    String nombre = rs.getString("nombre");
+                    antenas.put(nombre, id);
+                }
+
+                rs.close();
+                ps.close();
+                conexion.closeConnection();
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al consultar antenas: " + e, "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+        return antenas;
+    }
+
     public ArrayList<String> consultarPlataformas(){
         ArrayList<String> plataformas = new ArrayList<>();
         Conexion conexion = new Conexion();

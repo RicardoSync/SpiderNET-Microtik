@@ -1,12 +1,17 @@
 package Recibos;
 
+import CallMeBot.PagoDAO;
+import CallMeBot.PagoDAO.InfoPagoCliente;
+import CallMeBot.WhatsAppBotSender;
 import Config.Conexion;
 import Config.Consultas;
 import Config.InsertarDatos;
+import Config.UpdateDatos;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import Recibos.generarRecibo;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,9 +25,9 @@ import microtik.taskMicrotik;
 import microtik.unlockClient;
 public class pagoWindows extends javax.swing.JInternalFrame {
 
-    public pagoWindows(int id, String nombre, String paquete, String servicios, String direccionIp, String nombreMicrotik, String diaCorte) {
+    public pagoWindows(int id, String nombre, String paquete, String servicios, String direccionIp, String nombreMicrotik, String diaCorte, String username) {
         initComponents();
-        insertarElementos(id, nombre, paquete, servicios, direccionIp, nombreMicrotik, diaCorte);
+        insertarElementos(id, nombre, paquete, servicios, direccionIp, nombreMicrotik, diaCorte, username);
 
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -61,6 +66,9 @@ public class pagoWindows extends javax.swing.JInternalFrame {
         entryConcepto = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        entryNombreUsuario = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -103,7 +111,7 @@ public class pagoWindows extends javax.swing.JInternalFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(entryNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 3, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -243,7 +251,7 @@ public class pagoWindows extends javax.swing.JInternalFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comboMetodo, 0, 145, Short.MAX_VALUE)))
+                                .addComponent(comboMetodo, 0, 151, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -298,6 +306,29 @@ public class pagoWindows extends javax.swing.JInternalFrame {
             }
         });
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("USUARIO"));
+
+        jLabel15.setText("Lo esta atendiendo: ");
+
+        entryNombreUsuario.setEnabled(false);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(entryNombreUsuario))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel15)
+                .addComponent(entryNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -306,30 +337,31 @@ public class pagoWindows extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addGap(19, 19, 19))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -366,7 +398,7 @@ public class pagoWindows extends javax.swing.JInternalFrame {
 //        }
     }
 
-    public void insertarElementos(int id, String nombre, String paquete, String servicios, String direccionIp,String nombreMicrotik, String diaCorte) {
+    public void insertarElementos(int id, String nombre, String paquete, String servicios, String direccionIp, String nombreMicrotik, String diaCorte, String username) {
         listarMicrotiks(nombreMicrotik);
         Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
@@ -377,6 +409,7 @@ public class pagoWindows extends javax.swing.JInternalFrame {
             entryPaquete.setText(paquete);
             entryDireccionIP.setText(direccionIp);
             entryDiaCorte.setText(diaCorte);
+            entryNombreUsuario.setText(username);
             PreparedStatement cursor;
             ResultSet resultado;
             try {
@@ -430,105 +463,157 @@ public class pagoWindows extends javax.swing.JInternalFrame {
         }
     }
 
-public void obtenerInformacion() throws MikrotikApiException, IOException {
-    Conexion conexion = new Conexion();
-    Connection cn = conexion.getConnection();
+    public void obtenerInformacion() throws MikrotikApiException, IOException {
+        Conexion conexion = new Conexion();
+        Connection cn = conexion.getConnection();
 
-    if (cn != null) {
-        PreparedStatement cursor;
-        ResultSet resultado;
-        String sql = "SELECT nombreWisp, cp, telefono, rfc, direccion FROM datosEmpresa";
+        if (cn != null) {
+            PreparedStatement cursor;
+            ResultSet resultado;
+            String sql = "SELECT nombreWisp, cp, telefono, rfc, direccion FROM datosEmpresa";
 
-        try {
-            cursor = cn.prepareStatement(sql);
-            resultado = cursor.executeQuery();
+            try {
+                cursor = cn.prepareStatement(sql);
+                resultado = cursor.executeQuery();
 
-            String nombreWisp = null;
-            String cp = null;
-            String telefono = null;
-            String rfc = null;
-            String direccion = null;
+                String nombreWisp = null;
+                String cp = null;
+                String telefono = null;
+                String rfc = null;
+                String direccion = null;
 
-            if (resultado.next()) {
-                nombreWisp = resultado.getString(1);
-                cp = resultado.getString(2);
-                telefono = resultado.getString(3);
-                rfc = resultado.getString(4);
-                direccion = resultado.getString(5);
-            } else {
-                JOptionPane.showMessageDialog(null, "⚠ No podemos crear el ticket sin los datos de la empresa.");
-                JOptionPane.showMessageDialog(null, "Por favor, ve al menú SoftwareEscobedo > Empresas y completa los datos.");
-                return; // 🔴 Detener ejecución
-            }
-
-            // Continuar con el flujo normalmente
-            Calendar calendar = Calendar.getInstance();
-            LocalTime horaActual = LocalTime.now();
-            DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-            String hora = horaActual.format(formato);
-            int annio = calendar.get(Calendar.YEAR);
-            int mes = calendar.get(Calendar.MONTH) + 1;
-            int dia = calendar.get(Calendar.DAY_OF_MONTH);
-            String mesTexto = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, new Locale("es", "ES"));
-            String mesAnio = mesTexto + "." + annio;
-            String fecha = dia + "/" + mes + "/" + annio;
-
-            // Obtener entradas de la ventana
-            String concepto = entryConcepto.getText();
-            String nombre = entryNombre.getText();
-            String plan = entryPaquete.getText();
-            double mensualidad = Double.parseDouble(entryMonto.getText());
-            double paquete = Double.parseDouble(entryMonto.getText());
-            double streming = Double.parseDouble(entryPrecioServicios.getText());
-            double tv = 0.0;
-            double efectivo = Double.parseDouble(entryCantidad.getText());
-            String cajero = "admin";
-            String servicios = entryServicios.getText();
-            String direccionIp = entryDireccionIP.getText();
-            int id_cliente = Integer.parseInt(entryID.getText());
-            String metodo_pago = (String) comboMetodo.getSelectedItem();
-            String cantidad = entryCantidad.getText();
-            String monto = entryMonto.getText();
-            String stremdeck = entryPrecioServicios.getText();
-            int descuentoPorcentaje = Integer.parseInt(entryDescuento.getText());
-            int mesesPagados = Integer.parseInt((String) comboMeses.getSelectedItem());
-
-            int cambio = 0;
-
-            generarRecibo recibo = new generarRecibo();
-
-            if (mensualidad > 0.0) {
-                InsertarDatos insertarDatos = new InsertarDatos();
-                insertarDatos.insertarPago(id_cliente, nombre, monto, metodo_pago, efectivo, cambio);
-
-                int opcion = JOptionPane.showConfirmDialog(null, "¿Quieres generar el recibo PDF?", "Generar Recibo", JOptionPane.YES_NO_OPTION);
-                if (opcion == JOptionPane.YES_OPTION) {
-                    recibo.generarRecibo(nombreWisp, cp, telefono, rfc, direccion, concepto, mesAnio, nombre, cp, plan, mensualidad, fecha, hora, paquete, streming, tv, efectivo, cajero, descuentoPorcentaje, mesesPagados);
+                if (resultado.next()) {
+                    nombreWisp = resultado.getString(1);
+                    cp = resultado.getString(2);
+                    telefono = resultado.getString(3);
+                    rfc = resultado.getString(4);
+                    direccion = resultado.getString(5);
+                } else {
+                    JOptionPane.showMessageDialog(null, "⚠ No podemos crear el ticket sin los datos de la empresa.");
+                    JOptionPane.showMessageDialog(null, "Por favor, ve al menú SoftwareEscobedo > Empresas y completa los datos.");
+                    return; // 🔴 Detener ejecución
                 }
 
-                obtenerDatosMicrotik();
+                // Continuar con el flujo normalmente
+                Calendar calendar = Calendar.getInstance();
+                LocalTime horaActual = LocalTime.now();
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-            } else {
-                InsertarDatos insertarDatos = new InsertarDatos();
-                insertarDatos.insertarPago(id_cliente, nombre, stremdeck, metodo_pago, efectivo, cambio);
+                String hora = horaActual.format(formato);
+                int annio = calendar.get(Calendar.YEAR);
+                int mes = calendar.get(Calendar.MONTH) + 1;
+                int dia = calendar.get(Calendar.DAY_OF_MONTH);
+                String mesTexto = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, new Locale("es", "ES"));
+                String mesAnio = mesTexto + "." + annio;
+                String fecha = dia + "/" + mes + "/" + annio;
+                int id = Integer.parseInt((String)entryID.getText());
+                // Obtener entradas de la ventana
+                String concepto = entryConcepto.getText();
+                String nombre = entryNombre.getText();
+                String plan = entryPaquete.getText();
+                double mensualidad = Double.parseDouble(entryMonto.getText());
+                double paquete = Double.parseDouble(entryMonto.getText());
+                double streming = Double.parseDouble(entryPrecioServicios.getText());
+                double tv = 0.0;
+                double efectivo = Double.parseDouble(entryCantidad.getText());
+                String cajero = entryNombreUsuario.getText();
+                String servicios = entryServicios.getText();
+                String direccionIp = entryDireccionIP.getText();
+                int id_cliente = Integer.parseInt(entryID.getText());
+                String metodo_pago = (String) comboMetodo.getSelectedItem();
+                String cantidad = entryCantidad.getText();
+                String monto = entryMonto.getText();
+                String stremdeck = entryPrecioServicios.getText();
+                int descuentoPorcentaje = Integer.parseInt(entryDescuento.getText());
+                int mesesPagados = Integer.parseInt((String) comboMeses.getSelectedItem());
+                double sumaTotal = mensualidad + streming;
+                double cambio = efectivo - sumaTotal;
+                int diaCorte = Integer.parseInt((String) entryDiaCorte.getText());
+                int idCliente = Integer.parseInt((String)entryID.getText());
+                LocalDate hoy = LocalDate.now();
+                LocalDate base = hoy.getDayOfMonth() >= diaCorte
+                        ? LocalDate.of(hoy.getYear(), hoy.getMonthValue(), 1).plusMonths(1).withDayOfMonth(diaCorte)
+                        : LocalDate.of(hoy.getYear(), hoy.getMonthValue(), 1).withDayOfMonth(diaCorte);
 
-                int opcion = JOptionPane.showConfirmDialog(null, "¿Quieres generar el recibo PDF?", "Generar Recibo", JOptionPane.YES_NO_OPTION);
-                if (opcion == JOptionPane.YES_OPTION) {
-                    recibo.generarRecibo(nombreWisp, cp, telefono, rfc, direccion, concepto, mesAnio, nombre, cp, plan, mensualidad, fecha, hora, paquete, streming, tv, efectivo, cajero, descuentoPorcentaje, mesesPagados);
+                LocalDate proximoPago = base.plusMonths(mesesPagados - 1);
+
+                //linea para crear un hash para codigo de barras
+                String codigoVerificacion = "PAY-" + id_cliente + "-" + System.currentTimeMillis();
+
+                generarRecibo recibo = new generarRecibo();
+                if (cambio < 0) {
+                    JOptionPane.showMessageDialog(null, "⚠ El efectivo es menor al total. Verifica el pago.");
+                    return;
                 }
 
-                obtenerDatosMicrotik();
-            }
+                if (mensualidad > 0.0) {
+                    InsertarDatos insertarDatos = new InsertarDatos();
+                    insertarDatos.insertarPago(id_cliente, nombre, monto, metodo_pago, efectivo, (int) cambio, codigoVerificacion, diaCorte, mesesPagados);
+                    UpdateDatos actualizaCIOB = new UpdateDatos();
+                    String estado = "Activo";
+                    actualizaCIOB.bloqueo(id, estado);
+                    obtenerDatosMicrotik(mesesPagados);
+                    
+                    int opcion = JOptionPane.showConfirmDialog(null, "¿Quieres generar el recibo PDF?", "Generar Recibo", JOptionPane.YES_NO_OPTION);
+                    if (opcion == JOptionPane.YES_OPTION) {
+                        recibo.generarRecibo(nombreWisp, cp, telefono, rfc, direccion, concepto, mesAnio, nombre, cp, plan, mensualidad, fecha, hora,
+                                paquete, streming, tv, efectivo, cajero, descuentoPorcentaje,
+                                mesesPagados, codigoVerificacion);
+                    }
+                    InfoPagoCliente datos = PagoDAO.obtenerInfoPagoCliente(idCliente);
+                    if (datos != null) {
+                        WhatsAppBotSender.enviarMensajePago(
+                                datos.telefonoCliente,
+                                datos.apiKey, // ← Ya no necesitas pasarlo externamente
+                                datos.nombreCliente,
+                                datos.nombrePaquete,
+                                datos.precio,
+                                datos.fechaPago,
+                                datos.diaCorte,
+                                datos.telefonoEmpresa,
+                                datos.direccionEmpresa,
+                                datos.nombreEmpresa
+                        );
+                    }
 
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al obtener los datos de la empresa:\n" + e.getMessage(), "SpiderNET", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    InsertarDatos insertarDatos = new InsertarDatos();
+                    insertarDatos.insertarPago(id_cliente, nombre, stremdeck, metodo_pago, efectivo, (int) cambio, codigoVerificacion, diaCorte, mesesPagados);
+                    UpdateDatos actualizaCIOB = new UpdateDatos();
+                    String estado = "Activo";
+                    actualizaCIOB.bloqueo(id, estado);
+                    obtenerDatosMicrotik(mesesPagados);
+                    
+                    int opcion = JOptionPane.showConfirmDialog(null, "¿Quieres generar el recibo PDF?", "Generar Recibo", JOptionPane.YES_NO_OPTION);
+                    if (opcion == JOptionPane.YES_OPTION) {
+                        recibo.generarRecibo(nombreWisp, cp, telefono, rfc, direccion, concepto, mesAnio, nombre, cp, plan, mensualidad, fecha, hora,
+                                paquete, streming, tv, efectivo, cajero, descuentoPorcentaje, mesesPagados, codigoVerificacion);
+                    }
+                    InfoPagoCliente datos = PagoDAO.obtenerInfoPagoCliente(idCliente);
+                    if (datos != null) {
+                        WhatsAppBotSender.enviarMensajePago(
+                                datos.telefonoCliente,
+                                datos.apiKey, // ← Ya no necesitas pasarlo externamente
+                                datos.nombreCliente,
+                                datos.nombrePaquete,
+                                datos.precio,
+                                datos.fechaPago,
+                                datos.diaCorte,
+                                datos.telefonoEmpresa,
+                                datos.direccionEmpresa,
+                                datos.nombreEmpresa
+                        );
+                    }
+                    obtenerDatosMicrotik(mesesPagados);
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al obtener los datos de la empresa:\n" + e.getMessage(), "SpiderNET", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo establecer una conexión a la base de datos.", "AdmiNET", JOptionPane.ERROR_MESSAGE);
         }
-    } else {
-        JOptionPane.showMessageDialog(null, "No se pudo establecer una conexión a la base de datos.", "AdmiNET", JOptionPane.ERROR_MESSAGE);
     }
-}
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboMeses;
@@ -542,6 +627,7 @@ public void obtenerInformacion() throws MikrotikApiException, IOException {
     private javax.swing.JTextField entryMicrotikNombre;
     private javax.swing.JTextField entryMonto;
     private javax.swing.JTextField entryNombre;
+    private javax.swing.JTextField entryNombreUsuario;
     private javax.swing.JTextField entryPaquete;
     private javax.swing.JTextField entryPrecioServicios;
     private javax.swing.JTextField entryServicios;
@@ -553,6 +639,7 @@ public void obtenerInformacion() throws MikrotikApiException, IOException {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -564,9 +651,10 @@ public void obtenerInformacion() throws MikrotikApiException, IOException {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     // End of variables declaration//GEN-END:variables
 
-    public void obtenerDatosMicrotik() {
+    public void obtenerDatosMicrotik(int mesesPagados) {
         String nombreMicrotik = entryMicrotikNombre.getText();
         Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
@@ -584,10 +672,9 @@ public void obtenerInformacion() throws MikrotikApiException, IOException {
                 String user = resultado.getString("username");
                 String password = resultado.getString("password");
                 String host = resultado.getString("ip");
-
+                int idCliente = Integer.parseInt(entryID.getText());
                 String direccionIp = entryDireccionIP.getText();
                 String nameCliente = entryNombre.getText();
-
 
                 // Validación del día de corte
                 int diaCorte;
@@ -607,9 +694,8 @@ public void obtenerInformacion() throws MikrotikApiException, IOException {
                 // Desbloquear cliente y crear task
                 PPoEAuto auto = new PPoEAuto();
                 auto.desbloquearCliente(direccionIp, user, password, host);
-
                 taskMicrotik m = new taskMicrotik();
-                m.reprogramarCorteTrasPago(nameCliente, host, user, password, host, diaCorte);
+                m.reprogramarCorteTrasPagoAsync(nameCliente, host, user, password, host, diaCorte, mesesPagados);
 
             } else {
                 JOptionPane.showMessageDialog(null, "No encontramos datos para ese MikroTik. Corrobora el nombre. Por ahora desbloquea el cliente manualmente.");
@@ -619,5 +705,4 @@ public void obtenerInformacion() throws MikrotikApiException, IOException {
             JOptionPane.showMessageDialog(null, "Error al buscar los datos del MikroTik en base de datos: " + e);
         }
     }
-
 }

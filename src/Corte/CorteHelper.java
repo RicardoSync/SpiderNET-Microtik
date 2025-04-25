@@ -39,5 +39,15 @@ public static String getFechaCorteEsteMes(int diaCorte) {
     SimpleDateFormat formato = new SimpleDateFormat("MMM/dd/yyyy", Locale.ENGLISH);
     return formato.format(calendario.getTime()).toLowerCase(); // Ejemplo: "apr/18/2025"
 }
+public static String getFechaCorte(int diaCorte, int mesesPagados) {
+    LocalDate fechaBase = LocalDate.now().withDayOfMonth(diaCorte);
+    if (LocalDate.now().getDayOfMonth() >= diaCorte) {
+        fechaBase = fechaBase.plusMonths(1); // si ya pasó el día de corte de este mes, empezar desde el próximo
+    }
+
+    LocalDate nuevaFecha = fechaBase.plusMonths(mesesPagados - 1);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM/dd/yyyy", Locale.ENGLISH);
+    return nuevaFecha.format(formatter);
+}
 
 }

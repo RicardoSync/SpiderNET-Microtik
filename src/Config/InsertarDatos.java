@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 import Config.Conexion;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class InsertarDatos {
 
@@ -415,14 +417,24 @@ public class InsertarDatos {
         }
     }
 
-    public void insertarPago(int id_cliente, String nombre, String monto, String metodo_pago, double cantidad, int cambio) {
+    public void insertarPago(int id_cliente, String nombre, String monto, String metodo_pago, double cantidad, int cambio, String codigoVerificacion, int diaCorte, int mesesPagados) {
         Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
 
         if (cn != null) {
             PreparedStatement cursor;
-            String sql = "INSERT INTO pagos (id_cliente, nombre, monto, metodo_pago, cantidad, cambio) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO pagos (id_cliente, nombre, monto, metodo_pago, cantidad, cambio, codigo_barras, proximo_pago) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
             try {
+                // 📅 Calcular la fecha del próximo pago
+                LocalDate hoy = LocalDate.now();
+                LocalDate base = hoy.getDayOfMonth() >= diaCorte
+                        ? LocalDate.of(hoy.getYear(), hoy.getMonthValue(), 1).plusMonths(1).withDayOfMonth(diaCorte)
+                        : LocalDate.of(hoy.getYear(), hoy.getMonthValue(), 1).withDayOfMonth(diaCorte);
+
+                LocalDate proximoPago = base.plusMonths(mesesPagados - 1);
+                java.sql.Date fechaSQL = java.sql.Date.valueOf(proximoPago);
+
                 cursor = cn.prepareStatement(sql);
                 cursor.setInt(1, id_cliente);
                 cursor.setString(2, nombre);
@@ -430,16 +442,18 @@ public class InsertarDatos {
                 cursor.setString(4, metodo_pago);
                 cursor.setDouble(5, cantidad);
                 cursor.setInt(6, cambio);
+                cursor.setString(7, codigoVerificacion);
+                cursor.setDate(8, fechaSQL); // ⬅️ Nueva columna proximo_pago
 
                 int rows = cursor.executeUpdate();
 
                 if (rows > 0) {
                     cn.close();
-                    JOptionPane.showMessageDialog(null, "Pago registrado");
+                    JOptionPane.showMessageDialog(null, "Pago registrado correctamente.\nPróximo pago: " + proximoPago.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                 }
             } catch (SQLException e) {
+                System.out.println(e);
                 JOptionPane.showMessageDialog(null, "Tenemos problemas con la base de datos: " + e, "Modulo Insertar", JOptionPane.ERROR_MESSAGE);
-
             }
         }
     }

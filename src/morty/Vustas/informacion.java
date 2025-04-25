@@ -4,6 +4,8 @@
  */
 package morty.Vustas;
 
+import EnlaceWeb.abrirEnlace;
+
 /**
  *
  * @author ricardo
@@ -30,6 +32,8 @@ public class informacion extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setClosable(true);
         setResizable(true);
@@ -37,13 +41,31 @@ public class informacion extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/neo6.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_64x64.png"))); // NOI18N
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("Información del Programa\nSpiderNET – Software para Control y Gestión de Clientes WISP/ISP\nSoftware Escobedo / Doblenet System\n\nVersión: 2.0.0\nBuild: 0.0.2\nCompatibilidad:\n\tWindows: 7, 10, 11\n\tLinux: Sistemas con JDK 21/23\n\tmacOS: Compatible con Java 21/23\n\nRequisitos: Java 21 o Java 23\n\nDesarrolladores\n\tRichard Gerardo García Escobedo\n\tMartín Echevarría Salas\n\nInformacion extra:\n\tTelefonos: \n\t\t4981442266\n\t\t4961220660\n\tCorreos:\n\t\tcleliaescobedo@gmail.com\n\t\trichardobedoesc@gmail.com\n\tDireccion:\n\t\tLoreto Zacatecas\n\t\t98815\n\t\tJoaquin Amaro #12");
+        jTextArea1.setText("🔧 AdmiNET Local - Sistema de Gestión para WISP e ISP\n\nDesarrollado por: Ricardo Escobedo  \nEmpresa: DOBLENET - Soluciones en conectividad  \nVersión actual: 1.9.0\nFecha de lanzamiento: Abril del  2025\n\n🧠 Descripción:\nAdmiNET Local es un software diseñado para automatizar y optimizar la administración de pequeños y medianos WISP/ISP.  \nGestiona clientes, pagos, cortes, equipos, y se integra con MikroTik para ofrecer control total de la red.\n\n📌 Funciones principales:\n• Registro y gestión de clientes (activos, suspendidos, bloqueados)  \n• Administración de pagos, egresos y cortes de caja  \n• Automatización de suspensiones/activaciones vía Simple Queue o PPPoE  \n• Sincronización con MikroTik (queues, hotspot, DHCP leases, etc.)  \n• Creación de fichas hotspot y tickets imprimibles  \n• Control de usuarios, empresa y base de datos  \n• Diseño moderno y accesible, compatible con temas oscuros o personalizados\n\n🔐 Licencia de uso:\nEste software está licenciado exclusivamente para el uso del comprador.  \nProhibida su copia, redistribución o modificación sin autorización expresa.  \nCada instalación requiere activación única por parte del desarrollador.\n\n🛠 Tecnologías utilizadas:\n• Java SE  \n• MySQL  \n• JDBC  \n• FlatLaf  \n• MikroTik API + SSH  \n• JasperReports\n\n🎯 Visión:\nCrear una plataforma robusta, estética y funcional que permita a los WISP gestionar su red y sus clientes de forma rápida, eficiente y profesional.  \nUn software pensado para negocios reales, con necesidades reales.\n\n📩 Soporte técnico:\n¿Tienes dudas, necesitas soporte o quieres actualizar tu versión?\n• WhatsApp: +52 498 144 22 66  \n• Correo: softwareescobedo@gmail.com  \n• Facebook: Software Escobedo\n\n🚧 Próximas funciones:\n• Panel web para clientes con acceso a historial y estado de su servicio  \n• App Android personalizada con logo y nombre del WISP  \n• Monitoreo de tráfico en tiempo real  \n• Soporte para routers Ubiquiti, TP-Link y más\n\nGracias por ser parte de DOBLENET y confiar en AdmiNET.");
         jScrollPane1.setViewportView(jTextArea1);
+        jTextArea1.setLineWrap(true);
+        jTextArea1.setWrapStyleWord(true);
+
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/tik-tok.png"))); // NOI18N
+        jButton4.setText("TikTok");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/facebook.png"))); // NOI18N
+        jButton5.setText("Facebook");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -51,9 +73,12 @@ public class informacion extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -61,9 +86,15 @@ public class informacion extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addContainerGap(89, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton5)
+                        .addGap(0, 35, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -80,8 +111,22 @@ public class informacion extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        abrirEnlace e = new abrirEnlace();
+        e.abrirTikTok();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        abrirEnlace e = new abrirEnlace();
+        e.abrirFacebook();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

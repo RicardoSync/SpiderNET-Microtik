@@ -112,22 +112,18 @@ public class UpdateDatos {
     }
 
     public void actualizarCliente(int id_cliente, String nombre, String correo, String telefono, String paquete, String direccion,
-            String antenaAp, String ipCliente, String diaCorte, String servicioTV, String servicioStream, String microtikNuevo) {
+            String antenaAp, String ipCliente, String diaCorte, String servicioTV,
+            String servicioStream, String microtikNuevo, String linkMaps, String apiKey) {
+
         Conexion conexion = new Conexion();
         Connection cn = conexion.getConnection();
-
-        // Lista para ir acumulando los mensajes de campos no registrados
         List<String> camposFaltantes = new ArrayList<>();
 
         if (cn != null) {
             try {
-                // Variable para guardar los IDs. Se usan como Integer para poder asignarles null.
-                Integer idPaquete = null;
-                Integer idMikrotik = null;
-                Integer idAntena = null;
-                Integer idServicio = null;
+                Integer idPaquete = null, idMikrotik = null, idAntena = null, idServicio = null;
 
-                // --- Obtener el ID del paquete (si se proporciona) ---
+                // Obtener ID del paquete
                 if (paquete != null && !paquete.trim().isEmpty()) {
                     String sqlPaquete = "SELECT id FROM paquetes WHERE nombre = ?";
                     try (PreparedStatement stmtPaquete = cn.prepareStatement(sqlPaquete)) {
@@ -136,7 +132,6 @@ public class UpdateDatos {
                         if (rsPaquete.next()) {
                             idPaquete = rsPaquete.getInt("id");
                         } else {
-                            // Si se envió un nombre pero no se encontró
                             camposFaltantes.add("paquete registrado");
                         }
                     }
@@ -144,7 +139,7 @@ public class UpdateDatos {
                     camposFaltantes.add("paquete registrado");
                 }
 
-                // --- Obtener el ID del MikroTik (si se proporciona) ---
+                // MikroTik
                 if (microtikNuevo != null && !microtikNuevo.trim().isEmpty()) {
                     String sqlMikrotik = "SELECT id FROM credenciales_microtik WHERE nombre = ?";
                     try (PreparedStatement stmtMikrotik = cn.prepareStatement(sqlMikrotik)) {
@@ -160,7 +155,7 @@ public class UpdateDatos {
                     camposFaltantes.add("MikroTik registrado");
                 }
 
-                // --- Obtener el ID de la antena (tabla antenasap) ---
+                // Antena
                 if (antenaAp != null && !antenaAp.trim().isEmpty()) {
                     String sqlAntena = "SELECT idantenasAp FROM antenasap WHERE nombre = ?";
                     try (PreparedStatement stmtAntena = cn.prepareStatement(sqlAntena)) {
@@ -176,7 +171,7 @@ public class UpdateDatos {
                     camposFaltantes.add("antena registrada");
                 }
 
-                // --- Obtener el ID del servicio (tabla serviciosplataforma) ---
+                // Servicio de streaming
                 if (servicioStream != null && !servicioStream.trim().isEmpty()) {
                     String sqlServicio = "SELECT idPlataformas FROM serviciosplataforma WHERE nombre = ?";
                     try (PreparedStatement stmtServicio = cn.prepareStatement(sqlServicio)) {
@@ -192,69 +187,64 @@ public class UpdateDatos {
                     camposFaltantes.add("servicio registrado");
                 }
 
-                // Convertir diaCorte a entero (se asume que este dato es obligatorio)
                 int diaCorteInt = Integer.parseInt(diaCorte);
 
-                // Actualizar el cliente con todos los datos
+                // Actualizar datos del cliente
                 String sqlUpdate = """
-                    UPDATE clientes 
-                    SET nombre = ?, telefono = ?, email = ?, direccion = ?, id_paquete = ?, 
-                        ip_cliente = ?, dia_corte = ?, id_antena_ap = ?, serviciosTV = ?, id_servicio_plataforma = ?, id_microtik = ?
-                    WHERE id = ?;
-                    """;
+                UPDATE clientes 
+                SET nombre = ?, telefono = ?, email = ?, direccion = ?, id_paquete = ?, 
+                    ip_cliente = ?, dia_corte = ?, id_antena_ap = ?, serviciosTV = ?, 
+                    id_servicio_plataforma = ?, id_microtik = ?, ubicacion_maps = ?
+                WHERE id = ?;
+                """;
 
                 try (PreparedStatement stmtUpdate = cn.prepareStatement(sqlUpdate)) {
                     stmtUpdate.setString(1, nombre);
                     stmtUpdate.setString(2, telefono);
                     stmtUpdate.setString(3, correo);
                     stmtUpdate.setString(4, direccion);
-
-                    // Para id_paquete
-                    if (idPaquete != null) {
-                        stmtUpdate.setInt(5, idPaquete);
-                    } else {
-                        stmtUpdate.setNull(5, java.sql.Types.INTEGER);
-                    }
-
+                    stmtUpdate.setObject(5, idPaquete, java.sql.Types.INTEGER);
                     stmtUpdate.setString(6, ipCliente);
                     stmtUpdate.setInt(7, diaCorteInt);
-
-                    // Para id_antena_ap
-                    if (idAntena != null) {
-                        stmtUpdate.setInt(8, idAntena);
-                    } else {
-                        stmtUpdate.setNull(8, java.sql.Types.INTEGER);
-                    }
-
-                    // serviciosTV se mantiene como string, se asume que es obligatorio o se envía de otra forma.
+                    stmtUpdate.setObject(8, idAntena, java.sql.Types.INTEGER);
                     stmtUpdate.setString(9, servicioTV);
-
-                    // Para id_servicio_plataforma
-                    if (idServicio != null) {
-                        stmtUpdate.setInt(10, idServicio);
-                    } else {
-                        stmtUpdate.setNull(10, java.sql.Types.INTEGER);
-                    }
-
-                    // Para id_microtik
-                    if (idMikrotik != null) {
-                        stmtUpdate.setInt(11, idMikrotik);
-                    } else {
-                        stmtUpdate.setNull(11, java.sql.Types.INTEGER);
-                    }
-
-                    stmtUpdate.setInt(12, id_cliente);
-
+                    stmtUpdate.setObject(10, idServicio, java.sql.Types.INTEGER);
+                    stmtUpdate.setObject(11, idMikrotik, java.sql.Types.INTEGER);
+                    stmtUpdate.setString(12, linkMaps);
+                    stmtUpdate.setInt(13, id_cliente);
                     stmtUpdate.executeUpdate();
-
-                    // Preparar el mensaje final
-                    String mensaje = "Cliente actualizado";
-                    if (!camposFaltantes.isEmpty()) {
-                        mensaje += " pero sin " + String.join(", ", camposFaltantes) + ".";
-                    }
-                    JOptionPane.showMessageDialog(null, mensaje, "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
-                    cn.close();
                 }
+
+                String sqlCheckKey = "SELECT id FROM clientes_apikeys WHERE id_cliente = ?";
+                try (PreparedStatement checkStmt = cn.prepareStatement(sqlCheckKey)) {
+                    checkStmt.setInt(1, id_cliente);
+                    ResultSet rs = checkStmt.executeQuery();
+
+                    if (rs.next()) {
+                        // Ya tiene API key → actualizar
+                        String sqlUpdateKey = "UPDATE clientes_apikeys SET apikey = ?, fecha_creacion = NOW(), activo = TRUE WHERE id_cliente = ?";
+                        try (PreparedStatement updateStmt = cn.prepareStatement(sqlUpdateKey)) {
+                            updateStmt.setString(1, apiKey);
+                            updateStmt.setInt(2, id_cliente);
+                            updateStmt.executeUpdate();
+                        }
+                    } else {
+                        // No tiene → insertar
+                        String sqlInsertKey = "INSERT INTO clientes_apikeys (id_cliente, apikey) VALUES (?, ?)";
+                        try (PreparedStatement insertStmt = cn.prepareStatement(sqlInsertKey)) {
+                            insertStmt.setInt(1, id_cliente);
+                            insertStmt.setString(2, apiKey);
+                            insertStmt.executeUpdate();
+                        }
+                    }
+                }
+
+                String mensaje = "Cliente actualizado.";
+                if (!camposFaltantes.isEmpty()) {
+                    mensaje += " Pero faltaron: " + String.join(", ", camposFaltantes) + ".";
+                }
+                JOptionPane.showMessageDialog(null, mensaje, "SpiderNET", JOptionPane.INFORMATION_MESSAGE);
+                cn.close();
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -267,7 +257,6 @@ public class UpdateDatos {
             JOptionPane.showMessageDialog(null, "Conexión a la base de datos fallida", "Modulo Update", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
 
     public void actualizarEquipo(int id, String nombre, String tipo, String marca, String modelo, String mac, String serial, String estado, String cliente) {

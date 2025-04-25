@@ -1,5 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `spidernet_web` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `spidernet_web`;
+CREATE DATABASE  IF NOT EXISTS `adminet_test` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `adminet_test`;
 -- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
 --
 -- Host: localhost    Database: spidernet_web
@@ -59,6 +59,8 @@ CREATE TABLE `clientes` (
   `id_antena_ap` int DEFAULT NULL,
   `id_servicio_plataforma` int DEFAULT NULL,
   `id_microtik` int NOT NULL,
+  `ubicacion_maps` VARCHAR(255),
+
   PRIMARY KEY (`id`),
   KEY `id_servicio_plataforma` (`id_servicio_plataforma`),
   KEY `id_paquete` (`id_microtik`),
@@ -226,6 +228,8 @@ CREATE TABLE `pagos` (
   `metodo_pago` enum('Efectivo','Transferencia','Tarjeta') NOT NULL,
   `cantidad` int NOT NULL,
   `cambio` int NOT NULL,
+  `codigo_barras` varchar(255) NOT NULL,
+  `proximo_pago` datetime,
   PRIMARY KEY (`id`),
   KEY `id_cliente` (`id_cliente`),
   CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id`) ON DELETE CASCADE
@@ -366,6 +370,23 @@ CREATE TABLE `usuarios` (
   UNIQUE KEY `usuario` (`usuario`),
   CONSTRAINT `usuarios_chk_1` CHECK ((`rol` in (0,1,2)))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO usuarios (nombre, usuario, password, rol) VALUES ("admin","admin","admin",0);
+
+-- Table structure for table `clientes_apikeys`
+DROP TABLE IF EXISTS `clientes_apikeys`;
+CREATE TABLE `clientes_apikeys` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_cliente` INT NOT NULL,
+  `apikey` VARCHAR(255) NOT NULL,
+  `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `activo` BOOLEAN DEFAULT TRUE,
+  PRIMARY KEY (`id`),
+  KEY `fk_cliente_apikey` (`id_cliente`),
+  CONSTRAINT `fk_cliente_apikey` FOREIGN KEY (`id_cliente`)
+    REFERENCES `clientes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -378,3 +399,4 @@ CREATE TABLE `usuarios` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2025-03-30  1:57:12
+

@@ -4,6 +4,8 @@
  */
 package microtik;
 
+import CallMeBot.WhatsAppBotSender;
+import CallMeBot.ClienteDAO;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -245,28 +247,49 @@ public class PPoEAuto {
         worker.execute();
     }
 
-    public void bloquearClientePPoE(String address, String user, String host, String password) {
+    public void bloquearClientePPoE(int idCliente, String nombreCliente, String address, String user, String host, String password) {
         SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() {
                 try {
+                    // Bloqueo en Mikrotik
                     ApiConnection cn = ApiConnection.connect(host);
                     cn.login(user, password);
-                    
-                    String comando = "/ip/firewall/address-list/add list=corte address=" + address;
-                    System.out.println(comando);
-                    cn.execute(comando);
 
+                    // Escapar correctamente el nombre para incluirlo entre comillas en el comentario
+                    String comentario = "\"Cliente bloqueado: " + nombreCliente + "\"";
+                    String comando = "/ip/firewall/address-list/add list=corte address=" + address + " comment=" + comentario;
+
+
+                    System.out.println("➡️ Ejecutando: " + comando);
+                    cn.execute(comando);
+                    cn.close();
+
+                    // Notificación en UI
                     SwingUtilities.invokeLater(()
                             -> JOptionPane.showMessageDialog(null, "El cliente con dirección IP: " + address + " fue bloqueado de manera exitosa")
                     );
 
-                    cn.close();
+                    // Enviar mensaje de WhatsApp
+                    ClienteDAO.DatosClienteEmpresa datos = ClienteDAO.obtenerDatosParaMensaje(idCliente);
+                    if (datos != null) {
+                        WhatsAppBotSender.enviarMensajeWhatsApp(
+                                datos.telefonoCliente,
+                                datos.apiKey,
+                                datos.nombreCliente,
+                                datos.telefonoEmpresa,
+                                datos.direccionEmpresa,
+                                datos.nombreEmpresa
+                        );
+                    } else {
+                        System.out.println("❌ No se pudo obtener la información para enviar el mensaje de WhatsApp.");
+                    }
+
                 } catch (Exception e) {
                     SwingUtilities.invokeLater(()
                             -> JOptionPane.showMessageDialog(null, "Tenemos un problema al bloquear el cliente: " + e, "SpiderNET", JOptionPane.ERROR_MESSAGE)
                     );
-                    System.out.println(e);
+                    System.out.println("❌ Error: " + e.getMessage());
                 }
                 return null;
             }

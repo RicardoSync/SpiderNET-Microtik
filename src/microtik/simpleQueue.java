@@ -4,9 +4,12 @@
  */
 package microtik;
 
+import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import me.legrange.mikrotik.ApiConnection;
-
+import com.jcraft.jsch.*;
+import java.io.InputStream;
 /**
  *
  * @author cisco
@@ -121,9 +124,7 @@ public class simpleQueue {
            System.out.println(e);
            JOptionPane.showMessageDialog(null, "Tenemos un problema para el dhcp: " + e);
        }
-   }   
-   
-   
+   }
     public void desabilitarDHCP(String id, String user, String password, String host){
        try {
            ApiConnection cn = ApiConnection.connect(host);
@@ -175,28 +176,41 @@ public class simpleQueue {
        }
    } 
    
-public void eliminarQueue(String user, String password, String host, String direccion_ip) {
-//    String sub_red = "/32";
-//    try {
-//        ApiConnection cn = ApiConnection.connect(host);
-//        if (cn == null) {
-//            System.out.println("Error: No se pudo conectar a MikroTik.");
-//            return;
-//        }
-//
-//        cn.login(user, password);
-//
-//        // Se construye el comando usando direccion_ip y sub_red concatenados
-//        String comando = "/queue/simple/remove [find where target=" + direccion_ip + sub_red + "]";
-//        System.out.println("Comando enviado para eliminar queue: " + comando);
-//
-//        cn.execute(comando);
-//        cn.close();
-//
-//        System.out.println("Queue eliminada correctamente.");
-//    } catch (Exception e) {
-//        System.out.println("Error al eliminar la queue: " + e.getMessage());
-//    }
-}
+    public void eliminarQueue(String user, String password, String host, String direccion_ip) {
+        String target = direccion_ip + "/32";
+        String comando = "/queue/simple/remove [find where target=\"" + target + "\"]";
+        System.out.println(comando);
+        try {
+            JSch jsch = new JSch();
+            Session session = jsch.getSession(user, host, 22);
+            session.setPassword(password);
 
+            // Saltarse la verificación de clave del host
+            java.util.Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+            session.setConfig(config);
+
+            session.connect(30000); // Timeout de 30 segundos
+
+            ChannelExec channel = (ChannelExec) session.openChannel("exec");
+            channel.setCommand(comando);
+            channel.setErrStream(System.err);
+
+            InputStream in = channel.getInputStream();
+            channel.connect();
+
+            // Leer salida (aunque el comando no devuelve nada si funciona)
+            byte[] buffer = new byte[1024];
+            while (in.read(buffer, 0, buffer.length) >= 0) {
+                // Puedes imprimir si gustas
+            }
+
+            channel.disconnect();
+            session.disconnect();
+
+            System.out.println("✅ Queue eliminada vía SSH correctamente.");
+        } catch (Exception e) {
+            System.out.println("❌ Error SSH al eliminar la queue: " + e.getMessage());
+        }
+    }
 }

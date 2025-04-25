@@ -88,7 +88,6 @@ public class crearSimpleQueue extends javax.swing.JInternalFrame {
 
             // Eliminar caracteres no deseados, por ejemplo, todo lo que no sea una letra o número
             
-            nombreCliente = nombreCliente.replaceAll("[^a-zA-Z0-9]", "");
             //String nombre, String taget, String maxLimit, String tiempo, String user, String password, String host
             queueRafagas rafagas = new queueRafagas();
             rafagas.crearQueueRafaga(nombreCliente, targetIp, maxLimit, tiempo, user, password, routerIp);
@@ -109,8 +108,6 @@ public class crearSimpleQueue extends javax.swing.JInternalFrame {
 
             // Eliminar caracteres no deseados, por ejemplo, todo lo que no sea una letra o número
             //String nombre, String taget, String maxLimit, String parent, String tiempo, String user, String password, String host)
-            nombreCliente = nombreCliente.replaceAll("[^a-zA-Z0-9]", "");
-            padre = padre.replaceAll("[^a-zA-Z0-9]", "");
             
             queueRafagas rafagas = new queueRafagas();
             rafagas.crearQueueRafagaPadre(nombreCliente, targetIp, maxLimit, padre, tiempo, user, password, routerIp);
